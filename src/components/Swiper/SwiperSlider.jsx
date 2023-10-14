@@ -6,6 +6,7 @@ import "swiper/css/pagination";
 
 // import required modules
 import { Pagination } from "swiper/modules";
+import Image from "next/image";
 
 const SwiperSlider = () => {
   return (
@@ -18,15 +19,30 @@ const SwiperSlider = () => {
         modules={[Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        <SwiperSlide>
+          <div className="flex items-center gap-5">
+            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <p className="text-xl">
+              به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="flex items-center gap-5">
+            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <p className="text-xl">
+              به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
+            </p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className="flex items-center gap-5">
+            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <p className="text-xl">
+              به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
+            </p>
+          </div>
+        </SwiperSlide>
       </Swiper>
     </>
   );

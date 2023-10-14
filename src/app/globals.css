@@ -82,3 +82,56 @@ body {
     border-left: 4px solid var(--diveder-color);
   }
 }
+
+.mySwiper {
+  padding: 50px 0 !important;
+  width: 450px;
+  margin-right: 0 !important;
+}
+
+.swiper-pagination {
+  width: 150px !important;
+  right: 10px !important;
+  bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 35px !important;
+  height: 5px !important;
+  border-radius: 2px !important;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box label {
+  font-size: 1rem;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  right: 10px;
+  top: 10px;
+  color: var(--text-color-light);
+  transition: 0.3s;
+  background-color: #fff;
+  padding: 0px 5px;
+}
+
+.input-box input {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  /* height: 45px; */
+  text-indent: 10px;
+  width: 100%;
+}
+
+.input-box input:focus {
+  border-color: var(--text-color) !important;
+  outline: none;
+}
+
+.input-box input:focus+label {
+  top: -5px;
+  font-size: 0.7rem;
+}
