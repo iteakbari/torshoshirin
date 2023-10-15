@@ -2,6 +2,8 @@ import "./globals.css";
 import Footer from "@/components/Footer/Footer";
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar/Navbar";
+import Providers from "./Providers";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Create Next App",
@@ -30,8 +32,11 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
       </head>
       <body className={`min-h-screen ${iransans.className}`}>
+        <Toaster />
         <Navbar />
-        <div className="container mx-auto">{children}</div>
+        <div className="container mx-auto">
+          <Providers>{children}</Providers>
+        </div>
         <Footer />
       </body>
     </html>

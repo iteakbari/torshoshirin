@@ -1,22 +1,61 @@
-const ConfrimLogin = () => {
-  return (
-    <>
-      <p className="mt-10">کد ارسال‌شده به موبایل خود را وارد کنید.</p>
+import OtpInput from "react-otp-input";
 
-      <div className="flex gap-5">
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-        <input type="text" />
-      </div>
+const ConfrimLogin = ({
+  otp,
+  setOtp,
+  onSubmit,
+  time,
+  onBack,
+  onResendCode,
+}) => {
+  return (
+    <form onSubmit={onSubmit}>
+      <p className="my-10">کد ارسال‌شده به شماره همراه خود را وارد کنید.</p>
+
+      <OtpInput
+        value={otp}
+        onChange={setOtp}
+        numInputs={5}
+        containerStyle="flex justify-between ltr"
+        inputStyle="input"
+        shouldAutoFocus={true}
+        renderInput={(props) => <input {...props} />}
+      />
       <button
         variant="contained"
-        className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-20"
+        className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-4"
       >
-        ارسال کد
+        ثبت
       </button>
-    </>
+      <div className="flex justify-between items-center mb-10">
+        <p
+          onClick={onBack}
+          className="cursor-pointer text-gray-500 hover:text-blue-700 text-sm"
+        >
+          تغییر شماره
+        </p>
+        {time ? (
+          <span className="text-gray-500 text-sm">
+            ارسال کد تا{" "}
+            <span
+              className={`inline-block text-center w-6 ${
+                time > 30 ? "text-green-900" : "text-red-600"
+              }`}
+            >
+              {time}
+            </span>{" "}
+            ثانیه دیگر
+          </span>
+        ) : (
+          <p
+            onClick={onResendCode}
+            className="text-gray-500 hover:text-blue-600 text-sm cursor-pointer"
+          >
+            ارسال مجدد
+          </p>
+        )}
+      </div>
+    </form>
   );
 };
 

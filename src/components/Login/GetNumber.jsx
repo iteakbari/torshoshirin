@@ -1,17 +1,26 @@
-const GetMobileNumber = () => {
+import TextFieldInput from "@/common/TextFieldInput";
+
+const GetMobileNumber = ({ phoneNumber, onChange, onSubmit, isLoading }) => {
   return (
-    <>
-      <div className="input-box mt-14">
-        <input type="text" className="h-14" name="" id="" />
-        <label>شماره موبایل</label>
-      </div>
-      <button
-        variant="contained"
-        className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-20"
-      >
-        ارسال کد
-      </button>
-    </>
+    <form onSubmit={onSubmit}>
+      <TextFieldInput
+        label="شماره موبایل"
+        name="phoneNumber"
+        value={phoneNumber}
+        onChange={onChange}
+      />
+      {isLoading ? (
+        <p>loading...</p>
+      ) : (
+        <button
+          type="submit"
+          variant="contained"
+          className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-20"
+        >
+          ارسال کد
+        </button>
+      )}
+    </form>
   );
 };
 

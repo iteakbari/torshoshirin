@@ -101,6 +101,19 @@ body {
   border-radius: 2px !important;
 }
 
+.input {
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+  min-height: 50px;
+  /* text-indent: 10px; */
+  width: 55px !important;
+}
+
+input:focus {
+  border-color: var(--text-color);
+  outline: none;
+}
+
 .input-box {
   position: relative;
 }
@@ -134,4 +147,29 @@ body {
 .input-box input:focus+label {
   top: -5px;
   font-size: 0.7rem;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 50px auto;
+  background: url('./../../public/assets/img/not-found.png') no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.bg-green {
+  background-color: var(--text-color);
+}
+
+img {
+  width: auto;
+  height: auto;
 }
