@@ -64,6 +64,10 @@ body {
   color: #fff;
 }
 
+.bg-light-green {
+  background-color: var(--light-green);
+}
+
 .divider-color {
   border-color: var(--diveder-color) !important;
 }
@@ -172,4 +176,22 @@ input:focus {
 img {
   width: auto;
   height: auto;
+}
+
+.btn {
+  display: inline-flex;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--text-color);
+  color: #fff;
+  box-shadow: #000 4px 4px 0px;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--text-color) 0px 0px 0px;
 }

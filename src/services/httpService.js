@@ -1,8 +1,14 @@
 import axios from "axios";
 
+const https = require("https");
+const agent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
 const app = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   widthCredentials: true,
+  httpsAgent: agent,
 });
 
 const http = {

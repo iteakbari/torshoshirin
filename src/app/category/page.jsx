@@ -1,5 +1,7 @@
-const Category = () => {
-  return <h1>Category</h1>;
+import CategoriesList from "@/components/Category/CategorisList";
+
+const categoryPage = () => {
+  return <CategoriesList />;
 };
 
-export default Category;
+export default categoryPage;

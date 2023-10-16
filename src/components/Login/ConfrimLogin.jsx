@@ -1,32 +1,45 @@
+import { CircularProgress } from "@mui/material";
 import OtpInput from "react-otp-input";
 
 const ConfrimLogin = ({
-  otp,
-  setOtp,
+  phoneNumberCode,
+  setPhoneNumberCode,
   onSubmit,
   time,
   onBack,
   onResendCode,
+  isCheckingOtp,
 }) => {
   return (
     <form onSubmit={onSubmit}>
       <p className="my-10">کد ارسال‌شده به شماره همراه خود را وارد کنید.</p>
 
       <OtpInput
-        value={otp}
-        onChange={setOtp}
+        value={phoneNumberCode}
+        onChange={setPhoneNumberCode}
         numInputs={5}
         containerStyle="flex justify-between ltr"
         inputStyle="input"
         shouldAutoFocus={true}
         renderInput={(props) => <input {...props} />}
       />
-      <button
-        variant="contained"
-        className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-4"
-      >
-        ثبت
-      </button>
+
+      {phoneNumberCode.length == 5 ? (
+        <button
+          variant="contained"
+          className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-4"
+        >
+          {isCheckingOtp ? <CircularProgress color="inherit" /> : "ثبت"}
+        </button>
+      ) : (
+        <button
+          variant="contained"
+          className="bg-gray-400 w-full mt-5 h-14 text-gray-100 rounded-lg mb-4 pointer-events-none"
+        >
+          {isCheckingOtp ? <CircularProgress color="inherit" /> : "ثبت"}
+        </button>
+      )}
+
       <div className="flex justify-between items-center mb-10">
         <p
           onClick={onBack}

@@ -1,13 +1,13 @@
 import http from "./httpService";
 
-export function getOtp(data) {
+export function getOtp({ phoneNumber }) {
   return http
-    .post("/AccountApi/SendValidateCodeToPhoneNumber", data)
+    .post(`/AccountApi/SendValidateCodeToPhoneNumber`, { phoneNumber })
     .then(({ data }) => data.data);
 }
 
-export function checkOtp(data) {
+export function checkOtp({ phoneNumber, phoneNumberCode }) {
   return http
-    .post("/AccountApi/ConfirmSendedCode", data)
+    .post("/AccountApi/ConfirmSendedCode", { phoneNumber, phoneNumberCode })
     .then(({ data }) => data.data);
 }

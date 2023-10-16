@@ -5,13 +5,15 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { checkOtp, getOtp } from "@/services/authServices";
 import ConfrimLogin from "./ConfrimLogin";
+import { useRouter } from "next/navigation";
 const RESEND_TIME = 90;
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [step, setStep] = useState(1);
-  const [otp, setOtp] = useState("");
+  const [phoneNumberCode, setPhoneNumberCode] = useState("");
   const [time, setTime] = useState(0);
+  const router = useRouter();
   const {
     data: otpResponse,
     error,
@@ -20,9 +22,11 @@ const Login = () => {
   } = useMutation({
     mutationFn: getOtp,
   });
-  const { mutateAsync: mutateCheckOtp } = useMutation({
-    mutationFn: checkOtp,
-  });
+  const { mutateAsync: mutateCheckOtp, isLoading: isCheckingOtp } = useMutation(
+    {
+      mutationFn: checkOtp,
+    }
+  );
 
   const phoneNumberHandler = (e) => {
     setPhoneNumber(e.target.value);
@@ -30,6 +34,7 @@ const Login = () => {
 
   const onBack = () => {
     setStep((s) => s - 1);
+    setPhoneNumber("");
   };
 
   useEffect(() => {
@@ -43,10 +48,16 @@ const Login = () => {
     e.preventDefault();
     try {
       const data = await mutateGetOtp({ phoneNumber });
-      toast.success(data.messageList);
-      setStep(2);
-      setTime(RESEND_TIME);
-      setOtp("");
+      if (data.success) {
+        toast.success(data.messageList);
+        console.log(data);
+        setStep(2);
+        setTime(RESEND_TIME);
+        setPhoneNumberCode("");
+      } else {
+        setPhoneNumber("");
+        toast.success(data.messageList);
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -55,11 +66,15 @@ const Login = () => {
   const confirmCodeSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await mutateCheckOtp({ phoneNumber, otp });
-      toast.success(data.message);
-      setStep(2);
+      const data = await mutateCheckOtp({ phoneNumber, phoneNumberCode });
+      if (phoneNumberCode && time) {
+        toast.success(data.messageList);
+        router.push("/");
+      } else {
+        toast.error(data.messageList);
+      }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.messageList);
     }
   };
 
@@ -77,12 +92,13 @@ const Login = () => {
       case 2:
         return (
           <ConfrimLogin
-            otp={otp}
-            setOtp={setOtp}
+            phoneNumberCode={phoneNumberCode}
+            setPhoneNumberCode={setPhoneNumberCode}
             onSubmit={confirmCodeSubmit}
             time={time}
             onBack={onBack}
             onResendCode={sendOTPHandler}
+            isCheckingOtp={isCheckingOtp}
           />
         );
       default:
