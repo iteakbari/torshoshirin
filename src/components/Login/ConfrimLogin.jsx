@@ -9,10 +9,13 @@ const ConfrimLogin = ({
   onBack,
   onResendCode,
   isCheckingOtp,
+  phoneNumber,
 }) => {
   return (
     <form onSubmit={onSubmit}>
-      <p className="my-10">کد ارسال‌شده به شماره همراه خود را وارد کنید.</p>
+      <p className="my-10">
+        کد ارسال‌شده به شماره همراه {phoneNumber} را وارد کنید.
+      </p>
 
       <OtpInput
         value={phoneNumberCode}

@@ -4,18 +4,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="px-20 md:px-0">
+    <footer className="px-20 md:px-0 pt-5">
       <div className="container mx-auto">
-        <div className="flex justify-center py-10">
-          <Link href="/">
-            <Image
-              src="/assets/img/logo.png"
-              width={240}
-              height={160}
-              alt="logo"
-            />
-          </Link>
-        </div>
         <ul className="border-t-4 border-b-4 divider-color grid justify-center md:flex md:justify-around xl:px-20 py-4">
           <li className="py-3 text-center">
             <Link href="/about" className="xl:text-xl">

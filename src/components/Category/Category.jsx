@@ -1,12 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 
-const Category = ({ category: { name, icon } }) => {
-  console.log(name, icon);
+const Category = ({ category: { icon } }) => {
   return (
-    <div className="border-4 border-color-green rounded-2xl p-5">
-      <Image width={130} height={130} alt="" src={icon} />
-      <p>{name}</p>
-    </div>
+    <Link href="" className="rounded-2xl">
+      <Image
+        width={350}
+        height={350}
+        alt=""
+        src={`https://localhost:44302/media/CategoryIcons/${icon}`}
+      />
+    </Link>
   );
 };
 

@@ -11,3 +11,13 @@ export function checkOtp({ phoneNumber, phoneNumberCode }) {
     .post("/AccountApi/ConfirmSendedCode", { phoneNumber, phoneNumberCode })
     .then(({ data }) => data.data);
 }
+
+export function getUserProfile({ queryKey }) {
+  return http
+    .get("/AccountApi/GetProfile", {
+      headers: {
+        Authorization: "Bearer " + queryKey[1], //the token is a variable which holds the token
+      },
+    })
+    .then(({ data }) => data.data);
+}

@@ -4,23 +4,57 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Drawer } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "../SearchBar/SearchBar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { getCategories } from "@/services/categorisService";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { createTheme } from "@mui/material/styles";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "@/services/authServices";
+
+const theme = createTheme({
+  direction: "rtl",
+});
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [menu, setMenu] = useState();
+  const token = localStorage.getItem("temp_token");
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["get-user", token],
+    queryFn: getUserProfile,
+  });
   const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+  const [anchorEl, setAnchorEl] = useState();
+  const [openCategory, setOpenCategory] = useState(false);
+  const [openMyPage, setOpenMyPage] = useState(false);
+
+  const handleClickCategory = (event) => {
+    setOpenCategory(true);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClickMyPage = (event) => {
+    setOpenMyPage(true);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setOpenCategory(false);
+    setOpenMyPage(false);
+    // برای منوهای دیگر نیز همین الگو را ادامه دهید
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,6 +71,12 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    getCategories().then(({ data }) => {
+      setMenu(data);
+    });
+  }, []);
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === "keydown" &&
@@ -52,6 +92,7 @@ function Navbar() {
     <AppBar
       position="sticky"
       className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md"
+      theme={theme}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters className="flex justify-between">
@@ -72,9 +113,52 @@ function Navbar() {
               <Link href="/">خانه</Link>
             </li>
             <li>
-              <Link href="/category" className="">
+              <Link
+                href=""
+                className="flex items-center gap-2"
+                id="category-button"
+                aria-controls={open ? "category-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClickCategory}
+              >
                 دسته بندی
+                <svg
+                  width="16"
+                  height="9"
+                  viewBox="0 0 16 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.87535 6.51318L2.24432 0.881395L2.24431 0.881383C2.08015 0.717223 1.8575 0.625 1.62535 0.625C1.39319 0.625 1.17054 0.717223 1.00638 0.881383C0.842224 1.04554 0.75 1.26819 0.75 1.50035C0.75 1.7325 0.842224 1.95515 1.00638 2.11931L7.25628 8.36921L7.25638 8.36931L7.43316 8.19254C7.49121 8.25065 7.56014 8.29675 7.63601 8.3282C7.71188 8.35965 7.79321 8.37584 7.87535 8.37584C7.95748 8.37584 8.03881 8.35965 8.11469 8.3282C8.19056 8.29675 8.25949 8.25065 8.31754 8.19254M7.87535 6.51318L8.49431 8.36931L8.31754 8.19254M7.87535 6.51318L13.5064 0.881395L13.5064 0.881384C13.5877 0.800099 13.6842 0.735622 13.7904 0.691632C13.8966 0.647641 14.0104 0.625 14.1253 0.625C14.2403 0.625 14.3541 0.647641 14.4603 0.691632C14.5665 0.735622 14.663 0.800099 14.7443 0.881384V0.881384M7.87535 6.51318L14.7443 0.881382L14.5678 1.05794L14.7443 0.881384M8.31754 8.19254L8.49441 8.36921M8.31754 8.19254L14.5675 1.94254C14.6256 1.88447 14.6717 1.81553 14.7031 1.73966C14.7345 1.66379 14.7507 1.58247 14.7507 1.50035C14.7507 1.41823 14.7345 1.33691 14.7031 1.26104C14.6717 1.18517 14.6256 1.11623 14.5675 1.05816C14.5095 1.00009 14.4405 0.954028 14.3647 0.922601C14.2888 0.891175 14.2075 0.875 14.1253 0.875C14.0432 0.875 13.9619 0.891175 13.886 0.922601C13.8102 0.954028 13.7412 1.00009 13.6832 1.05816L8.49441 8.36921M8.49441 8.36921L14.7443 2.11931C14.8256 2.03803 14.8901 1.94153 14.9341 1.83533C14.9781 1.72913 15.0007 1.6153 15.0007 1.50035C15.0007 1.38539 14.9781 1.27157 14.9341 1.16537C14.8901 1.05917 14.8256 0.962668 14.7443 0.881384M8.49441 8.36921L14.7443 0.881384"
+                    fill="#20422A"
+                    stroke="#20422A"
+                    strokeWidth="0.5"
+                  />
+                </svg>
               </Link>
+              <Menu
+                id="category-menu"
+                anchorEl={anchorEl}
+                open={openCategory}
+                onClose={handleClose}
+                dir="rtl"
+                MenuListProps={{
+                  "aria-labelledby": "category-button",
+                }}
+              >
+                {menu &&
+                  menu.map((m) => (
+                    <MenuItem
+                      className="menu-item"
+                      key={m.id}
+                      onClick={handleClose}
+                    >
+                      {m.name}
+                    </MenuItem>
+                  ))}
+              </Menu>
             </li>
             <li>
               <Link href="/blog" className="">
@@ -95,6 +179,60 @@ function Navbar() {
               <Link href="/sign" className="">
                 ورود/ثبت نام
               </Link>
+            </li>
+            <li>
+              <Link
+                href="#"
+                id="my-page"
+                className="flex items-center gap-2"
+                aria-controls={open ? "my-page-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClickMyPage}
+              >
+                صفحه من
+                <svg
+                  width="16"
+                  height="9"
+                  viewBox="0 0 16 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.87535 6.51318L2.24432 0.881395L2.24431 0.881383C2.08015 0.717223 1.8575 0.625 1.62535 0.625C1.39319 0.625 1.17054 0.717223 1.00638 0.881383C0.842224 1.04554 0.75 1.26819 0.75 1.50035C0.75 1.7325 0.842224 1.95515 1.00638 2.11931L7.25628 8.36921L7.25638 8.36931L7.43316 8.19254C7.49121 8.25065 7.56014 8.29675 7.63601 8.3282C7.71188 8.35965 7.79321 8.37584 7.87535 8.37584C7.95748 8.37584 8.03881 8.35965 8.11469 8.3282C8.19056 8.29675 8.25949 8.25065 8.31754 8.19254M7.87535 6.51318L8.49431 8.36931L8.31754 8.19254M7.87535 6.51318L13.5064 0.881395L13.5064 0.881384C13.5877 0.800099 13.6842 0.735622 13.7904 0.691632C13.8966 0.647641 14.0104 0.625 14.1253 0.625C14.2403 0.625 14.3541 0.647641 14.4603 0.691632C14.5665 0.735622 14.663 0.800099 14.7443 0.881384V0.881384M7.87535 6.51318L14.7443 0.881382L14.5678 1.05794L14.7443 0.881384M8.31754 8.19254L8.49441 8.36921M8.31754 8.19254L14.5675 1.94254C14.6256 1.88447 14.6717 1.81553 14.7031 1.73966C14.7345 1.66379 14.7507 1.58247 14.7507 1.50035C14.7507 1.41823 14.7345 1.33691 14.7031 1.26104C14.6717 1.18517 14.6256 1.11623 14.5675 1.05816C14.5095 1.00009 14.4405 0.954028 14.3647 0.922601C14.2888 0.891175 14.2075 0.875 14.1253 0.875C14.0432 0.875 13.9619 0.891175 13.886 0.922601C13.8102 0.954028 13.7412 1.00009 13.6832 1.05816L8.49441 8.36921M8.49441 8.36921L14.7443 2.11931C14.8256 2.03803 14.8901 1.94153 14.9341 1.83533C14.9781 1.72913 15.0007 1.6153 15.0007 1.50035C15.0007 1.38539 14.9781 1.27157 14.9341 1.16537C14.8901 1.05917 14.8256 0.962668 14.7443 0.881384M8.49441 8.36921L14.7443 0.881384"
+                    fill="#20422A"
+                    stroke="#20422A"
+                    strokeWidth="0.5"
+                  />
+                </svg>
+              </Link>
+              <Menu
+                id="my-page-menu"
+                anchorEl={anchorEl}
+                open={openMyPage}
+                onClose={handleClose}
+                dir="rtl"
+                MenuListProps={{
+                  "aria-labelledby": "my-page",
+                }}
+              >
+                <MenuItem className="menu-item" onClick={handleClose}>
+                  <Link href="/dashboard">داشبورد</Link>
+                </MenuItem>
+                <MenuItem className="menu-item" onClick={handleClose}>
+                  سفارش‌ها
+                </MenuItem>
+                <MenuItem className="menu-item" onClick={handleClose}>
+                  آدرس‌های من
+                </MenuItem>
+
+                <MenuItem className="menu-item" onClick={handleClose}>
+                  علاقه‌مندی‌ها
+                </MenuItem>
+                <MenuItem className="menu-item" onClick={handleClose}>
+                  خروج
+                </MenuItem>
+              </Menu>
             </li>
           </Box>
           <Box component="div" className="flex gap-3 items-center">

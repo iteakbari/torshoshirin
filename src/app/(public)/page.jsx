@@ -1,3 +1,4 @@
+import CategoriesList from "@/components/Category/CategorisList";
 import { Grid } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +9,7 @@ export default function Home() {
       <main>
         <div className="lg:px-26 py-20 h-max">
           <Grid container spacing={2} className="flex items-center">
-            <Grid md={6}>
+            <Grid item md={6}>
               <div className="grid justify-items-center place-content-center">
                 <p className="text-center text-6xl font-extrabold leading-relaxed">
                   ما بهترین‌ کیفیت رو در <br /> ساری به دستتون می‌رسونیم.
@@ -25,7 +26,7 @@ export default function Home() {
                 </Link>
               </div>
             </Grid>
-            <Grid md={6} className="flex justify-center">
+            <Grid item md={6} className="flex justify-center">
               <Image
                 src="/assets/img/ill.png"
                 width={300}
@@ -68,6 +69,8 @@ export default function Home() {
               <p className="font-bold text-center text-4xl mt-4">خرید آسان</p>
             </div>
           </div>
+
+          <CategoriesList />
         </div>
       </main>
     </>

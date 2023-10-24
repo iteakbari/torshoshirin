@@ -13,6 +13,7 @@ const Login = () => {
   const [step, setStep] = useState(1);
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
   const [time, setTime] = useState(0);
+  const [token, setToken] = useState("");
   const router = useRouter();
   const {
     data: otpResponse,
@@ -44,6 +45,10 @@ const Login = () => {
     };
   }, [time]);
 
+  useEffect(() => {
+    localStorage.setItem("temp_token", token);
+  }, [token]);
+
   const sendOTPHandler = async (e) => {
     e.preventDefault();
     try {
@@ -69,13 +74,24 @@ const Login = () => {
       const data = await mutateCheckOtp({ phoneNumber, phoneNumberCode });
       if (phoneNumberCode && time) {
         toast.success(data.messageList);
-        router.push("/");
+        console.log(data);
+        if (data.success) {
+          if (!data.data.firstName) {
+            router.push("/profile");
+          } else {
+            router.push("/");
+          }
+        }
+
+        setToken(data.data.jwToken);
+        console.log(data);
       } else {
         toast.error(data.messageList);
       }
     } catch (error) {
       toast.error(error?.response?.data?.messageList);
     }
+    console.log(token);
   };
 
   const renderSteps = () => {
@@ -97,6 +113,7 @@ const Login = () => {
             onSubmit={confirmCodeSubmit}
             time={time}
             onBack={onBack}
+            phoneNumber={phoneNumber}
             onResendCode={sendOTPHandler}
             isCheckingOtp={isCheckingOtp}
           />

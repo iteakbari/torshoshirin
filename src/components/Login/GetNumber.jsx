@@ -10,6 +10,7 @@ const GetMobileNumber = ({ phoneNumber, onChange, onSubmit, isLoading }) => {
         name="phoneNumber"
         value={phoneNumber}
         onChange={onChange}
+        customClass="mt-14"
       />
       <button
         type="submit"
