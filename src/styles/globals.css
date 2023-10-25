@@ -394,3 +394,11 @@ input:-internal-autofill-selected {
   resize: none;
   padding: 15px 10px;
 }
+
+.sort-input {
+  color: var(--text-color-light);
+}
+
+.sort-input input:checked+label {
+  color: var(--text-color);
+}
