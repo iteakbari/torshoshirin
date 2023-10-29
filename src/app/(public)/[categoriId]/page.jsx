@@ -1,15 +1,106 @@
+"use client";
+import Counter from "@/common/Counter";
+import Product from "@/components/Product/Product";
+import { getProductsList } from "@/services/productService";
+import { useMutation } from "@tanstack/react-query";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { NumericFormat } from "react-number-format";
 
 const CategoryPage = ({ params }) => {
+  const [favorite, setFavorite] = useState(0);
+  const [productsList, setProductsList] = useState(null);
+
   const cId = params.categoriId.split("-");
   const cName = decodeURI(cId[0]);
-  const id = cId[1];
+  const categoryId = cId[1];
+  const step = 1;
+  const pageSize = 20;
+  const {
+    data: products,
+    error,
+    isLoading,
+    mutateAsync: mutateGetProducts,
+  } = useMutation({
+    mutationFn: getProductsList,
+  });
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const data = await mutateGetProducts({
+        categoryId,
+        step,
+        pageSize,
+      }).then((res) => res.data);
+      return data;
+    };
+    getProducts().then((res) => setProductsList(res));
+  }, []);
+
+  console.log(productsList);
+
+  const favoriteHandler = (id) => {
+    const favoriteProduct = productsList.find((p) => p.productId === id);
+    console.log(productsList.find((p) => p.productId));
+    // setFavorite(!favoriteProduct.favorite);
+    favorite
+      ? toast.custom((t) => (
+          <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+            شلغم از لیست علاقمندی‌های شما حذف شد.
+          </div>
+        ))
+      : toast.custom((t) => (
+          <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+            <div className="flex items-center gap-5">
+              <svg
+                width="35"
+                height="32"
+                viewBox="0 0 35 32"
+                fill="#DB7267"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.7077 5.19672C17.6042 5.33246 17.3961 5.33246 17.2927 5.19672C13.6238 0.382228 7.84966 -0.139009 4.26259 3.63301C0.607133 7.47693 0.607132 13.7092 4.26259 17.5531L15.5145 29.3852C16.6112 30.5384 18.3892 30.5384 19.4858 29.3852L30.7377 17.5531C34.3932 13.7092 34.3932 7.47693 30.7377 3.63301C27.1507 -0.139009 21.3766 0.382228 17.7077 5.19672Z"
+                  stroke="#DB7267"
+                  strokeWidth="2"
+                />
+              </svg>
+              <p>شلغم به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
+            </div>
+            <div className="w-full flex justify-center pt-5">
+              <Link href="">مشاهده‌ی لیست علاقه‌مندی‌ها</Link>
+            </div>
+          </div>
+        ));
+  };
+
+  const addToBasketHandler = (k, g) => {
+    (k || g) &&
+      toast.custom((t) => (
+        <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+          <p className="text-xl">
+            {k > 0 && (
+              <span>
+                <span className="text-orange">{k}</span> کیلوگرم
+              </span>
+            )}{" "}
+            {k > 0 && g > 0 && "و"}{" "}
+            {g > 0 && (
+              <span>
+                <span className="text-orange">{g}</span> گرم
+              </span>
+            )}{" "}
+            شلغم به سبد خرید شما اضافه شد
+          </p>
+        </div>
+      ));
+  };
+
   return (
     <>
-      <Head>
-        <meta charset="utf-8" class="next-head"></meta>
-      </Head>
       <div className="py-16">
         <div className="flex justify-between">
           <h1 className="text-3xl">{cName}</h1>
@@ -82,18 +173,17 @@ const CategoryPage = ({ params }) => {
             </div>
           </div>
         </div>
-        <div className="bg-white p-5 rounded-xl shadow mt-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            <div className="card bg-transparent relative">
-              <div className="flex justify-center">
-                <Image
-                  width={200}
-                  height={200}
-                  alt=""
-                  src="/assets/img/dragon.png"
+        <div className="bg-white p-10 rounded-xl shadow mt-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-16">
+            {productsList &&
+              productsList.map((product) => (
+                <Product
+                  key={product.productId}
+                  favoriteHandler={favoriteHandler}
+                  {...product}
+                  categoriId={params.categoriId}
                 />
-              </div>
-            </div>
+              ))}
           </div>
         </div>
       </div>

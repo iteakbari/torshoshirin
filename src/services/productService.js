@@ -1,5 +1,12 @@
 import http from "./httpService";
 
-export function getProducts() {
-  return http.get("/CategoryApi/Index", data).then(({ data }) => data.data);
+export function getProductsList({ categoryId, step, pageSize }) {
+  console.log(categoryId, step, pageSize);
+  return http
+    .post(`/ProductApi/SearchProduct`, {
+      categoryId,
+      step,
+      pageSize,
+    })
+    .then(({ data }) => data.data);
 }

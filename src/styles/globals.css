@@ -9,8 +9,9 @@
   --text-color: #1a3622;
   --text-color-light: #6b8370;
   --bg-color: #f9fdf5;
+  --light-gray: #f9f8f6;
   --navbar-bg: #fcfef5;
-  --orange: #ff8282;
+  --orange: #DB7267;
   --light-green: #e5eec3;
   --light-orange: #f9b595;
   --border-color: #AFB49F;
@@ -67,6 +68,10 @@ body {
 .bg-orange {
   background-color: var(--orange) !important;
   color: #fff;
+}
+
+.text-orange {
+  color: var(--orange);
 }
 
 .bg-light-green {
@@ -401,4 +406,17 @@ input:-internal-autofill-selected {
 
 .sort-input input:checked+label {
   color: var(--text-color);
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--orange);
+  letter-spacing: 10px;
+}
+
+.bg-light-gray {
+  background-color: var(--light-gray);
 }
