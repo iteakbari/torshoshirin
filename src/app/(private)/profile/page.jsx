@@ -1,29 +1,16 @@
 "use client";
 
+import CitiesSelectBox from "@/common/CitiesSelectBox";
+import StateSelectBox from "@/common/StateSelectBox";
 import TextFieldInput from "@/common/TextFieldInput";
 import Address from "@/components/Address/Address";
+import useGetProfile from "@/hooks/useGetProfile";
+import useStateList from "@/hooks/useStateList";
+import { QueryCache, useQueryClient } from "@tanstack/react-query";
+import { Formik, useFormik } from "formik";
 import Mapir from "mapir-react-component";
-import { useState } from "react";
-
-const options = [
-  { value: "مازندران", label: "مازندران" },
-  { value: "تهران", label: "تهران" },
-  { value: "گیلان", label: "گیلان" },
-  { value: "گلستان", label: "گلستان" },
-  { value: "زنجان", label: "زنجان" },
-  { value: "قزوین", label: "قزوین" },
-  { value: "کرمان", label: "کرمان" },
-];
-
-const options2 = [
-  { value: "ساری", label: "ساری" },
-  { value: "آمل", label: "آمل" },
-  { value: "بابل", label: "بابل" },
-  { value: "نور", label: "نور" },
-  { value: "محمودآباد", label: "محمودآباد" },
-  { value: "رامسر", label: "رامسر" },
-  { value: "نکا", label: "نکا" },
-];
+import { useEffect, useState } from "react";
+import * as Yup from "yup";
 
 const Map = Mapir.setToken({
   transformRequest: (url) => {
@@ -39,10 +26,22 @@ const Map = Mapir.setToken({
 });
 
 const Profile = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
   const [markerArray, setMarkerArray] = useState([]);
   const [coord, setCoord] = useState([51.42, 35.72]);
-  const [address, setAddress] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const token = localStorage.getItem("temp_token");
+  const { data } = useGetProfile(token);
+  const { data: getSatatesList } = useStateList();
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    codePost: "",
+    phoneNumber2: "",
+    state: "",
+    city: "",
+  });
+
   const reverseFunction = (map, e) => {
     var url = `https://map.ir/reverse/no?lat=${e.lngLat.lat}&lon=${e.lngLat.lng}`;
     fetch(url, {
@@ -53,7 +52,7 @@ const Profile = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setAddress(data.address));
+      .then((data) => setUserAddress(data.address));
     const array = [];
     array.push(
       <Mapir.Marker
@@ -65,45 +64,137 @@ const Profile = () => {
   };
 
   const addressHandler = (e) => {
-    setAddress(e.target.value);
+    setUserAddress(e.target.value);
   };
 
-  const profileHandler = () => {};
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    lastName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    codePost: Yup.string().matches(
+      /\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b/,
+      "کدپستی نادرست است"
+    ),
+    phoneNumber2: Yup.string().matches(
+      /^0\d{2}\d{8}$/,
+      "فرمت شماره تلفن ثابت صحیح نیست"
+    ),
+    state: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    city: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+  });
+
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    codePost: "",
+    phoneNumber2: "",
+    state: "",
+    city: "",
+  };
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: formValues || initialValues,
+    onSubmit: () => {},
+    validationSchema,
+  });
+
+  useEffect(() => {
+    data &&
+      setFormValues({
+        firstName: data.data.firstName ? data.data.firstName : "",
+        lastName: data.data.lastName ? data.data.lastName : "",
+        phoneNumber: data.data.phoneNumber ? data.data.phoneNumber : "",
+        codePost: data.data.codePost ? data.data.codePost : "",
+        phoneNumber2: data.data.phoneNumber2 ? data.data.phoneNumber2 : "",
+        state: "",
+        city: "",
+      });
+  }, [data]);
+
+  const selectedState =
+    formik.values.state &&
+    getSatatesList?.data?.statesList?.find(
+      (state) => state.title === formik.values.state
+    );
+
+  const showCitiesList = getSatatesList?.data?.citiesList?.filter(
+    (city) => city.parentId === selectedState.id
+  );
 
   return (
     <>
       <h3 className="text-xl">تکمیل پروفایل</h3>
-      <form onSubmit={profileHandler} className="flex flex-wrap gap-10 mt-14">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-wrap gap-10 mt-14"
+      >
         <TextFieldInput
-          label="نام و نام‌خانواگی"
-          name="name"
+          label="نام"
+          name="firstName"
           customClass="w-48"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          errorMessage={formik.errors.firstName}
+          error={formik.touched.firstName && formik.errors.firstName}
+          onBlur={formik.handleBlur}
+        />
+        <TextFieldInput
+          label="نام‌خانواگی"
+          name="lastName"
+          customClass="w-48"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          errorMessage={formik.errors.lastName}
+          error={formik.touched.lastName && formik.errors.lastName}
+          onBlur={formik.handleBlur}
         />
         <TextFieldInput
           label="شماره موبایل"
           name="phoneNumber"
           customClass="w-48"
+          value={formik.values.phoneNumber}
+          onChange={formik.handleChange}
+          readOnly={true}
         />
         <TextFieldInput
           label="کدپستی(اختیاری)"
-          name="phoneNumber"
+          name="codePost"
           customClass="w-48"
+          value={formik.values.codePost}
+          onChange={formik.handleChange}
+          errorMessage={formik.errors.codePost}
+          error={formik.errors}
         />
         <TextFieldInput
           label="شماره تلفن ثابت(اختیاری)"
-          name="phoneNumber"
+          name="phoneNumber2"
           customClass="w-48"
+          value={formik.values.phoneNumber2}
+          onChange={formik.handleChange}
+          errorMessage={formik.errors.phoneNumber2}
+          error={formik.errors}
         />
         <p className="w-full mt-3">
           *صرفاً استان‌ها و شهرهایی که در محدوده خدمات فروشگاه ما هستند، قابل
           انتخاب‌اند.
         </p>
+
+        <StateSelectBox
+          value={formik.values.state}
+          statesList={getSatatesList?.data.statesList}
+          onChange={(value) => formik.setFieldValue("state", value.value)}
+        />
+
+        <CitiesSelectBox
+          value={formik.values.city}
+          citiesList={showCitiesList}
+          onChange={(value) => formik.setFieldValue("city", value.value)}
+          customClass={selectedState ? "" : "disabled"}
+        />
+
         <Address
-          options={options}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          options2={options2}
-          address={address}
+          address={userAddress}
           addressHandler={addressHandler}
           Map={Map}
           markerArray={markerArray}

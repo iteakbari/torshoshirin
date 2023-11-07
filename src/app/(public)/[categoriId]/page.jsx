@@ -1,46 +1,24 @@
 "use client";
-import Counter from "@/common/Counter";
 import Product from "@/components/Product/Product";
-import { getProductsList } from "@/services/productService";
-import { useMutation } from "@tanstack/react-query";
-import Head from "next/head";
+import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { NumericFormat } from "react-number-format";
+import Loading from "../loading";
 
 const CategoryPage = ({ params }) => {
   const [favorite, setFavorite] = useState(0);
-  const [productsList, setProductsList] = useState(null);
+  const [step, setStep] = useState(1);
+  const [sortBy, setSortBy] = useState("cheapest");
 
   const cId = params.categoriId.split("-");
   const cName = decodeURI(cId[0]);
   const categoryId = cId[1];
-  const step = 1;
-  const pageSize = 20;
-  const {
-    data: products,
-    error,
-    isLoading,
-    mutateAsync: mutateGetProducts,
-  } = useMutation({
-    mutationFn: getProductsList,
-  });
+  const pageSize = 2;
+  const { data, isLoading } = useProducts({ categoryId, step, pageSize });
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const data = await mutateGetProducts({
-        categoryId,
-        step,
-        pageSize,
-      }).then((res) => res.data);
-      return data;
-    };
-    getProducts().then((res) => setProductsList(res));
-  }, []);
-
-  console.log(productsList);
+  const productsList = data?.data;
 
   const favoriteHandler = (id) => {
     const favoriteProduct = productsList.find((p) => p.productId === id);
@@ -99,6 +77,21 @@ const CategoryPage = ({ params }) => {
       ));
   };
 
+  const sortProductHandler = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  let sortedProductList = [];
+
+  if (productsList) {
+    sortedProductList = Object.values(productsList);
+
+    if (sortBy === "cheapest")
+      sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
+    if (sortBy === "expensive")
+      sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
+  }
+
   return (
     <>
       <div className="py-16">
@@ -154,6 +147,8 @@ const CategoryPage = ({ params }) => {
                   name="sort"
                   id="cheapest"
                   className="hidden"
+                  value="cheapest"
+                  onChange={sortProductHandler}
                 />
                 <label className="text-xl cursor-pointer" htmlFor="cheapest">
                   ارزان‌ترین
@@ -165,6 +160,8 @@ const CategoryPage = ({ params }) => {
                   name="sort"
                   id="expensive"
                   className="hidden"
+                  value="expensive"
+                  onChange={sortProductHandler}
                 />
                 <label htmlFor="expensive" className="text-xl cursor-pointer">
                   گران‌ترین
@@ -173,18 +170,54 @@ const CategoryPage = ({ params }) => {
             </div>
           </div>
         </div>
-        <div className="bg-white p-10 rounded-xl shadow mt-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-16">
-            {productsList &&
-              productsList.map((product) => (
-                <Product
-                  key={product.productId}
-                  favoriteHandler={favoriteHandler}
-                  {...product}
-                  categoriId={params.categoriId}
-                />
-              ))}
-          </div>
+        <div className="bg-white p-10 rounded-xl shadow mt-10 ">
+          {isLoading ? (
+            <Loading />
+          ) : sortedProductList.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-16 h-full">
+                {sortedProductList.map((product) => (
+                  <Product
+                    key={product.productId}
+                    favoriteHandler={favoriteHandler}
+                    {...product}
+                    categoriId={params.categoriId}
+                  />
+                ))}
+              </div>
+
+              <div className="flex justify-center items-center mt-10 gap-1">
+                <button
+                  className="border py-2 px-5"
+                  onClick={() => setStep((step) => step - 1)}
+                  disabled={step === 1}
+                >
+                  prev
+                </button>
+                <span className="inline-block p-2 border">{step}</span>
+                <button
+                  className="border py-2 px-5"
+                  onClick={() => setStep((step) => step + 1)}
+                  disabled={step === 10}
+                >
+                  next
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full flex justify-center items-center flex-col min-h-700">
+              <p className="text-center mb-10 text-light text-xl">
+                محصولی در این دسته بندی ثبت نشده است.
+              </p>
+              <Image
+                src="/assets/img/b2.png"
+                width={300}
+                height={300}
+                alt="basket image"
+              />
+              <Link href="/">بازگشت</Link>
+            </div>
+          )}
         </div>
       </div>
     </>

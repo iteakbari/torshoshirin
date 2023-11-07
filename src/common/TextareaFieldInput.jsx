@@ -14,6 +14,7 @@ const TextareaFieldInput = ({
         className="bg-transparent textarea"
         value={value}
         onChange={onChange}
+        placeholder=" "
       ></textarea>
       <label>{label}</label>
     </div>

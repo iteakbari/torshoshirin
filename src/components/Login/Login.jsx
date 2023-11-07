@@ -13,11 +13,12 @@ const Login = () => {
   const [step, setStep] = useState(1);
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
   const [time, setTime] = useState(0);
+  const [error, setError] = useState(false);
   const [token, setToken] = useState("");
   const router = useRouter();
   const {
     data: otpResponse,
-    error,
+    isError,
     isLoading,
     mutateAsync: mutateGetOtp,
   } = useMutation({
@@ -30,6 +31,9 @@ const Login = () => {
   );
 
   const phoneNumberHandler = (e) => {
+    const phoneNumberFormat = /^09\d{2}\d{7}$/;
+    const val = e.target.value;
+    val?.match(phoneNumberFormat) ? setError(false) : setError(true);
     setPhoneNumber(e.target.value);
   };
 
@@ -46,25 +50,35 @@ const Login = () => {
   }, [time]);
 
   useEffect(() => {
-    localStorage.setItem("temp_token", token);
+    localStorage.setItem(
+      "temp_token",
+      token ? token : localStorage.getItem("temp_token")
+    );
+
+    // localStorage.getItem("temp_token")
+    //   ? router.push("/")
+    //   : router.push("/sign");
   }, [token]);
 
   const sendOTPHandler = async (e) => {
     e.preventDefault();
-    try {
-      const data = await mutateGetOtp({ phoneNumber });
-      if (data.success) {
-        toast.success(data.messageList);
-        console.log(data);
-        setStep(2);
-        setTime(RESEND_TIME);
-        setPhoneNumberCode("");
-      } else {
-        setPhoneNumber("");
-        toast.success(data.messageList);
+    if (!error) {
+      try {
+        const data = await mutateGetOtp({ phoneNumber });
+        if (data.success) {
+          toast.success(data.messageList);
+          console.log(data);
+          setStep(2);
+          setTime(RESEND_TIME);
+          setPhoneNumberCode("");
+        } else {
+          setPhoneNumber("");
+          toast.success(data.messageList);
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
+      return;
     }
   };
 
@@ -91,7 +105,6 @@ const Login = () => {
     } catch (error) {
       toast.error(error?.response?.data?.messageList);
     }
-    console.log(token);
   };
 
   const renderSteps = () => {
@@ -103,6 +116,7 @@ const Login = () => {
             onChange={phoneNumberHandler}
             isLoading={isLoading}
             onSubmit={sendOTPHandler}
+            error={error}
           />
         );
       case 2:

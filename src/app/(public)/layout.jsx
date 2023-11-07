@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
           <Toaster />
           <Navbar />
 
-          <div className="container mx-auto">{children}</div>
+          <div className="container lg:px-10 2xl:px-0 mx-auto">{children}</div>
           <div className="flex justify-center py-5">
             <Link href="/">
               <Image

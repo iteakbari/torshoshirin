@@ -1,8 +1,13 @@
 import TextFieldInput from "@/common/TextFieldInput";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
 
-const GetMobileNumber = ({ phoneNumber, onChange, onSubmit, isLoading }) => {
+const GetMobileNumber = ({
+  phoneNumber,
+  onChange,
+  onSubmit,
+  isLoading,
+  error,
+}) => {
   return (
     <form onSubmit={onSubmit}>
       <TextFieldInput
@@ -11,6 +16,9 @@ const GetMobileNumber = ({ phoneNumber, onChange, onSubmit, isLoading }) => {
         value={phoneNumber}
         onChange={onChange}
         customClass="mt-14"
+        errorMessage="شماره وارد شده اشتباه است"
+        error={error}
+        type="tel"
       />
       <button
         type="submit"

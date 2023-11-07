@@ -9,6 +9,7 @@
   --text-color: #1a3622;
   --text-color-light: #6b8370;
   --bg-color: #f9fdf5;
+  --bg-color-gray: #d9d9d9;
   --light-gray: #f9f8f6;
   --navbar-bg: #fcfef5;
   --orange: #DB7267;
@@ -28,9 +29,11 @@
   }
 }
 
+/* 
 img {
-  height: max-content;
-}
+  height: auto;
+  width: auto;
+} */
 
 .bg-white {
   background-color: var(--white);
@@ -148,6 +151,15 @@ textarea:focus {
   padding: 0px 5px;
 }
 
+.select-box.disabled .select * {
+  border-color: #eee !important;
+  pointer-events: none;
+  color: #ccc !important;
+}
+
+.select-box.disabled label {
+  color: #ccc !important;
+}
 
 .input-box input,
 .input-box textarea {
@@ -419,4 +431,84 @@ input:-internal-autofill-selected {
 
 .bg-light-gray {
   background-color: var(--light-gray);
+}
+
+.thumbSwiper {
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+  position: relative;
+}
+
+.thumbSwiper .swiper-slide {
+  height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumbSwiper::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 2.5rem;
+  background-color: #fff;
+  z-index: 2;
+  height: 100%;
+  top: 0;
+}
+
+.thumbSwiper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 2.5rem;
+  background-color: #fff;
+  z-index: 1;
+  height: 100%;
+  top: 0;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+  color: var(--text-color);
+}
+
+.mainSwiper img {
+  max-height: 250px;
+  width: auto;
+  max-width: 100%;
+}
+
+.mainSwiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+}
+
+
+.min-h-700 {
+  min-height: 700px;
+}
+
+.aboutSwiper {
+  height: 500px;
+}
+
+.aboutSwiper .swiper-button-next::after,
+.aboutSwiper .swiper-button-prev::after {
+  font-size: 35px !important;
+  color: var(--bg-color);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.bg-color-gray {
+  background-color: var(--bg-color-gray);
+}
+
+.bg-pattern {
+  background: url('/assets//img//pattern.png');
 }

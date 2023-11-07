@@ -3,10 +3,6 @@ const { default: TextareaFieldInput } = require("@/common/TextareaFieldInput");
 const Mapir = require("mapir-react-component");
 
 const Address = ({
-  options,
-  selectedOption,
-  setSelectedOption,
-  options2,
   address,
   addressHandler,
   Map,
@@ -15,20 +11,6 @@ const Address = ({
 }) => {
   return (
     <>
-      <SelectBoxField
-        label="استان"
-        options={options}
-        customClass="w-48 "
-        defaultValue={selectedOption}
-        onChange={setSelectedOption}
-      />
-      <SelectBoxField
-        label="شهر"
-        options={options2}
-        customClass="w-48 "
-        defaultValue={selectedOption}
-        onChange={setSelectedOption}
-      />
       <div className="pt-4 w-48">
         <TextareaFieldInput
           label="آدرس"
