@@ -8,10 +8,12 @@ const CitiesSelectBox = ({
   errorMessage,
   customClass,
 }) => {
-  const cities = citiesList?.map((city) => ({
-    value: city.title,
-    label: city.title,
-  }));
+  const cities = citiesList
+    ? citiesList.map((city) => ({
+        value: city.title,
+        label: city.title,
+      }))
+    : [];
 
   const cityDefaultValue = (cities, value) => {
     return cities ? cities.find((city) => city.value === value) : "";

@@ -3,6 +3,7 @@
 import CitiesSelectBox from "@/common/CitiesSelectBox";
 import StateSelectBox from "@/common/StateSelectBox";
 import TextFieldInput from "@/common/TextFieldInput";
+import TextareaFieldInput from "@/common/TextareaFieldInput";
 import Address from "@/components/Address/Address";
 import useGetProfile from "@/hooks/useGetProfile";
 import useStateList from "@/hooks/useStateList";
@@ -32,14 +33,25 @@ const Profile = () => {
   const token = localStorage.getItem("temp_token");
   const { data } = useGetProfile(token);
   const { data: getSatatesList } = useStateList();
+  const [selectedState, setSelectedState] = useState([]);
+  const [showCities, setShowCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [aaa, setAaa] = useState(null);
   const [formValues, setFormValues] = useState({
+    id: null,
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    cityId: null,
+    stateId: null,
+    userName: "",
+    longY: 0,
+    latX: 0,
+    address: "",
     codePost: "",
     phoneNumber2: "",
-    state: "",
-    city: "",
+    cityName: "",
+    stateName: "",
   });
 
   const reverseFunction = (map, e) => {
@@ -88,8 +100,9 @@ const Profile = () => {
     phoneNumber: "",
     codePost: "",
     phoneNumber2: "",
-    state: "",
-    city: "",
+    stateName: "",
+    cityName: "",
+    address: "",
   };
 
   const formik = useFormik({
@@ -107,20 +120,51 @@ const Profile = () => {
         phoneNumber: data.data.phoneNumber ? data.data.phoneNumber : "",
         codePost: data.data.codePost ? data.data.codePost : "",
         phoneNumber2: data.data.phoneNumber2 ? data.data.phoneNumber2 : "",
-        state: "",
-        city: "",
+        stateName: data.data.stateName ? data.data.stateName : "",
+        cityName: data.data.cityName ? data.data.cityName : "",
+        address: data.data.address ? data.data.address : "",
       });
   }, [data]);
 
-  const selectedState =
-    formik.values.state &&
-    getSatatesList?.data?.statesList?.find(
-      (state) => state.title === formik.values.state
+  useEffect(() => {
+    setSelectedState(
+      formik.values.stateName &&
+        getSatatesList?.data?.statesList?.find(
+          (state) => state.title === formik.values.stateName
+        )
     );
+  }, [formik.values.stateName]);
 
-  const showCitiesList = getSatatesList?.data?.citiesList?.filter(
-    (city) => city.parentId === selectedState.id
-  );
+  useEffect(() => {
+    setShowCities(
+      selectedState &&
+        getSatatesList?.data?.citiesList?.filter(
+          (city) => city.parentId === selectedState.id
+        )
+    );
+  }, [selectedState]);
+
+  useEffect(() => {
+    formik.values.cityName
+      ? setSelectedCity(
+          showCities?.find((city) => city.title === formik.values.cityName)
+        )
+      : "";
+  }, [formik.values.cityName]);
+
+  useEffect(() => {
+    setAaa(
+      selectedCity?.location
+        ? selectedCity?.location?.split(",")
+        : ["51.42047", "35.729054"]
+    );
+  }, [selectedCity]);
+
+  useEffect(() => {
+    formik.setFieldValue("address", userAddress);
+  }, [userAddress]);
+
+  console.log("aaa", aaa);
 
   return (
     <>
@@ -181,25 +225,42 @@ const Profile = () => {
         </p>
 
         <StateSelectBox
-          value={formik.values.state}
+          value={formik.values.stateName}
           statesList={getSatatesList?.data.statesList}
-          onChange={(value) => formik.setFieldValue("state", value.value)}
+          onChange={(value) => formik.setFieldValue("stateName", value.value)}
         />
 
         <CitiesSelectBox
-          value={formik.values.city}
-          citiesList={showCitiesList}
-          onChange={(value) => formik.setFieldValue("city", value.value)}
+          value={formik.values.cityName}
+          citiesList={showCities}
+          onChange={(value) => formik.setFieldValue("cityName", value.value)}
           customClass={selectedState ? "" : "disabled"}
         />
 
-        <Address
-          address={userAddress}
-          addressHandler={addressHandler}
-          Map={Map}
-          markerArray={markerArray}
-          reverseFunction={reverseFunction}
-        />
+        <div className="pt-4 w-48">
+          <TextareaFieldInput
+            label="آدرس"
+            name="address"
+            customClass="mt-3"
+            value={formik.values.address}
+            onChange={formik.handleChange}
+            errorMessage={formik.errors.address}
+            error={formik.errors}
+          />
+        </div>
+        <div className="w-48">
+          <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
+          <Mapir
+            Map={Map}
+            className="w-100 h-200px overflow-hidden rounded-xl"
+            onClick={reverseFunction}
+            // center={[parseFloat(aaa[0]), parseFloat(aaa[1])]}
+          >
+            {markerArray}
+            <Mapir.Marker coordinates={[51.42047, 35.729054]} anchor="bottom" />
+          </Mapir>
+        </div>
+
         <div className="flex mt-5 justify-center w-100">
           <button
             type="submit"
