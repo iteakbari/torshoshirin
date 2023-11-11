@@ -2,9 +2,7 @@
 import { useState } from "react";
 import { NumericFormat } from "react-number-format";
 
-const Counter = ({ step, label }) => {
-  const [inputValue, setInputValue] = useState(0);
-
+const Counter = ({ step, label, inputValue, setInputValue }) => {
   const incrementHandler = () => {
     setInputValue((prevInputValue) => prevInputValue + step);
   };
@@ -55,7 +53,7 @@ const Counter = ({ step, label }) => {
         className="text-center bg-transparent w-20 h-10"
         placeholder="0"
         value={inputValue}
-        onChange={handleInputChange}
+        onChange={() => handleInputChange()}
       />
       <label className="text-color-light text-xl text-right flex-1">
         {label}

@@ -14,8 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { getCategories } from "@/services/categorisService";
 
 import { createTheme } from "@mui/material/styles";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "@/services/authServices";
 import useGetProfile from "@/hooks/useGetProfile";
 
 const theme = createTheme({
@@ -26,7 +24,11 @@ function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [menu, setMenu] = useState();
-  const token = localStorage.getItem("temp_token");
+  const [token, setToken] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    setToken(localStorage.getItem("temp_token"));
+  }, []);
   const { data } = useGetProfile(token);
 
   const [state, setState] = useState({
@@ -174,14 +176,14 @@ function Navbar() {
                 تماس با ما
               </Link>
             </li>
-            {!data && (
+            {!token && (
               <li>
                 <Link href="/sign" className="">
                   ورود/ثبت نام
                 </Link>
               </li>
             )}
-            {data?.success && (
+            {token && (
               <li>
                 <Link
                   href="#"

@@ -1,13 +1,15 @@
 "use client";
 
 import CitiesSelectBox from "@/common/CitiesSelectBox";
+import FormikTextInputField from "@/common/FormikTextInputField";
 import StateSelectBox from "@/common/StateSelectBox";
 import TextFieldInput from "@/common/TextFieldInput";
 import TextareaFieldInput from "@/common/TextareaFieldInput";
 import Address from "@/components/Address/Address";
 import useGetProfile from "@/hooks/useGetProfile";
 import useStateList from "@/hooks/useStateList";
-import { QueryCache, useQueryClient } from "@tanstack/react-query";
+import { changeProfile } from "@/services/changeProfile";
+import { QueryCache, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Formik, useFormik } from "formik";
 import Mapir from "mapir-react-component";
 import { useEffect, useState } from "react";
@@ -36,7 +38,7 @@ const Profile = () => {
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
-  const [aaa, setAaa] = useState(null);
+  const [userLocation, setUserLocation] = useState(["51.42047", "35.729054"]);
   const [formValues, setFormValues] = useState({
     id: null,
     firstName: "",
@@ -49,9 +51,13 @@ const Profile = () => {
     latX: 0,
     address: "",
     codePost: "",
-    phoneNumber2: "",
+    phonNumber2: "",
     cityName: "",
     stateName: "",
+  });
+
+  const { data: profile, mutateAsync: updateProfile } = useMutation({
+    mutationFn: changeProfile,
   });
 
   const reverseFunction = (map, e) => {
@@ -86,12 +92,13 @@ const Profile = () => {
       /\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b/,
       "کدپستی نادرست است"
     ),
-    phoneNumber2: Yup.string().matches(
+    phonNumber2: Yup.string().matches(
       /^0\d{2}\d{8}$/,
       "فرمت شماره تلفن ثابت صحیح نیست"
     ),
-    state: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
-    city: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    stateName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    cityName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
+    address: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
   });
 
   const initialValues = {
@@ -99,17 +106,47 @@ const Profile = () => {
     lastName: "",
     phoneNumber: "",
     codePost: "",
-    phoneNumber2: "",
+    phonNumber2: "",
     stateName: "",
     cityName: "",
     address: "",
   };
 
+  const submitHandler = async (values) => {
+    const stateId = getSatatesList?.data.statesList.find(
+      (s) => s.title === formik.values.stateName
+    ).id;
+    const cityId = getSatatesList?.data.citiesList.find(
+      (c) => c.title === formik.values.cityName
+    ).id;
+    const latX = parseFloat(userLocation[0]);
+    const longY = parseFloat(userLocation[1]);
+    const id = data?.data.id;
+    const userName = data?.data.phoneNumber;
+
+    try {
+      const data = await updateProfile({
+        ...values,
+        id,
+        stateId,
+        cityId,
+        latX,
+        longY,
+        userName,
+        token,
+      });
+      // console.log(data);
+    } catch (error) {
+      console.log(error?.response?.data?.message);
+    }
+  };
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: formValues || initialValues,
-    onSubmit: () => {},
+    onSubmit: submitHandler,
     validationSchema,
+    validateOnMount: true,
   });
 
   useEffect(() => {
@@ -119,7 +156,7 @@ const Profile = () => {
         lastName: data.data.lastName ? data.data.lastName : "",
         phoneNumber: data.data.phoneNumber ? data.data.phoneNumber : "",
         codePost: data.data.codePost ? data.data.codePost : "",
-        phoneNumber2: data.data.phoneNumber2 ? data.data.phoneNumber2 : "",
+        phonNumber2: data.data.phonNumber2 ? data.data.phonNumber2 : "",
         stateName: data.data.stateName ? data.data.stateName : "",
         cityName: data.data.cityName ? data.data.cityName : "",
         address: data.data.address ? data.data.address : "",
@@ -145,15 +182,17 @@ const Profile = () => {
   }, [selectedState]);
 
   useEffect(() => {
-    formik.values.cityName
-      ? setSelectedCity(
-          showCities?.find((city) => city.title === formik.values.cityName)
-        )
-      : "";
+    setTimeout(() => {
+      formik.values.cityName
+        ? setSelectedCity(
+            showCities?.find((city) => city.title === formik.values.cityName)
+          )
+        : "";
+    }, 3000);
   }, [formik.values.cityName]);
 
   useEffect(() => {
-    setAaa(
+    setUserLocation(
       selectedCity?.location
         ? selectedCity?.location?.split(",")
         : ["51.42047", "35.729054"]
@@ -164,8 +203,6 @@ const Profile = () => {
     formik.setFieldValue("address", userAddress);
   }, [userAddress]);
 
-  console.log("aaa", aaa);
-
   return (
     <>
       <h3 className="text-xl">تکمیل پروفایل</h3>
@@ -173,51 +210,36 @@ const Profile = () => {
         onSubmit={formik.handleSubmit}
         className="flex flex-wrap gap-10 mt-14"
       >
-        <TextFieldInput
+        <FormikTextInputField
           label="نام"
           name="firstName"
           customClass="w-48"
-          value={formik.values.firstName}
-          onChange={formik.handleChange}
-          errorMessage={formik.errors.firstName}
-          error={formik.touched.firstName && formik.errors.firstName}
-          onBlur={formik.handleBlur}
+          formik={formik}
         />
-        <TextFieldInput
+        <FormikTextInputField
           label="نام‌خانواگی"
           name="lastName"
           customClass="w-48"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          errorMessage={formik.errors.lastName}
-          error={formik.touched.lastName && formik.errors.lastName}
-          onBlur={formik.handleBlur}
+          formik={formik}
         />
-        <TextFieldInput
+        <FormikTextInputField
           label="شماره موبایل"
           name="phoneNumber"
           customClass="w-48"
-          value={formik.values.phoneNumber}
-          onChange={formik.handleChange}
+          formik={formik}
           readOnly={true}
         />
-        <TextFieldInput
+        <FormikTextInputField
           label="کدپستی(اختیاری)"
           name="codePost"
           customClass="w-48"
-          value={formik.values.codePost}
-          onChange={formik.handleChange}
-          errorMessage={formik.errors.codePost}
-          error={formik.errors}
+          formik={formik}
         />
-        <TextFieldInput
+        <FormikTextInputField
           label="شماره تلفن ثابت(اختیاری)"
-          name="phoneNumber2"
+          name="phonNumber2"
           customClass="w-48"
-          value={formik.values.phoneNumber2}
-          onChange={formik.handleChange}
-          errorMessage={formik.errors.phoneNumber2}
-          error={formik.errors}
+          formik={formik}
         />
         <p className="w-full mt-3">
           *صرفاً استان‌ها و شهرهایی که در محدوده خدمات فروشگاه ما هستند، قابل
@@ -238,14 +260,11 @@ const Profile = () => {
         />
 
         <div className="pt-4 w-48">
-          <TextareaFieldInput
+          <FormikTextInputField
             label="آدرس"
             name="address"
             customClass="mt-3"
-            value={formik.values.address}
-            onChange={formik.handleChange}
-            errorMessage={formik.errors.address}
-            error={formik.errors}
+            formik={formik}
           />
         </div>
         <div className="w-48">
@@ -254,7 +273,7 @@ const Profile = () => {
             Map={Map}
             className="w-100 h-200px overflow-hidden rounded-xl"
             onClick={reverseFunction}
-            // center={[parseFloat(aaa[0]), parseFloat(aaa[1])]}
+            center={[parseFloat(userLocation[0]), parseFloat(userLocation[1])]}
           >
             {markerArray}
             <Mapir.Marker coordinates={[51.42047, 35.729054]} anchor="bottom" />
@@ -263,9 +282,12 @@ const Profile = () => {
 
         <div className="flex mt-5 justify-center w-100">
           <button
+            disabled={!formik.isValid}
             type="submit"
             variant="contained"
-            className="bg-green-950 w-96 h-14 text-white hover:bg-green-800 transition-all rounded-lg"
+            className={`bg-green-950 w-96 h-14 text-white hover:bg-green-800 transition-all rounded-lg ${
+              !formik.isValid && "disabled-btn"
+            }`}
           >
             ثبت
           </button>

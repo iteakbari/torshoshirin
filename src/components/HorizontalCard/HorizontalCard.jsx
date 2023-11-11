@@ -9,19 +9,36 @@ import Image from "next/image";
 import { NumericFormat } from "react-number-format";
 import Counter from "@/common/Counter";
 
-const HorizontalCard = ({ farsiName, moreImages, salePrice }) => {
+const HorizontalCard = ({
+  farsiName,
+  moreImages,
+  salePrice,
+  isFavorite,
+  id,
+}) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [favorite, setFavorite] = useState(isFavorite);
+
+  const favoriteHandler = () => {
+    setFavorite(!favorite);
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3">
       <div className="relative">
         <label>
-          <input type="checkbox" name="favorite" id="" className="hidden" />
+          <input
+            type="checkbox"
+            name="favorite"
+            id=""
+            className="hidden"
+            onChange={favoriteHandler}
+          />
           <svg
             width="35"
             height="32"
             viewBox="0 0 35 32"
-            fill="none"
+            fill={favorite ? "#DB7267" : "none"}
             xmlns="http://www.w3.org/2000/svg"
             className="cursor-pointer absolute top-3 right-3 z-20"
           >

@@ -512,3 +512,7 @@ input:-internal-autofill-selected {
 .bg-pattern {
   background: url('/assets//img//pattern.png');
 }
+
+.disabled-btn {
+  background-color: var(--bg-color-gray) !important;
+}

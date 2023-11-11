@@ -1,8 +1,13 @@
 import http from "./httpService";
 
 export function getProductsList({ queryKey }) {
+  const { categoryId, pageSize, step, token } = queryKey[1];
   return http
-    .post(`/ProductApi/SearchProduct`, queryKey[1])
+    .post(
+      `/ProductApi/SearchProduct`,
+      { categoryId, pageSize, step },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
     .then(({ data }) => data.data);
 }
 

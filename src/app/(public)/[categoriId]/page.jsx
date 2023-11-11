@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import Loading from "../loading";
 
 const CategoryPage = ({ params }) => {
-  const [favorite, setFavorite] = useState(0);
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState("cheapest");
 
@@ -16,66 +15,16 @@ const CategoryPage = ({ params }) => {
   const cName = decodeURI(cId[0]);
   const categoryId = cId[1];
   const pageSize = 2;
-  const { data, isLoading } = useProducts({ categoryId, step, pageSize });
+  const token = localStorage.getItem("temp_token");
+  const { data, isLoading } = useProducts({
+    categoryId,
+    step,
+    pageSize,
+    token,
+  });
 
   const productsList = data?.data;
-
-  const favoriteHandler = (id) => {
-    const favoriteProduct = productsList.find((p) => p.productId === id);
-    console.log(productsList.find((p) => p.productId));
-    // setFavorite(!favoriteProduct.favorite);
-    favorite
-      ? toast.custom((t) => (
-          <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-            شلغم از لیست علاقمندی‌های شما حذف شد.
-          </div>
-        ))
-      : toast.custom((t) => (
-          <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-            <div className="flex items-center gap-5">
-              <svg
-                width="35"
-                height="32"
-                viewBox="0 0 35 32"
-                fill="#DB7267"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.7077 5.19672C17.6042 5.33246 17.3961 5.33246 17.2927 5.19672C13.6238 0.382228 7.84966 -0.139009 4.26259 3.63301C0.607133 7.47693 0.607132 13.7092 4.26259 17.5531L15.5145 29.3852C16.6112 30.5384 18.3892 30.5384 19.4858 29.3852L30.7377 17.5531C34.3932 13.7092 34.3932 7.47693 30.7377 3.63301C27.1507 -0.139009 21.3766 0.382228 17.7077 5.19672Z"
-                  stroke="#DB7267"
-                  strokeWidth="2"
-                />
-              </svg>
-              <p>شلغم به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
-            </div>
-            <div className="w-full flex justify-center pt-5">
-              <Link href="">مشاهده‌ی لیست علاقه‌مندی‌ها</Link>
-            </div>
-          </div>
-        ));
-  };
-
-  const addToBasketHandler = (k, g) => {
-    (k || g) &&
-      toast.custom((t) => (
-        <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-          <p className="text-xl">
-            {k > 0 && (
-              <span>
-                <span className="text-orange">{k}</span> کیلوگرم
-              </span>
-            )}{" "}
-            {k > 0 && g > 0 && "و"}{" "}
-            {g > 0 && (
-              <span>
-                <span className="text-orange">{g}</span> گرم
-              </span>
-            )}{" "}
-            شلغم به سبد خرید شما اضافه شد
-          </p>
-        </div>
-      ));
-  };
+  console.log(productsList);
 
   const sortProductHandler = (e) => {
     setSortBy(e.target.value);
@@ -95,13 +44,14 @@ const CategoryPage = ({ params }) => {
   return (
     <>
       <div className="py-16">
-        <div className="flex justify-between">
-          <h1 className="text-3xl">{cName}</h1>
-          <div className="flex items-end gap-5">
+        <div className="sm:flex justify-between px-3">
+          <h1 className="text-3xl sm:text-2xl lg:text-3xl text-center sm:text-right flex-1 mb-5 sm:mb-0">
+            {cName}
+          </h1>
+          <div className="flex items-center md:items-end gap-5">
             <p className="flex items-end gap-3">
               <svg
-                width="40"
-                height="32"
+                className="w-8 h-6 md:w-10 md:h-8"
                 viewBox="0 0 44 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +88,7 @@ const CategoryPage = ({ params }) => {
                   strokeLinecap="round"
                 />
               </svg>
-              <span className="text-xl">مرتب‌سازی بر اساس:</span>
+              <span className="text-base md:text-xl">مرتب‌سازی بر اساس:</span>
             </p>
             <div className="flex gap-5">
               <div className="sort-input">
@@ -150,7 +100,10 @@ const CategoryPage = ({ params }) => {
                   value="cheapest"
                   onChange={sortProductHandler}
                 />
-                <label className="text-xl cursor-pointer" htmlFor="cheapest">
+                <label
+                  className="text-base md:text-xl cursor-pointer"
+                  htmlFor="cheapest"
+                >
                   ارزان‌ترین
                 </label>
               </div>
@@ -163,7 +116,10 @@ const CategoryPage = ({ params }) => {
                   value="expensive"
                   onChange={sortProductHandler}
                 />
-                <label htmlFor="expensive" className="text-xl cursor-pointer">
+                <label
+                  htmlFor="expensive"
+                  className="text-base md:text-xl cursor-pointer"
+                >
                   گران‌ترین
                 </label>
               </div>
@@ -175,11 +131,10 @@ const CategoryPage = ({ params }) => {
             <Loading />
           ) : sortedProductList.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-16 h-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 h-full">
                 {sortedProductList.map((product) => (
                   <Product
                     key={product.productId}
-                    favoriteHandler={favoriteHandler}
                     {...product}
                     categoriId={params.categoriId}
                   />

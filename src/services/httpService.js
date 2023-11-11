@@ -1,6 +1,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.Access_Control_Allow_Origin = "http://localhost:3000";
 
+import logout from "@/functions/logout";
 import axios from "axios";
 import { config } from "process";
 
@@ -28,11 +29,9 @@ app.interceptors.response.use(
       originalConfig._retry = true;
       const tempToken = localStorage.getItem("temp_token");
       if (tempToken) {
-        err.response.headers.Authorization = `${tempToken}`;
-        // اینجا توکن از لوکال استوریج خوانده شده و به هدر اضافه شده است
+        err.response.headers.Authorization = `Bearer ${tempToken}`;
       } else {
-        // اگر توکن در لوکال استوریج وجود نداشته باشد، می‌توانید از اینجا دستوراتی برای مدیریت این موقعیت اضافه کنید
-        console.log("توکن در لوکال استوریج موجود نیست.");
+        logout();
       }
     }
     return Promise.reject(err);
