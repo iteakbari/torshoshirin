@@ -5,11 +5,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
+    <div className="container lg:px-10 2xl:px-0 mx-auto">
       <main>
         <div className="lg:px-26 py-20 h-max">
-          <Grid container spacing={2} className="flex items-center">
-            <Grid item md={6}>
+          <div className="grid grid-cols-2">
+            <div className="">
               <div className="grid justify-items-center place-content-center">
                 <p className="text-center text-6xl font-extrabold leading-relaxed">
                   ما بهترین‌ کیفیت رو در <br /> ساری به دستتون می‌رسونیم.
@@ -25,8 +25,8 @@ export default function Home() {
                   سفارش بده!
                 </Link>
               </div>
-            </Grid>
-            <Grid item md={6} className="flex justify-center">
+            </div>
+            <div className="flex justify-center">
               <Image
                 src="/assets/img/ill.png"
                 width={300}
@@ -34,8 +34,8 @@ export default function Home() {
                 alt="illustration"
                 className="w-4/6"
               />
-            </Grid>
-          </Grid>
+            </div>
+          </div>
 
           <div className="px-10 py-16 bg-light-green rounded-full flex justify-around my-24">
             <div className="grid">
@@ -73,6 +73,6 @@ export default function Home() {
           <CategoriesList />
         </div>
       </main>
-    </>
+    </div>
   );
 }

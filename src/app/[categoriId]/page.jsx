@@ -3,14 +3,12 @@ import Product from "@/components/Product/Product";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useState } from "react";
 import Loading from "../loading";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState("cheapest");
-
   const cId = params.categoriId.split("-");
   const cName = decodeURI(cId[0]);
   const categoryId = cId[1];
@@ -24,7 +22,6 @@ const CategoryPage = ({ params }) => {
   });
 
   const productsList = data?.data;
-  console.log(productsList);
 
   const sortProductHandler = (e) => {
     setSortBy(e.target.value);
@@ -42,7 +39,7 @@ const CategoryPage = ({ params }) => {
   }
 
   return (
-    <>
+    <div className="container lg:px-10 2xl:px-0 mx-auto">
       <div className="py-16">
         <div className="sm:flex justify-between px-3">
           <h1 className="text-3xl sm:text-2xl lg:text-3xl text-center sm:text-right flex-1 mb-5 sm:mb-0">
@@ -175,7 +172,7 @@ const CategoryPage = ({ params }) => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

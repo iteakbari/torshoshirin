@@ -6,7 +6,7 @@ const SideBar = () => {
       <p className="text-lg font-bold">خسرو اکبری لالایی</p>
       <div className="flex justify-between py-4 border-b-4 border-green">
         <span>09112274967</span>
-        <Link href="/profile" className="flex gap-2">
+        <Link href="/dashboard/profile" className="flex gap-2">
           ویرایش پروفایل
           <svg
             width="24"

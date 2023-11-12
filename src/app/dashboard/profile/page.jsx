@@ -135,7 +135,6 @@ const Profile = () => {
         userName,
         token,
       });
-      // console.log(data);
     } catch (error) {
       console.log(error?.response?.data?.message);
     }

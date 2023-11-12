@@ -3,16 +3,13 @@ import Comment from "@/components/Comment/Comment";
 import HorizontalCard from "@/components/HorizontalCard/HorizontalCard";
 import NewProducts from "@/components/Product/NewProducts";
 import useProduct from "@/hooks/useProduct";
-import { getProduct } from "@/services/productService";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
 const ProductDetails = ({ params }) => {
   const { data } = useProduct(params.productId);
 
   const product = data?.data?.data?.data;
   return (
-    <>
+    <div className="container lg:px-10 2xl:px-0 mx-auto">
       <div className="py-16 grid grid-cols-1 lg:grid-cols-4">
         <div className="col-span-3 bg-white py-7 px-5 md:px-12 shadow-sm rounded-lg">
           <HorizontalCard {...product} />
@@ -45,7 +42,7 @@ const ProductDetails = ({ params }) => {
         </p>
         <Comment />
       </div>
-    </>
+    </div>
   );
 };
 

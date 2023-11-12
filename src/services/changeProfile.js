@@ -17,23 +17,6 @@ export function changeProfile({
   stateName,
   token,
 }) {
-  console.log(
-    id,
-    firstName,
-    lastName,
-    phoneNumber,
-    cityId,
-    stateId,
-    userName,
-    address,
-    longY,
-    latX,
-    codePost,
-    phonNumber2,
-    cityName,
-    stateName,
-    token
-  );
   return http
     .post(
       "/AccountApi/CHangeProfile",

@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Drawer } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,6 +15,7 @@ import { getCategories } from "@/services/categorisService";
 
 import { createTheme } from "@mui/material/styles";
 import useGetProfile from "@/hooks/useGetProfile";
+import { ShopContext } from "@/context/shopContext";
 
 const theme = createTheme({
   direction: "rtl",
@@ -25,7 +26,10 @@ function Navbar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [menu, setMenu] = useState();
   const [token, setToken] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+
+  const { cartItems } = useContext(ShopContext);
+  console.log(cartItems);
+
   useEffect(() => {
     setToken(localStorage.getItem("temp_token"));
   }, []);
@@ -221,7 +225,7 @@ function Navbar() {
                   }}
                 >
                   <MenuItem className="menu-item" onClick={handleClose}>
-                    <Link href="/dashboard">داشبورد</Link>
+                    <Link href="dashboard">داشبورد</Link>
                   </MenuItem>
                   <MenuItem className="menu-item" onClick={handleClose}>
                     سفارش‌ها
@@ -254,9 +258,18 @@ function Navbar() {
                   fill="#20422A"
                 />
               </svg>
-              <span className="absolute flex w-6 h-6 rounded-full justify-center items-center -top-2 -right-3 bg-orange">
-                1
-              </span>
+              {cartItems.length > 0 && (
+                <span className="absolute flex w-6 h-6 rounded-full justify-center items-center -top-2 -right-3 bg-orange">
+                  {cartItems.length}
+                </span>
+              )}
+              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-96">
+                {cartItems.length > 0 ? (
+                  <div></div>
+                ) : (
+                  <p className="text-center py-3">کالایی در سبد وجود ندارد</p>
+                )}
+              </div>
             </div>
             <SearchBar />
             <button className="lg:hidden">
