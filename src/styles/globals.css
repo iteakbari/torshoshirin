@@ -68,6 +68,10 @@ body {
   border-width: 1px;
 }
 
+.text-light {
+  color: #aeaeac;
+}
+
 .bg-orange {
   background-color: var(--orange) !important;
   color: #fff;
@@ -79,6 +83,14 @@ body {
 
 .bg-light-green {
   background-color: var(--light-green);
+}
+
+.border-light {
+  border-color: #F9FDF1;
+}
+
+.border-light-green {
+  border-color: var(--light-green);
 }
 
 .divider-color {
@@ -515,4 +527,33 @@ input:-internal-autofill-selected {
 
 .disabled-btn {
   background-color: var(--bg-color-gray) !important;
+}
+
+.cart {
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.cartIcon:hover .cart {
+  z-index: 1;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.tab-item {
+  border-bottom: 3px solid transparent;
+}
+
+.tab-item.active {
+  border-color: var(--orange);
+}
+
+.z-40 {
+  z-index: 40 !important;
+}
+
+.input-box.discount input {
+  border: 0;
 }

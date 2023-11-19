@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Loading from "../loading";
+import Cookies from "js-cookie";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
@@ -13,7 +14,7 @@ const CategoryPage = ({ params }) => {
   const cName = decodeURI(cId[0]);
   const categoryId = cId[1];
   const pageSize = 2;
-  const token = localStorage.getItem("temp_token");
+  const token = Cookies.get("token");
   const { data, isLoading } = useProducts({
     categoryId,
     step,

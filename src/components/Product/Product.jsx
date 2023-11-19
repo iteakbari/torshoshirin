@@ -4,35 +4,33 @@ import useGetProfile from "@/hooks/useGetProfile";
 import useProduct from "@/hooks/useProduct";
 import { likeProduct } from "@/services/likeProduct";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NumericFormat } from "react-number-format";
 
-const Product = ({
-  pathImage,
-  productId,
-  salePrice,
-  productName,
-  unitCountingId,
-  categoriId,
-  isFavorite,
-  cart,
-}) => {
+const Product = (product) => {
+  const {
+    productId,
+    pathImage,
+    salePrice,
+    productName,
+    unitCountingId,
+    isFavorite,
+    categoriId,
+  } = product;
   const [favorite, setFavorite] = useState(isFavorite);
   const [inputValue, setInputValue] = useState(0);
   const [inputValue2, setInputValue2] = useState(0);
+  const [added, setAdded] = useState(false);
   const { data, mutateAsync: likedProduct } = useMutation({
     mutationFn: likeProduct,
   });
   const { cartItems, addToCart, removeFromCart } = useContext(ShopContext);
 
-  const isInCart = cartItems?.some((item) => item.id === productId);
-
-  const token = localStorage.getItem("temp_token");
-
-  const user = useGetProfile(token);
+  const token = Cookies.get("token");
 
   const favoriteHandler = async () => {
     if (token != null && token != "null") {
@@ -78,47 +76,6 @@ const Product = ({
       ));
     }
   };
-
-  // const addToBasketHandler = (
-  //   k,
-  //   g,
-  //   salePrice,
-  //   pathImage,
-  //   productId,
-  //   productName
-  // ) => {
-  //   const cartItem = { productId, productName, pathImage, salePrice, k, g };
-
-  //   cart.push(cartItem);
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-
-  //   (k || g) &&
-  //     toast.custom((t) => (
-  //       <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-  //         <p className="text-xl">
-  //           {k > 0 && (
-  //             <span>
-  //               <span className="text-orange">{k}</span>{" "}
-  //               <span>
-  //                 {unitCountingId === 1
-  //                   ? "عدد"
-  //                   : unitCountingId === 2
-  //                   ? "کیلوگرم"
-  //                   : "بسته"}
-  //               </span>
-  //             </span>
-  //           )}{" "}
-  //           {k > 0 && g > 0 && "و"}{" "}
-  //           {g > 0 && (
-  //             <span>
-  //               <span className="text-orange">{g}</span> گرم
-  //             </span>
-  //           )}{" "}
-  //           {productName} به سبد خرید شما اضافه شد
-  //         </p>
-  //       </div>
-  //     ));
-  // };
 
   return (
     <div className="card bg-transparent relative">
@@ -177,6 +134,8 @@ const Product = ({
               setInputValue={setInputValue}
               step={1}
               label="عدد"
+              product={product}
+              inputValue2={inputValue2}
             />
           </>
         ) : unitCountingId === 2 ? (
@@ -205,17 +164,50 @@ const Product = ({
             />
           </>
         )}
-
-        <button
-          type="button"
-          className="w-full bg-orange h-12 rounded-xl"
-          onClick={() => addToCart(productId)}
-        >
-          افزودن به سبد خرید
-        </button>
       </div>
     </div>
   );
 };
 
 export default Product;
+
+// const addToBasketHandler = (
+//   k,
+//   g,
+//   salePrice,
+//   pathImage,
+//   productId,
+//   productName
+// ) => {
+//   const cartItem = { productId, productName, pathImage, salePrice, k, g };
+
+//   cart.push(cartItem);
+//   localStorage.setItem("cart", JSON.stringify(cart));
+
+//   (k || g) &&
+//     toast.custom((t) => (
+//       <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+//         <p className="text-xl">
+//           {k > 0 && (
+//             <span>
+//               <span className="text-orange">{k}</span>{" "}
+//               <span>
+//                 {unitCountingId === 1
+//                   ? "عدد"
+//                   : unitCountingId === 2
+//                   ? "کیلوگرم"
+//                   : "بسته"}
+//               </span>
+//             </span>
+//           )}{" "}
+//           {k > 0 && g > 0 && "و"}{" "}
+//           {g > 0 && (
+//             <span>
+//               <span className="text-orange">{g}</span> گرم
+//             </span>
+//           )}{" "}
+//           {productName} به سبد خرید شما اضافه شد
+//         </p>
+//       </div>
+//     ));
+// };

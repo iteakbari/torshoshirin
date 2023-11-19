@@ -3,7 +3,7 @@ process.env.Access_Control_Allow_Origin = "http://localhost:3000";
 
 import logout from "@/functions/logout";
 import axios from "axios";
-import { config } from "process";
+import Cookies from "js-cookie";
 
 const https = require("https");
 const agent = new https.Agent({
@@ -27,9 +27,9 @@ app.interceptors.response.use(
     const originalConfig = err.config;
     if (err.response && err.response.status === 401 && !originalConfig._retry) {
       originalConfig._retry = true;
-      const tempToken = localStorage.getItem("temp_token");
-      if (tempToken) {
-        err.response.headers.Authorization = `Bearer ${tempToken}`;
+      const token = Cookies.get("token");
+      if (token) {
+        err.response.headers.Authorization = `Bearer ${token}`;
       } else {
         logout();
       }

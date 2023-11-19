@@ -1,31 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useCart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState();
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const addToCart = (productId) => {
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("cart"));
+    setCartItems(!!data ? data : []);
+  }, []);
+  useEffect(() => {
+    if (cartItems !== undefined) {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+
+    const newTotalPrice = cartItems?.reduce(
+      (total, item) => total + item.price,
+      0
+    );
+    setTotalPrice(newTotalPrice);
+  }, [cartItems]);
+
+  const addToCart = ({
+    productId,
+    pathImage,
+    salePrice,
+    productName,
+    unitCountingId,
+    totalValue,
+  }) => {
     if (!cartItems?.find((item) => item.id === productId))
-      setCartItems([...cartItems, { id: productId, count: 1 }]);
+      setCartItems([
+        ...cartItems,
+        {
+          id: productId,
+          name: productName,
+          img: pathImage,
+          price: salePrice * totalValue,
+          count: unitCountingId === 2 ? 1 : totalValue ? totalValue : 1,
+          weight: unitCountingId === 2 ? totalValue : "",
+        },
+      ]);
     else
       setCartItems(
         cartItems.map((item) => {
-          if (item.id === productId) return { ...item, count: item.count + 1 };
+          if (item.id === productId)
+            return {
+              ...item,
+              price: item.price + salePrice * totalValue,
+              count:
+                unitCountingId === 2 ? item.count + 1 : item.count + totalValue,
+              weight: unitCountingId === 2 && item.weight + totalValue,
+            };
           else return item;
         })
       );
   };
 
   const removeFromCart = (productId) => {
-    setCartItems(
-      cartItems.map((item) => {
-        if (item.id === productId)
-          return { ...item, count: item.count === 0 ? 0 : item.count - 1 };
-        else return 1;
-      })
-    );
+    const filteredCart = cartItems.filter((item) => item.id !== productId);
+    setCartItems(filteredCart);
   };
 
-  return { cartItems, addToCart, removeFromCart };
+  const resetCart = () => {
+    localStorage.removeItem("cart");
+    const data = JSON.parse(localStorage.getItem("cart"));
+    setCartItems(!!data ? data : []);
+  };
+
+  return { cartItems, addToCart, removeFromCart, resetCart, totalPrice };
 };
 
 export default useCart;

@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { checkOtp, getOtp } from "@/services/authServices";
 import ConfrimLogin from "./ConfrimLogin";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+// import { cookies } from "next/headers";
 const RESEND_TIME = 90;
 
 const Login = () => {
@@ -14,7 +16,7 @@ const Login = () => {
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
   const [time, setTime] = useState(0);
   const [error, setError] = useState(false);
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const router = useRouter();
   const {
     data: otpResponse,
@@ -49,17 +51,6 @@ const Login = () => {
     };
   }, [time]);
 
-  useEffect(() => {
-    localStorage.setItem(
-      "temp_token",
-      token ? token : localStorage.getItem("temp_token")
-    );
-
-    // localStorage.getItem("temp_token")
-    //   ? router.push("/")
-    //   : router.push("/sign");
-  }, [token]);
-
   const sendOTPHandler = async (e) => {
     e.preventDefault();
     if (!error) {
@@ -82,22 +73,29 @@ const Login = () => {
     }
   };
 
+  // const cookiesStore = cookies();
+  // console.log(cookiesStore);
+
   const confirmCodeSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await mutateCheckOtp({ phoneNumber, phoneNumberCode });
       if (phoneNumberCode && time) {
+        Cookies.set("token", data.data.jwToken);
         toast.success(data.messageList);
-        console.log(data);
         if (data.success) {
           if (!data.data.firstName) {
             router.push("/profile");
           } else {
             router.push("/");
           }
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         }
 
-        setToken(data.data.jwToken);
+        // setToken(data.data.jwToken);
         console.log(data);
       } else {
         toast.error(data.messageList);

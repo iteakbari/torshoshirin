@@ -8,7 +8,10 @@ export function getOtp({ phoneNumber }) {
 
 export function checkOtp({ phoneNumber, phoneNumberCode }) {
   return http
-    .post("/AccountApi/ConfirmSendedCode", { phoneNumber, phoneNumberCode })
+    .post("/AccountApi/ConfirmSendedCode", {
+      phoneNumber,
+      phoneNumberCode,
+    })
     .then(({ data }) => data.data);
 }
 

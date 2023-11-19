@@ -1,13 +1,13 @@
 "use client";
 
 import useCart from "@/hooks/useCart";
-
-const { createContext } = require("react");
+import { createContext } from "react";
 
 export const ShopContext = createContext({
   cartItems: null,
   addToCart: () => {},
   removeFromCart: () => {},
+  resetCart: () => {},
 });
 
 export const ShopContextProvider = ({ children }) => {

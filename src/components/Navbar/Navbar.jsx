@@ -16,6 +16,10 @@ import { getCategories } from "@/services/categorisService";
 import { createTheme } from "@mui/material/styles";
 import useGetProfile from "@/hooks/useGetProfile";
 import { ShopContext } from "@/context/shopContext";
+import { NumericFormat } from "react-number-format";
+import Logout from "../Logout/Logout";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const theme = createTheme({
   direction: "rtl",
@@ -27,11 +31,16 @@ function Navbar() {
   const [menu, setMenu] = useState();
   const [token, setToken] = useState("");
 
-  const { cartItems } = useContext(ShopContext);
-  console.log(cartItems);
+  const { cartItems, resetCart, removeFromCart, totalPrice } =
+    useContext(ShopContext);
+
+  const itemCount = cartItems?.reduce((prev, current) => {
+    return prev + current.count;
+  }, 0);
 
   useEffect(() => {
-    setToken(localStorage.getItem("temp_token"));
+    const getToken = Cookies.get("token") ? Cookies.get("token") : null;
+    setToken(getToken);
   }, []);
   const { data } = useGetProfile(token);
 
@@ -93,10 +102,16 @@ function Navbar() {
     setState({ ...state, [anchor]: open });
   };
 
+  const router = useRouter();
+
+  const cartHandler = () => {
+    data?.success ? router.push("purchase") : router.push("sign");
+  };
+
   return (
     <AppBar
       position="sticky"
-      className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md"
+      className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md z-40"
       theme={theme}
     >
       <Container maxWidth="xl">
@@ -180,14 +195,13 @@ function Navbar() {
                 تماس با ما
               </Link>
             </li>
-            {!token && (
+            {!token ? (
               <li>
                 <Link href="/sign" className="">
                   ورود/ثبت نام
                 </Link>
               </li>
-            )}
-            {token && (
+            ) : (
               <li>
                 <Link
                   href="#"
@@ -237,35 +251,104 @@ function Navbar() {
                   <MenuItem className="menu-item" onClick={handleClose}>
                     علاقه‌مندی‌ها
                   </MenuItem>
-                  <MenuItem className="menu-item" onClick={handleClose}>
-                    خروج
+                  <MenuItem className="menu-item">
+                    <Logout />
                   </MenuItem>
                 </Menu>
               </li>
             )}
           </Box>
           <Box component="div" className="flex gap-3 items-center">
-            <div className="relative">
+            <div className="relative cartIcon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
                 height="34"
                 viewBox="0 0 40 34"
                 fill="none"
+                className=" cursor-pointer"
               >
                 <path
                   d="M36.5 0.5H3.5C2.70435 0.5 1.94129 0.81607 1.37868 1.37868C0.81607 1.94129 0.5 2.70435 0.5 3.5V30.5C0.5 31.2956 0.81607 32.0587 1.37868 32.6213C1.94129 33.1839 2.70435 33.5 3.5 33.5H36.5C37.2956 33.5 38.0587 33.1839 38.6213 32.6213C39.1839 32.0587 39.5 31.2956 39.5 30.5V3.5C39.5 2.70435 39.1839 1.94129 38.6213 1.37868C38.0587 0.81607 37.2956 0.5 36.5 0.5ZM36.5 3.5V6.5H3.5V3.5H36.5ZM36.5 30.5H3.5V9.5H36.5V30.5ZM29 14C29 16.3869 28.0518 18.6761 26.364 20.364C24.6761 22.0518 22.3869 23 20 23C17.6131 23 15.3239 22.0518 13.636 20.364C11.9482 18.6761 11 16.3869 11 14C11 13.6022 11.158 13.2206 11.4393 12.9393C11.7206 12.658 12.1022 12.5 12.5 12.5C12.8978 12.5 13.2794 12.658 13.5607 12.9393C13.842 13.2206 14 13.6022 14 14C14 15.5913 14.6321 17.1174 15.7574 18.2426C16.8826 19.3679 18.4087 20 20 20C21.5913 20 23.1174 19.3679 24.2426 18.2426C25.3679 17.1174 26 15.5913 26 14C26 13.6022 26.158 13.2206 26.4393 12.9393C26.7206 12.658 27.1022 12.5 27.5 12.5C27.8978 12.5 28.2794 12.658 28.5607 12.9393C28.842 13.2206 29 13.6022 29 14Z"
                   fill="#20422A"
                 />
               </svg>
-              {cartItems.length > 0 && (
+              {itemCount > 0 && (
                 <span className="absolute flex w-6 h-6 rounded-full justify-center items-center -top-2 -right-3 bg-orange">
-                  {cartItems.length}
+                  {itemCount}
                 </span>
               )}
-              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-96">
-                {cartItems.length > 0 ? (
-                  <div></div>
+              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-96 cart">
+                {itemCount > 0 ? (
+                  <div className="grid gap-3">
+                    {cartItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="flex justify-between relative"
+                      >
+                        <span
+                          className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
+                          onClick={() => removeFromCart(item.id)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 text-red-500"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </span>
+                        <div>
+                          <p>{item.name}</p>
+                          <p>{item.price}</p>
+                          <p>{item.weight ? item.weight : item.count}</p>
+                        </div>
+                        <div className="w-24 h-24 rounded-lg overflow-hidden">
+                          <Image
+                            src={item.img}
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="border-t pt-3 flex justify-between items-center">
+                      <p className="text-sm">
+                        مجموع:
+                        <NumericFormat
+                          thousandSeparator=","
+                          displayType="text"
+                          value={totalPrice}
+                        />
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          className="border text-orange py-2 px-3 text-sm rounded-lg"
+                          onClick={() => resetCart()}
+                        >
+                          حذف سبد
+                        </button>
+                        <button
+                          type="button"
+                          className="bg-green text-white text-sm py-2 px-5 rounded-lg"
+                          onClick={() => cartHandler()}
+                        >
+                          پرداخت
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
                   <p className="text-center py-3">کالایی در سبد وجود ندارد</p>
                 )}

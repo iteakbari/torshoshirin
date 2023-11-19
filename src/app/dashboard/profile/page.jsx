@@ -11,6 +11,7 @@ import useStateList from "@/hooks/useStateList";
 import { changeProfile } from "@/services/changeProfile";
 import { QueryCache, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Formik, useFormik } from "formik";
+import Cookies from "js-cookie";
 import Mapir from "mapir-react-component";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
@@ -32,7 +33,7 @@ const Profile = () => {
   const [markerArray, setMarkerArray] = useState([]);
   const [coord, setCoord] = useState([51.42, 35.72]);
   const [userAddress, setUserAddress] = useState("");
-  const token = localStorage.getItem("temp_token");
+  const token = Cookies.get("token");
   const { data } = useGetProfile(token);
   const { data: getSatatesList } = useStateList();
   const [selectedState, setSelectedState] = useState([]);
