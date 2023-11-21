@@ -129,7 +129,7 @@ const CategoryPage = ({ params }) => {
             <Loading />
           ) : sortedProductList.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16 h-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-full">
                 {sortedProductList.map((product) => (
                   <Product
                     key={product.productId}

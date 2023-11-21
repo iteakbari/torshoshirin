@@ -27,6 +27,7 @@ const useCart = () => {
     productName,
     unitCountingId,
     totalValue,
+    variantId,
   }) => {
     if (!cartItems?.find((item) => item.id === productId))
       setCartItems([
@@ -35,9 +36,12 @@ const useCart = () => {
           id: productId,
           name: productName,
           img: pathImage,
-          price: salePrice * totalValue,
+          price: salePrice,
+          totalPrice: salePrice * totalValue,
           count: unitCountingId === 2 ? 1 : totalValue ? totalValue : 1,
-          weight: unitCountingId === 2 ? totalValue : "",
+          weight: unitCountingId === 2 && totalValue,
+          UCI: unitCountingId,
+          variantId: variantId,
         },
       ]);
     else
@@ -46,14 +50,35 @@ const useCart = () => {
           if (item.id === productId)
             return {
               ...item,
-              price: item.price + salePrice * totalValue,
-              count:
-                unitCountingId === 2 ? item.count + 1 : item.count + totalValue,
-              weight: unitCountingId === 2 && item.weight + totalValue,
+              totalPrice: salePrice * totalValue,
+              count: unitCountingId === 2 ? 1 : item.count + 1,
+              weight: unitCountingId === 2 && totalValue,
             };
           else return item;
         })
       );
+  };
+
+  const reduceFromCart = ({
+    productId,
+    pathImage,
+    salePrice,
+    productName,
+    unitCountingId,
+    totalValue,
+  }) => {
+    setCartItems(
+      cartItems.map((item) => {
+        if (item.id === productId)
+          return {
+            ...item,
+            totalPrice: salePrice * totalValue,
+            count: unitCountingId === 2 ? 1 : item.count - 1,
+            weight: unitCountingId === 2 && totalValue,
+          };
+        else return item;
+      })
+    );
   };
 
   const removeFromCart = (productId) => {
@@ -67,7 +92,14 @@ const useCart = () => {
     setCartItems(!!data ? data : []);
   };
 
-  return { cartItems, addToCart, removeFromCart, resetCart, totalPrice };
+  return {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    resetCart,
+    totalPrice,
+    reduceFromCart,
+  };
 };
 
 export default useCart;

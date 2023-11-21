@@ -1,4 +1,5 @@
 import Counter from "@/common/Counter";
+import GramsCounter from "@/common/GramsCounter";
 import { ShopContext } from "@/context/shopContext";
 import useGetProfile from "@/hooks/useGetProfile";
 import useProduct from "@/hooks/useProduct";
@@ -22,13 +23,11 @@ const Product = (product) => {
     categoriId,
   } = product;
   const [favorite, setFavorite] = useState(isFavorite);
-  const [inputValue, setInputValue] = useState(0);
-  const [inputValue2, setInputValue2] = useState(0);
-  const [added, setAdded] = useState(false);
   const { data, mutateAsync: likedProduct } = useMutation({
     mutationFn: likeProduct,
   });
-  const { cartItems, addToCart, removeFromCart } = useContext(ShopContext);
+
+  console.log(product);
 
   const token = Cookies.get("token");
 
@@ -84,7 +83,6 @@ const Product = (product) => {
           type="checkbox"
           name="favorite"
           id=""
-          // value="favorite"
           onChange={favoriteHandler}
           className="hidden"
         />
@@ -125,43 +123,17 @@ const Product = (product) => {
           <span>تومان</span>
         </p>
       </div>
-      <div className="bg-light-gray p-5 mt-3 rounded-xl h-56 flex flex-col justify-end">
+      <div className="bg-light-gray p-5 mt-3 rounded-xl h-36 flex flex-col justify-end">
         {unitCountingId === 1 ? (
           <>
-            <p className="pb-7 text-color-light">تعداد</p>
-            <Counter
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              step={1}
-              label="عدد"
-              product={product}
-              inputValue2={inputValue2}
-            />
+            {/* <p className="pb-7 text-color-light">تعداد</p> */}
+            <Counter step={1} label="عدد" product={product} />
           </>
         ) : unitCountingId === 2 ? (
-          <>
-            <Counter
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              step={1}
-              label="کیلوگرم"
-            />
-            <Counter
-              inputValue={inputValue2}
-              setInputValue={setInputValue2}
-              step={250}
-              label="گرم"
-            />
-          </>
+          <GramsCounter product={product} />
         ) : (
           <>
-            <p className="pb-7 text-color-light">تعداد</p>
-            <Counter
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              step={1}
-              label="بسته"
-            />
+            <Counter step={1} label="بسته" product={product} />
           </>
         )}
       </div>

@@ -53,7 +53,6 @@ const Purchase = () => {
                   className={`flex justify-center items-center gap-2 p-3 tab-item ${
                     tab.id === activeTab ? "active" : ""
                   }`}
-                  tabId={1}
                 >
                   <Image
                     src={tab.img}

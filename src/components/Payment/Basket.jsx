@@ -1,14 +1,43 @@
 import Counter from "@/common/Counter";
+import GramsCounter from "@/common/GramsCounter";
 import { ShopContext } from "@/context/shopContext";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
+import { useMutation } from "@tanstack/react-query";
+import { sendCart } from "@/services/sendCart";
 
 const Basket = ({ setActiveTab }) => {
   const [inputValue, setInputValue] = useState(0);
+  const [basket, setBasket] = useState([]);
+  const { data, mutateAsync: mutateSendCart } = useMutation({
+    mutationFn: sendCart,
+  });
 
   const { cartItems, addToCart, removeFromCart, resetCart } =
     useContext(ShopContext);
+
+  const itemCount = cartItems?.reduce((prev, current) => {
+    return prev + current.totalPrice;
+  }, 0);
+
+  useEffect(() => {
+    setBasket(
+      cartItems?.map((item) => {
+        return {
+          variantId: item.variantId,
+          quantity: item.UCI === 2 ? item.weight : item.count,
+        };
+      })
+    );
+  }, [cartItems]);
+
+  console.log(basket);
+
+  const sendBasketHandler = async () => {
+    const data = await mutateSendCart({});
+    setActiveTab(2);
+  };
 
   return (
     <div>
@@ -25,7 +54,7 @@ const Basket = ({ setActiveTab }) => {
             <p className="font-bold">{item.name}</p>
             <span>
               <NumericFormat
-                value={item.price}
+                value={item.totalPrice}
                 displayType="text"
                 className="font-bold"
                 thousandSeparator=","
@@ -33,18 +62,24 @@ const Basket = ({ setActiveTab }) => {
               <small className="text-sm pr-2">تومان</small>
             </span>
           </div>
-          <div className="pt-4 flex items-center gap-10">
-            <div className="w-64">
-              <Counter
-                inputValue={inputValue ? inputValue : item.count}
-                setInputValue={setInputValue}
-                step={1}
-                label="عدد"
-              />
-            </div>
+          <div className="pt-4 flex items-end gap-10">
+            {item.UCI === 2 ? (
+              <div className="w-72">
+                <GramsCounter weight={item.weight} product={item} />
+              </div>
+            ) : (
+              <div className="w-72">
+                <Counter
+                  countItem={item.count}
+                  step={1}
+                  label={item.UCI === 1 ? "عدد" : "بسته"}
+                  product={item}
+                />
+              </div>
+            )}
             <button
               type="button"
-              className="flex items-center mb-5 gap-1 text-orange"
+              className="flex items-center mb-2 gap-1 text-orange"
               onClick={() => removeFromCart(item.id)}
             >
               <svg
@@ -74,7 +109,7 @@ const Basket = ({ setActiveTab }) => {
             thousandSeparator=","
             displayType="text"
             className="font-bold"
-            value={54100000}
+            value={itemCount}
           />
         </span>
         <small className="text-sm pr-2">تومان</small>
@@ -84,7 +119,7 @@ const Basket = ({ setActiveTab }) => {
         <button
           type="button"
           className="bg-orange text-white w-72 h-12 rounded-md"
-          onClick={() => setActiveTab(2)}
+          onClick={() => sendBasketHandler()}
         >
           ثبت سبد خرید
         </button>
