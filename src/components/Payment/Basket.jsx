@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { useMutation } from "@tanstack/react-query";
 import { sendCart } from "@/services/sendCart";
+import Cookies from "js-cookie";
 
 const Basket = ({ setActiveTab }) => {
   const [inputValue, setInputValue] = useState(0);
@@ -26,16 +27,16 @@ const Basket = ({ setActiveTab }) => {
       cartItems?.map((item) => {
         return {
           variantId: item.variantId,
-          quantity: item.UCI === 2 ? item.weight : item.count,
+          Qty: item.UCI === 2 ? item.weight : item.count,
         };
       })
     );
   }, [cartItems]);
 
-  console.log(basket);
+  const token = Cookies.get("token");
 
   const sendBasketHandler = async () => {
-    const data = await mutateSendCart({});
+    const data = await mutateSendCart({ basket, token });
     setActiveTab(2);
   };
 

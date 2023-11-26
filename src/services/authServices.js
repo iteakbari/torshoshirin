@@ -24,3 +24,13 @@ export function getUserProfile({ queryKey }) {
     })
     .then(({ data }) => data.data);
 }
+
+export function getUserAddressList({ queryKey }) {
+  return http
+    .get("/AccountApi/GetListAddress", {
+      headers: {
+        Authorization: "Bearer " + queryKey[1],
+      },
+    })
+    .then(({ data }) => data.data);
+}

@@ -1,7 +1,11 @@
 import http from "./httpService";
 
-export function sendCart({ variantId, count }) {
+export function sendCart({ basket, token }) {
   return http
-    .post(`/ShoppingCart/AddToCart?VariantId=${variantId}&Quantity=${count}`)
+    .post(`/ShoppingCart/UpdateCartITems`, basket, {
+      headers: {
+        Authorization: `Bearer` + " " + token,
+      },
+    })
     .then(({ data }) => data.data);
 }

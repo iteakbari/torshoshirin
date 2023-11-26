@@ -449,6 +449,7 @@ input:-internal-autofill-selected {
   padding-left: 2.5rem !important;
   padding-right: 2.5rem !important;
   position: relative;
+  height: 80px;
 }
 
 .thumbSwiper .swiper-slide {
@@ -486,9 +487,22 @@ input:-internal-autofill-selected {
   color: var(--text-color);
 }
 
+.thumbSwiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumbSwiper img {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+}
+
 .mainSwiper img {
+  height: 200px;
   max-height: 250px;
-  width: auto;
+  width: 200px;
   max-width: 100%;
 }
 

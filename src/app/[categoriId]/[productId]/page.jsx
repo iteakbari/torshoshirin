@@ -8,6 +8,7 @@ const ProductDetails = ({ params }) => {
   const { data } = useProduct(params.productId);
 
   const product = data?.data?.data?.data;
+
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto">
       <div className="py-16 grid grid-cols-1 lg:grid-cols-4">

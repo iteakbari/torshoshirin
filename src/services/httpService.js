@@ -16,27 +16,25 @@ const app = axios.create({
   httpsAgent: agent,
 });
 
-app.interceptors.request.use(
-  (res) => res,
-  (err) => Promise.reject(err)
-);
+// app.interceptors.request.use(
+//   (res) => res,
+//   (err) => Promise.reject(err)
+// );
 
-app.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    const originalConfig = err.config;
-    if (err.response && err.response.status === 401 && !originalConfig._retry) {
-      originalConfig._retry = true;
-      const token = Cookies.get("token");
-      if (token) {
-        err.response.headers.Authorization = `Bearer ${token}`;
-      } else {
-        logout();
-      }
-    }
-    return Promise.reject(err);
-  }
-);
+// app.interceptors.response.use(
+//   (res) => res,
+//   (err) => {
+//     const originalConfig = err.config;
+//     if (err.response && err.response.status === 401 && !originalConfig._retry) {
+//       originalConfig._retry = true;
+//       const token = Cookies.get("token");
+//       token
+//         ? (err.response.headers.Authorization = `Bearer ${token}`)
+//         : logout();
+//     }
+//     return Promise.reject(err);
+//   }
+// );
 
 const http = {
   get: app.get,

@@ -1,20 +1,17 @@
 "use client";
-
-import CitiesSelectBox from "@/common/CitiesSelectBox";
-import FormikTextInputField from "@/common/FormikTextInputField";
-import StateSelectBox from "@/common/StateSelectBox";
-// import TextFieldInput from "@/common/TextFieldInput";
-// import TextareaFieldInput from "@/common/TextareaFieldInput";
-// import Address from "@/components/Address/Address";
-import useGetProfile from "@/hooks/useGetProfile";
-import useStateList from "@/hooks/useStateList";
-import { changeProfile } from "@/services/changeProfile";
-import { useMutation } from "@tanstack/react-query";
-import { useFormik } from "formik";
-import Cookies from "js-cookie";
 import Mapir from "mapir-react-component";
 import { useEffect, useState } from "react";
+import Address from "../Address/Address";
+import FormikTextInputField from "@/common/FormikTextInputField";
+import CitiesSelectBox from "@/common/CitiesSelectBox";
+import StateSelectBox from "@/common/StateSelectBox";
+import Cookies from "js-cookie";
+import useStateList from "@/hooks/useStateList";
 import * as Yup from "yup";
+import { useFormik } from "formik";
+import Switch from "@/common/Switch";
+import { useMutation } from "@tanstack/react-query";
+import { addressFunc, editAddressFunc } from "@/services/addressService";
 
 const Map = Mapir.setToken({
   transformRequest: (url) => {
@@ -28,37 +25,38 @@ const Map = Mapir.setToken({
     };
   },
 });
-
-const Profile = () => {
+const AddAddress = ({ selectedAddress, setIsOpen }) => {
   const [markerArray, setMarkerArray] = useState([]);
   const [coord, setCoord] = useState([51.42, 35.72]);
   const [userAddress, setUserAddress] = useState("");
   const token = Cookies.get("token");
-  const { data } = useGetProfile(token);
   const { data: getSatatesList } = useStateList();
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [userLocation, setUserLocation] = useState(["51.42047", "35.729054"]);
+  const [reciver, setReciver] = useState(false);
   const [formValues, setFormValues] = useState({
-    id: null,
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    id: 0,
     cityId: null,
     stateId: null,
-    userName: "",
+    receiverMyself: true,
     longY: 0,
     latX: 0,
     address: "",
     codePost: "",
-    phonNumber2: "",
-    cityName: "",
-    stateName: "",
+    phoneNumber: "",
+    mobileNumber: "",
+    fname: "",
+    lname: "",
   });
 
-  const { data: profile, mutateAsync: updateProfile } = useMutation({
-    mutationFn: changeProfile,
+  const { data, mutateAsync: addressFunction } = useMutation({
+    mutationFn: addressFunc,
+  });
+
+  const { mutateAsync: editAddressFunction } = useMutation({
+    mutationFn: editAddressFunc,
   });
 
   const reverseFunction = (map, e) => {
@@ -71,7 +69,7 @@ const Profile = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setUserAddress(data.address));
+      .then((data) => data);
     const array = [];
     array.push(
       <Mapir.Marker
@@ -82,20 +80,10 @@ const Profile = () => {
     setMarkerArray(array);
   };
 
-  const addressHandler = (e) => {
-    setUserAddress(e.target.value);
-  };
-
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
-    lastName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
     codePost: Yup.string().matches(
       /\b(?!(\d)\1{3})[13-9]{4}[1346-9][013-9]{5}\b/,
       "کدپستی نادرست است"
-    ),
-    phonNumber2: Yup.string().matches(
-      /^0\d{2}\d{8}$/,
-      "فرمت شماره تلفن ثابت صحیح نیست"
     ),
     stateName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
     cityName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
@@ -103,17 +91,38 @@ const Profile = () => {
   });
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    codePost: "",
-    phonNumber2: "",
-    stateName: "",
-    cityName: "",
+    id: 0,
+    cityId: null,
+    stateId: null,
+    receiverMyself: true,
+    longY: 0,
+    latX: 0,
     address: "",
+    codePost: "",
+    phoneNumber: "",
+    mobileNumber: "",
+    fname: "",
+    lname: "",
   };
 
+  useEffect(() => {
+    console.log(userAddress);
+    selectedAddress &&
+      setFormValues({
+        id: selectedAddress.id,
+        fname: selectedAddress.fname,
+        lname: selectedAddress.lname,
+        mobileNumber: selectedAddress.mobileNumber,
+        codePost: selectedAddress.codePost,
+        phonNumber: selectedAddress.phonNumber,
+        stateName: selectedAddress.stateName,
+        cityName: selectedAddress.cityName,
+        address: selectedAddress.address,
+      });
+  }, [selectedAddress]);
+
   const submitHandler = async (values) => {
+    console.log(values);
     const stateId = getSatatesList?.data.statesList.find(
       (s) => s.title === formik.values.stateName
     ).id;
@@ -123,45 +132,68 @@ const Profile = () => {
     const latX = parseFloat(userLocation[0]);
     const longY = parseFloat(userLocation[1]);
     const id = data?.data.id;
-    const userName = data?.data.phoneNumber;
+    console.log(values.address);
 
-    try {
-      const data = await updateProfile({
-        ...values,
-        id,
-        stateId,
-        cityId,
-        latX,
-        longY,
-        userName,
-        token,
-      });
-    } catch (error) {
-      console.log(error?.response?.data?.message);
+    if (selectedAddress) {
+      try {
+        const data = await editAddressFunction({
+          id: values.id,
+          cityId,
+          stateId,
+          receiverMyself: !reciver,
+          longY,
+          latX,
+          address: values.address,
+          codePost: values.codePost,
+          phoneNumber: values.phoneNumber,
+          mobileNumber: values.mobileNumber,
+          fname: values.fname,
+          lname: values.lname,
+          token,
+        });
+
+        if (data.success) {
+          setFormValues("");
+          setIsOpen(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const data = await addressFunction({
+          id: 0,
+          cityId,
+          stateId,
+          receiverMyself: !reciver,
+          longY,
+          latX,
+          address: userAddress,
+          codePost: "",
+          phoneNumber: "",
+          mobileNumber: "",
+          fname: "",
+          lname: "",
+          token,
+        });
+
+        if (data.success) {
+          setFormValues("");
+          setIsOpen(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: formValues || initialValues,
+    initialValues: selectedAddress ? formValues : initialValues,
     onSubmit: submitHandler,
     validationSchema,
     validateOnMount: true,
   });
-
-  useEffect(() => {
-    data &&
-      setFormValues({
-        firstName: data.data.firstName ? data.data.firstName : "",
-        lastName: data.data.lastName ? data.data.lastName : "",
-        phoneNumber: data.data.phoneNumber ? data.data.phoneNumber : "",
-        codePost: data.data.codePost ? data.data.codePost : "",
-        phonNumber2: data.data.phonNumber2 ? data.data.phonNumber2 : "",
-        stateName: data.data.stateName ? data.data.stateName : "",
-        cityName: data.data.cityName ? data.data.cityName : "",
-        address: data.data.address ? data.data.address : "",
-      });
-  }, [data]);
 
   useEffect(() => {
     setSelectedState(
@@ -182,62 +214,60 @@ const Profile = () => {
   }, [selectedState]);
 
   useEffect(() => {
-    setTimeout(() => {
-      formik.values.cityName
-        ? setSelectedCity(
-            showCities?.find((city) => city.title === formik.values.cityName)
-          )
-        : "";
-    }, 3000);
-  }, [formik.values.cityName]);
-
-  useEffect(() => {
-    setUserLocation(
-      selectedCity?.location
-        ? selectedCity?.location?.split(",")
-        : ["51.42047", "35.729054"]
-    );
-  }, [selectedCity]);
+    setUserAddress(formik.values.address);
+  }, [formik.values.address]);
 
   useEffect(() => {
     formik.setFieldValue("address", userAddress);
   }, [userAddress]);
 
   return (
-    <>
-      <h3 className="text-xl">تکمیل پروفایل</h3>
-      <form onSubmit={formik.handleSubmit} className="flex flex-wrap gap-10">
-        <FormikTextInputField
-          label="نام"
-          name="firstName"
-          customClass="w-48"
-          formik={formik}
-        />
-        <FormikTextInputField
-          label="نام‌خانواگی"
-          name="lastName"
-          customClass="w-48"
-          formik={formik}
-        />
-        <FormikTextInputField
-          label="شماره موبایل"
-          name="phoneNumber"
-          customClass="w-48"
-          formik={formik}
-          readOnly={true}
-        />
-        <FormikTextInputField
-          label="کدپستی(اختیاری)"
-          name="codePost"
-          customClass="w-48"
-          formik={formik}
-        />
-        <FormikTextInputField
-          label="شماره تلفن ثابت(اختیاری)"
-          name="phonNumber2"
-          customClass="w-48"
-          formik={formik}
-        />
+    <div>
+      <form onSubmit={formik.handleSubmit} className="flex flex-wrap gap-5">
+        <div className="flex gap-2 items-center w-full">
+          <Switch
+            reciver={reciver}
+            setReciver={setReciver}
+            checked={!reciver}
+          />
+          <span className={`${reciver ? "text-gray-500" : "text-gray-900"}`}>
+            گیرنده سفارش خودم هستم
+          </span>
+        </div>
+        {reciver && (
+          <>
+            <FormikTextInputField
+              label="نام گیرنده"
+              name="firstName"
+              customClass="w-48"
+              formik={formik}
+            />
+            <FormikTextInputField
+              label="نام‌خانوادگی گیرنده"
+              name="lastName"
+              customClass="w-48"
+              formik={formik}
+            />
+            <FormikTextInputField
+              label="شماره موبایل گیرنده"
+              name="phoneNumber"
+              customClass="w-48"
+              formik={formik}
+            />
+            <FormikTextInputField
+              label="کدپستی(اختیاری) گیرنده"
+              name="codePost"
+              customClass="w-48"
+              formik={formik}
+            />
+            <FormikTextInputField
+              label="شماره تلفن ثابت(اختیاری) گیرنده"
+              name="phonNumber2"
+              customClass="w-48"
+              formik={formik}
+            />
+          </>
+        )}
         <p className="w-full mt-3">
           *صرفاً استان‌ها و شهرهایی که در محدوده خدمات فروشگاه ما هستند، قابل
           انتخاب‌اند.
@@ -290,8 +320,8 @@ const Profile = () => {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
-export default Profile;
+export default AddAddress;

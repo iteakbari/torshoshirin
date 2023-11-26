@@ -5,7 +5,6 @@ const useGetProfile = (token) => {
   return useQuery({
     queryKey: ["get-profile", token],
     queryFn: getUserProfile,
-    cacheTime: 500,
   });
 };
 
