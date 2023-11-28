@@ -3,6 +3,7 @@ import Counter from "@/common/Counter";
 import OffCanvas from "@/common/OffCanvas";
 import Basket from "@/components/Payment/Basket";
 import Payment from "@/components/Payment/Payment";
+import PaymentSuccess from "@/components/Payment/PaymentSuccess";
 import SelectReciveType from "@/components/Payment/SelectReciveType";
 import { ShopContext } from "@/context/shopContext";
 import Image from "next/image";
@@ -77,8 +78,10 @@ const Purchase = () => {
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
               />
+            ) : activeTab === 3 ? (
+              <Payment setActiveTab={setActiveTab} />
             ) : (
-              <Payment />
+              <PaymentSuccess />
             )}
           </div>
         </div>

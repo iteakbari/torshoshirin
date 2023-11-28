@@ -56,7 +56,6 @@ export function editAddressFunc({
   lname,
   token,
 }) {
-  console.log(address);
   return http
     .post(
       "/AccountApi/EditAddress",
@@ -81,4 +80,38 @@ export function editAddressFunc({
       }
     )
     .then(({ data }) => data.data);
+}
+
+export function deleteAddress({ id, token }) {
+  console.log(id, token);
+  return http.post(
+    `/AccountApi/DeleteAddress?CustomerAddressId=${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export function setAddressOrder({
+  receiverOrderId,
+  customerAddressId,
+  paymentTypeId,
+  token,
+}) {
+  return http.post(
+    "/ShoppingCart/SetAddressOrder",
+    {
+      receiverOrderId,
+      customerAddressId,
+      paymentTypeId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }

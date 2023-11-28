@@ -5,7 +5,6 @@ const useAddressList = (token) => {
   return useQuery({
     queryKey: ["get-addressList", token],
     queryFn: getUserAddressList,
-    cacheTime: 100,
   });
 };
 

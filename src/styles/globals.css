@@ -571,3 +571,20 @@ input:-internal-autofill-selected {
 .input-box.discount input {
   border: 0;
 }
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.disable {
+  pointer-events: none;
+}
+
+.disable rect:first-child {
+  stroke: #ccc !important;
+}
+
+.disable path,
+.disable rect:last-of-type {
+  fill: #ccc !important;
+}

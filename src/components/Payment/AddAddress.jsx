@@ -1,7 +1,6 @@
 "use client";
 import Mapir from "mapir-react-component";
 import { useEffect, useState } from "react";
-import Address from "../Address/Address";
 import FormikTextInputField from "@/common/FormikTextInputField";
 import CitiesSelectBox from "@/common/CitiesSelectBox";
 import StateSelectBox from "@/common/StateSelectBox";
@@ -12,6 +11,7 @@ import { useFormik } from "formik";
 import Switch from "@/common/Switch";
 import { useMutation } from "@tanstack/react-query";
 import { addressFunc, editAddressFunc } from "@/services/addressService";
+import "mapir-react-component/dist/index.css";
 
 const Map = Mapir.setToken({
   transformRequest: (url) => {
@@ -25,16 +25,24 @@ const Map = Mapir.setToken({
     };
   },
 });
-const AddAddress = ({ selectedAddress, setIsOpen }) => {
+const AddAddress = ({
+  selectedAddress,
+  setIsOpen,
+  refetch,
+  getSatatesList,
+}) => {
   const [markerArray, setMarkerArray] = useState([]);
-  const [coord, setCoord] = useState([51.42, 35.72]);
+  // const [coord, setCoord] = useState([51.42, 35.72]);
   const [userAddress, setUserAddress] = useState("");
   const token = Cookies.get("token");
-  const { data: getSatatesList } = useStateList();
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("");
-  const [userLocation, setUserLocation] = useState(["51.42047", "35.729054"]);
+  // const [selectedCity, setSelectedCity] = useState("");
+  const [center, setCenter] = useState([
+    "53.07908436335572",
+    "36.559256856426714",
+  ]);
+
   const [reciver, setReciver] = useState(false);
   const [formValues, setFormValues] = useState({
     id: 0,
@@ -59,7 +67,7 @@ const AddAddress = ({ selectedAddress, setIsOpen }) => {
     mutationFn: editAddressFunc,
   });
 
-  const reverseFunction = (map, e) => {
+  function reverseFunction(map, e) {
     var url = `https://map.ir/reverse/no?lat=${e.lngLat.lat}&lon=${e.lngLat.lng}`;
     fetch(url, {
       headers: {
@@ -69,16 +77,22 @@ const AddAddress = ({ selectedAddress, setIsOpen }) => {
       },
     })
       .then((response) => response.json())
-      .then((data) => data);
+      .then((data) => setUserAddress(data.postal_address));
     const array = [];
     array.push(
       <Mapir.Marker
         coordinates={[e.lngLat.lng, e.lngLat.lat]}
         anchor="bottom"
+        Image={"/assets/img/Location-Bold-32px.svg"}
       />
     );
     setMarkerArray(array);
-  };
+  }
+
+  function onDragHandler(e) {
+    e._moving = true;
+    setCenter([e?.transform?._center?.lng, e?.transform?._center?.lat]);
+  }
 
   const validationSchema = Yup.object({
     codePost: Yup.string().matches(
@@ -129,8 +143,8 @@ const AddAddress = ({ selectedAddress, setIsOpen }) => {
     const cityId = getSatatesList?.data.citiesList.find(
       (c) => c.title === formik.values.cityName
     ).id;
-    const latX = parseFloat(userLocation[0]);
-    const longY = parseFloat(userLocation[1]);
+    const latX = parseFloat(center[0]);
+    const longY = parseFloat(center[1]);
     const id = data?.data.id;
     console.log(values.address);
 
@@ -185,6 +199,12 @@ const AddAddress = ({ selectedAddress, setIsOpen }) => {
         console.log(error);
       }
     }
+
+    formik.setFieldValue("stateName", "");
+    formik.setFieldValue("cityName", "");
+    setUserAddress("");
+
+    refetch();
   };
 
   const formik = useFormik({
@@ -297,13 +317,21 @@ const AddAddress = ({ selectedAddress, setIsOpen }) => {
         <div className="w-48">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
           <Mapir
-            Map={Map}
             className="w-100 h-200px overflow-hidden rounded-xl"
+            minZoom={[13]}
+            scrollZoom={false}
+            hash={true}
+            interactive={true}
+            center={center}
+            Map={Map}
             onClick={reverseFunction}
-            center={[parseFloat(userLocation[0]), parseFloat(userLocation[1])]}
+            userLocation
+            apiKey={
+              "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0"
+            }
+            onDrag={(e) => onDragHandler(e)}
           >
             {markerArray}
-            <Mapir.Marker coordinates={[51.42047, 35.729054]} anchor="bottom" />
           </Mapir>
         </div>
 

@@ -27,6 +27,7 @@ const Counter = ({ step, label, product, countItem }) => {
     productName,
     unitCountingId,
     variantId,
+    stock,
   } = product || "";
 
   const [token, setToken] = useState("");
@@ -78,7 +79,7 @@ const Counter = ({ step, label, product, countItem }) => {
       <button
         type="button"
         onClick={() => incrementHandler()}
-        className={`${count === 0 && "w-full"}`}
+        className={`${count === 0 && "w-full"} ${count >= stock && "disable"}`}
       >
         {count > 0 ? (
           <svg
