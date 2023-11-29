@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Loading from "../loading";
 import Cookies from "js-cookie";
+import ProductLoading from "@/components/Product/ProductLoading";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
@@ -22,7 +23,10 @@ const CategoryPage = ({ params }) => {
     token,
   });
 
-  const productsList = data?.data;
+  const productsList = data?.productlist;
+  const productsCount = data?.totalCount;
+
+  const pageEnd = Math.floor(productsCount / 2);
 
   const sortProductHandler = (e) => {
     setSortBy(e.target.value);
@@ -126,7 +130,9 @@ const CategoryPage = ({ params }) => {
         </div>
         <div className="bg-white p-10 rounded-xl shadow mt-10 ">
           {isLoading ? (
-            <Loading />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-full">
+              <ProductLoading />
+            </div>
           ) : sortedProductList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-full">
@@ -141,19 +147,52 @@ const CategoryPage = ({ params }) => {
 
               <div className="flex justify-center items-center mt-10 gap-1">
                 <button
-                  className="border py-2 px-5"
+                  className={`border py-2 px-5 ${
+                    step === 1 && "pointer-events-none text-light"
+                  }`}
                   onClick={() => setStep((step) => step - 1)}
-                  disabled={step === 1}
                 >
-                  prev
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      stroke={`${step === 1 ? "#e5eec3" : "#1a3622"}`}
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="1.5"
+                      d="M14.43 5.93L20.5 12l-6.07 6.07M3.5 12h16.83"
+                    ></path>
+                  </svg>
                 </button>
                 <span className="inline-block p-2 border">{step}</span>
                 <button
-                  className="border py-2 px-5"
+                  className={`border py-2 px-5 ${
+                    step === pageEnd + 1 && "pointer-events-none text-light"
+                  }`}
                   onClick={() => setStep((step) => step + 1)}
                   disabled={step === 10}
                 >
-                  next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      stroke={`${step === pageEnd + 1 ? "#e5eec3" : "#1a3622"}`}
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-miterlimit="10"
+                      stroke-width="1.5"
+                      d="M9.57 5.93L3.5 12l6.07 6.07M20.5 12H3.67"
+                    ></path>
+                  </svg>
                 </button>
               </div>
             </>

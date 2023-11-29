@@ -588,3 +588,11 @@ input:-internal-autofill-selected {
 .disable rect:last-of-type {
   fill: #ccc !important;
 }
+
+.w-350 {
+  width: 350px;
+}
+
+.h-350 {
+  height: 350px;
+}

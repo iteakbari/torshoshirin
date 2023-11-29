@@ -16,6 +16,7 @@ const GramsCounter = ({ product, weight }) => {
     productName,
     unitCountingId,
     variantId,
+    stock,
   } = product || "";
   const [kilo, setKilo] = useState(0);
   const [grams, setGrams] = useState(0);
@@ -104,7 +105,9 @@ const GramsCounter = ({ product, weight }) => {
           <button
             type="button"
             onClick={() => kiloIncrementHandler()}
-            className={`${kilo === 0 && "w-full"}`}
+            className={`${kilo === 0 && "w-full"} ${
+              kilo >= stock && "disable"
+            }`}
           >
             {kilo > 0 ? (
               <svg
@@ -192,7 +195,11 @@ const GramsCounter = ({ product, weight }) => {
           <div>
             <p className="text-sm text-center">گرم</p>
             <div className="flex justify-between items-center gap-2">
-              <button type="button" onClick={() => gramsIncrementHandler()}>
+              <button
+                type="button"
+                className={`${grams === 0.75 && "pointer-events-none"}`}
+                onClick={() => gramsIncrementHandler()}
+              >
                 <svg
                   width="40"
                   height="40"

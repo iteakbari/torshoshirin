@@ -1,13 +1,20 @@
-import { getCategories } from "@/services/categorisService";
+"use client";
+import CategoriesListLoading from "./CategorisListLoading";
 import Category from "./Category";
+import useCategories from "@/hooks/useCategories";
 
-const CategoriesList = async () => {
-  const { data: categoris } = await getCategories();
+const CategoriesList = () => {
+  const { data, isLoading } = useCategories();
+
   return (
     <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4">
-      {categoris.map((category) => (
-        <Category key={category.id} category={category} />
-      ))}
+      {isLoading ? (
+        <CategoriesListLoading />
+      ) : (
+        data?.data.map((category) => (
+          <Category key={category.id} category={category} />
+        ))
+      )}
     </div>
   );
 };

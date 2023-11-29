@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 const PaymentSuccess = () => {
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-12">
       <div className="w-3/6">
         <p className="flex gap-2 items-end">
           <svg
@@ -31,8 +33,26 @@ const PaymentSuccess = () => {
           <p className="font-bold mb-3">وضعیت سفارش:</p>
           <p>درحال آماده‌سازی در فروشگاه</p>
         </div>
+
+        <div className="border-4 border-light rounded-lg p-3 my-5">
+          <p className="py-5 text-orange flex gap-5">
+            <span>پشتیبانی فروشگاه</span>
+            <Link href={`tel:09112274967`}>09112274967</Link>
+          </p>
+          <p className="py-5 border-t-4 border-b-4 border-light flex gap-5">
+            <span>ارسال به آدرس :</span>
+            <span>ساری - خ سلمان فارسی ..</span>
+          </p>
+          <p className="py-5 flex gap-5">
+            <span>روش پرداخت :</span>
+            <span>پرداخت در محل</span>
+          </p>
+        </div>
       </div>
-      <div className="w-2/6"></div>
+      <div className="w-2/6">
+        <p className="mb-5">سبد خرید</p>
+        <div className="border-4 border-light-green rounded-lg"></div>
+      </div>
     </div>
   );
 };

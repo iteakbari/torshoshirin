@@ -169,7 +169,7 @@ function Navbar() {
                 }}
               >
                 {menu &&
-                  menu.map((m) => (
+                  menu?.map((m) => (
                     <MenuItem
                       className="menu-item"
                       key={m.id}
@@ -307,7 +307,7 @@ function Navbar() {
                         </span>
                         <div>
                           <p>{item.name}</p>
-                          <p>{item.price}</p>
+                          <p>{item.totalPrice}</p>
                           <p>{item.weight ? item.weight : item.count}</p>
                         </div>
                         <div className="w-24 h-24 rounded-lg overflow-hidden">

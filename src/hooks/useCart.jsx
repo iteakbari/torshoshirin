@@ -14,7 +14,7 @@ const useCart = () => {
     }
 
     const newTotalPrice = cartItems?.reduce(
-      (total, item) => total + item.price,
+      (total, item) => total + item.totalPrice,
       0
     );
     setTotalPrice(newTotalPrice);

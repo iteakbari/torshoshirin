@@ -8,7 +8,7 @@ export function getProductsList({ queryKey }) {
       { categoryId, pageSize, step },
       { headers: { Authorization: `Bearer ${token}` } }
     )
-    .then(({ data }) => data.data);
+    .then(({ data }) => data.data.data);
 }
 
 export function getProduct({ queryKey }) {

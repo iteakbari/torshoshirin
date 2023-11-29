@@ -5,5 +5,5 @@ export function showItemsCart({ queryKey }) {
     .get("/ShoppingCart/ShowItemsCart", {
       headers: { Authorization: `Bearer ${queryKey[1]}` },
     })
-    .then(({ data }) => data.data.data);
+    .then(({ data }) => data);
 }

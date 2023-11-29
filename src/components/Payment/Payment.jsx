@@ -22,6 +22,8 @@ const Payment = ({ setActiveTab }) => {
     mutationFn: setPaymentTypeOrder,
   });
 
+  console.log(showCartItems);
+
   const discountHandler = async (e) => {
     e.preventDefault();
     const data = await getDiscountFunc({
@@ -41,7 +43,9 @@ const Payment = ({ setActiveTab }) => {
       token,
     });
 
-    setActiveTab(4);
+    if (data?.data?.success) {
+      setActiveTab(4);
+    }
   };
 
   return (

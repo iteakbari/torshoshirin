@@ -27,8 +27,6 @@ const Product = (product) => {
     mutationFn: likeProduct,
   });
 
-  console.log(product);
-
   const token = Cookies.get("token");
 
   const favoriteHandler = async () => {
