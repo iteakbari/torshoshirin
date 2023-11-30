@@ -22,8 +22,6 @@ const Payment = ({ setActiveTab }) => {
     mutationFn: setPaymentTypeOrder,
   });
 
-  console.log(showCartItems);
-
   const discountHandler = async (e) => {
     e.preventDefault();
     const data = await getDiscountFunc({
@@ -39,7 +37,7 @@ const Payment = ({ setActiveTab }) => {
     const data = await setPaymentTypeOrderFunc({
       receiverOrderId: 0,
       customerAddressId: 0,
-      paymentTypeId: paymentType,
+      paymentTypeId: +paymentType,
       token,
     });
 
@@ -101,7 +99,7 @@ const Payment = ({ setActiveTab }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.cartTotal}
+                  value={showCartItems?.data?.data?.cartTotal}
                 />
                 <small className="text-xs pr-1">تومان</small>
               </span>
@@ -114,7 +112,7 @@ const Payment = ({ setActiveTab }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.cartShippingCostTotal}
+                  value={showCartItems?.data?.data?.cartShippingCostTotal}
                 />
                 <small className="text-xs pr-1">تومان</small>
               </span>
@@ -127,7 +125,7 @@ const Payment = ({ setActiveTab }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.cartDiscountTotal}
+                  value={showCartItems?.data?.data?.cartDiscountTotal}
                 />
                 <small className="text-xs pr-1">تومان</small>
               </span>
@@ -154,9 +152,9 @@ const Payment = ({ setActiveTab }) => {
                   thousandSeparator=","
                   displayType="text"
                   value={
-                    showCartItems?.cartTotal +
-                    showCartItems?.cartShippingCostTotal -
-                    showCartItems?.cartDiscountTotal
+                    showCartItems?.data?.data?.cartTotal +
+                    showCartItems?.data?.data?.cartShippingCostTotal -
+                    showCartItems?.data?.data?.cartDiscountTotal
                   }
                 />
                 <small className="text-xs pr-1">تومان</small>
