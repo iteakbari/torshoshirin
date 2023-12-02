@@ -9,15 +9,12 @@ import { Drawer } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "../SearchBar/SearchBar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { getCategories } from "@/services/categorisService";
 
 import { createTheme } from "@mui/material/styles";
 import useGetProfile from "@/hooks/useGetProfile";
 import { ShopContext } from "@/context/shopContext";
 import { NumericFormat } from "react-number-format";
-import Logout from "../Logout/Logout";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
@@ -26,8 +23,6 @@ const theme = createTheme({
 });
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
   const [menu, setMenu] = useState();
   const [token, setToken] = useState("");
 
@@ -50,57 +45,12 @@ function Navbar() {
     bottom: false,
     right: false,
   });
-  const [anchorEl, setAnchorEl] = useState();
-  const [openCategory, setOpenCategory] = useState(false);
-  const [openMyPage, setOpenMyPage] = useState(false);
-
-  const handleClickCategory = (event) => {
-    setOpenCategory(true);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClickMyPage = (event) => {
-    setOpenMyPage(true);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setOpenCategory(false);
-    setOpenMyPage(false);
-    // برای منوهای دیگر نیز همین الگو را ادامه دهید
-  };
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   useEffect(() => {
     getCategories().then(({ data }) => {
       setMenu(data);
     });
   }, []);
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-  };
 
   const router = useRouter();
 
@@ -137,10 +87,6 @@ function Navbar() {
                 href=""
                 className="flex items-center gap-2"
                 id="category-button"
-                aria-controls={open ? "category-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClickCategory}
               >
                 دسته بندی
                 <svg
@@ -158,27 +104,6 @@ function Navbar() {
                   />
                 </svg>
               </Link>
-              <Menu
-                id="category-menu"
-                anchorEl={anchorEl}
-                open={openCategory}
-                onClose={handleClose}
-                dir="rtl"
-                MenuListProps={{
-                  "aria-labelledby": "category-button",
-                }}
-              >
-                {menu &&
-                  menu?.map((m) => (
-                    <MenuItem
-                      className="menu-item"
-                      key={m.id}
-                      onClick={handleClose}
-                    >
-                      {m.name}
-                    </MenuItem>
-                  ))}
-              </Menu>
             </li>
             <li>
               <Link href="/blog" className="">
@@ -203,15 +128,7 @@ function Navbar() {
               </li>
             ) : (
               <li>
-                <Link
-                  href="#"
-                  id="my-page"
-                  className="flex items-center gap-2"
-                  aria-controls={open ? "my-page-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClickMyPage}
-                >
+                <Link href="#" id="my-page" className="flex items-center gap-2">
                   صفحه من
                   <svg
                     width="16"
@@ -228,33 +145,6 @@ function Navbar() {
                     />
                   </svg>
                 </Link>
-                <Menu
-                  id="my-page-menu"
-                  anchorEl={anchorEl}
-                  open={openMyPage}
-                  onClose={handleClose}
-                  dir="rtl"
-                  MenuListProps={{
-                    "aria-labelledby": "my-page",
-                  }}
-                >
-                  <MenuItem className="menu-item" onClick={handleClose}>
-                    <Link href="dashboard">داشبورد</Link>
-                  </MenuItem>
-                  <MenuItem className="menu-item" onClick={handleClose}>
-                    سفارش‌ها
-                  </MenuItem>
-                  <MenuItem className="menu-item" onClick={handleClose}>
-                    آدرس‌های من
-                  </MenuItem>
-
-                  <MenuItem className="menu-item" onClick={handleClose}>
-                    علاقه‌مندی‌ها
-                  </MenuItem>
-                  <MenuItem className="menu-item">
-                    <Logout />
-                  </MenuItem>
-                </Menu>
               </li>
             )}
           </Box>
@@ -372,10 +262,7 @@ function Navbar() {
               </svg>
             </button>
 
-            <button
-              className="xs:flex lg:hidden"
-              onClick={toggleDrawer("right", true)}
-            >
+            <button className="xs:flex lg:hidden">
               <svg
                 width="21"
                 height="8"
@@ -387,19 +274,6 @@ function Navbar() {
                 <rect y="6" width="21" height="2" rx="1" fill="#20422A" />
               </svg>
             </button>
-            <Drawer
-              anchor="right"
-              open={state["right"]}
-              onClose={toggleDrawer("right", false)}
-            >
-              <ul className="w-28 bg-red-500">
-                <li>first link</li>
-                <li>first link</li>
-                <li>first link</li>
-                <li>first link</li>
-                <li>first link</li>
-              </ul>
-            </Drawer>
           </Box>
         </Toolbar>
       </Container>

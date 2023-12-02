@@ -8,7 +8,8 @@ export default function Logout() {
 
   function handleLogout() {
     Cookies.remove("token");
-    if (window && window.location) window.location.reload();
+    if (typeof window !== "undefined" && window.location)
+      window.location.reload();
     setTimeout(() => {
       router.push("/");
     }, 100);

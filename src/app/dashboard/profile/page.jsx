@@ -62,7 +62,7 @@ const Profile = () => {
   });
 
   const reverseFunction = (map, e) => {
-    var url = `https://map.ir/reverse/no?lat=${e.lngLat.lat}&lon=${e.lngLat.lng}`;
+    var url = `https://map.ir/reverse/no?lat=${e?.lngLat?.lat}&lon=${e?.lngLat?.lng}`;
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
@@ -71,11 +71,11 @@ const Profile = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setUserAddress(data.address));
+      .then((data) => setUserAddress(data?.address));
     const array = [];
     array.push(
       <Mapir.Marker
-        coordinates={[e.lngLat.lng, e.lngLat.lat]}
+        coordinates={[e?.lngLat?.lng, e?.lngLat?.lat]}
         anchor="bottom"
       />
     );

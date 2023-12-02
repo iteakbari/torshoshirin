@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [path, setPath] = useState("");
   const router = useRouter();
-  const path = window.location.pathname;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPath(window?.location?.pathname);
+    }
+  }, [path]);
 
   useEffect(() => {
     Cookies.get("token") && setIsAuthenticated(true);

@@ -91,7 +91,7 @@ const Login = () => {
           }
 
           setTimeout(() => {
-            window.location.reload();
+            if (typeof window !== "undefined") window.location.reload();
           }, 100);
         }
 
