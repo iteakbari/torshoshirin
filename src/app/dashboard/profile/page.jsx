@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import CitiesSelectBox from "@/common/CitiesSelectBox";
 import FormikTextInputField from "@/common/FormikTextInputField";
 import StateSelectBox from "@/common/StateSelectBox";
@@ -12,22 +13,13 @@ import { changeProfile } from "@/services/changeProfile";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import Mapir from "mapir-react-component";
+import Map from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 
-const Map = Mapir.setToken({
-  transformRequest: (url) => {
-    return {
-      url: url,
-      headers: {
-        "x-api-key":
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA", //Mapir access token
-        "Mapir-SDK": "reactjs",
-      },
-    };
-  },
-});
+const apiKey =
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA";
 
 const Profile = () => {
   const [markerArray, setMarkerArray] = useState([]);
@@ -60,27 +52,6 @@ const Profile = () => {
   const { data: profile, mutateAsync: updateProfile } = useMutation({
     mutationFn: changeProfile,
   });
-
-  const reverseFunction = (map, e) => {
-    var url = `https://map.ir/reverse/no?lat=${e?.lngLat?.lat}&lon=${e?.lngLat?.lng}`;
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key":
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setUserAddress(data?.address));
-    const array = [];
-    array.push(
-      <Mapir.Marker
-        coordinates={[e?.lngLat?.lng, e?.lngLat?.lat]}
-        anchor="bottom"
-      />
-    );
-    setMarkerArray(array);
-  };
 
   const addressHandler = (e) => {
     setUserAddress(e.target.value);
@@ -266,15 +237,23 @@ const Profile = () => {
         </div>
         <div className="w-48">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
-          <Mapir
-            Map={Map}
-            className="w-100 h-200px overflow-hidden rounded-xl"
-            onClick={reverseFunction}
-            center={[parseFloat(userLocation[0]), parseFloat(userLocation[1])]}
-          >
-            {markerArray}
-            <Mapir.Marker coordinates={[51.42047, 35.729054]} anchor="bottom" />
-          </Mapir>
+          <Map
+            initialViewState={{
+              longitude: 51.375433528216654,
+              latitude: 35.73356434056531,
+              zoom: 11,
+            }}
+            style={{ height: 200 }}
+            mapStyle="https://map.ir/vector/styles/main/mapir-xyz-style.json"
+            transformRequest={(url) => {
+              return {
+                url,
+                headers: {
+                  "x-api-key": apiKey,
+                },
+              };
+            }}
+          />
         </div>
 
         <div className="flex mt-5 justify-center w-100">

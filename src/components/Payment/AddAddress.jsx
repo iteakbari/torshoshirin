@@ -1,5 +1,6 @@
 "use client";
-import Mapir from "mapir-react-component";
+import Map from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState } from "react";
 import FormikTextInputField from "@/common/FormikTextInputField";
 import CitiesSelectBox from "@/common/CitiesSelectBox";
@@ -11,20 +12,7 @@ import { useFormik } from "formik";
 import Switch from "@/common/Switch";
 import { useMutation } from "@tanstack/react-query";
 import { addressFunc, editAddressFunc } from "@/services/addressService";
-import "mapir-react-component/dist/index.css";
 
-const Map = Mapir.setToken({
-  transformRequest: (url) => {
-    return {
-      url: url,
-      headers: {
-        "x-api-key":
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA", //Mapir access token
-        "Mapir-SDK": "reactjs",
-      },
-    };
-  },
-});
 const AddAddress = ({
   selectedAddress,
   setIsOpen,
@@ -66,28 +54,6 @@ const AddAddress = ({
   const { mutateAsync: editAddressFunction } = useMutation({
     mutationFn: editAddressFunc,
   });
-
-  function reverseFunction(map, e) {
-    var url = `https://map.ir/reverse/no?lat=${e.lngLat.lat}&lon=${e.lngLat.lng}`;
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key":
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setUserAddress(data.postal_address));
-    const array = [];
-    array.push(
-      <Mapir.Marker
-        coordinates={[e.lngLat.lng, e.lngLat.lat]}
-        anchor="bottom"
-        Image={"/assets/img/Location-Bold-32px.svg"}
-      />
-    );
-    setMarkerArray(array);
-  }
 
   function onDragHandler(e) {
     e._moving = true;
@@ -316,23 +282,23 @@ const AddAddress = ({
         </div>
         <div className="w-48">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
-          <Mapir
-            className="w-100 h-200px overflow-hidden rounded-xl"
-            minZoom={[13]}
-            scrollZoom={false}
-            hash={true}
-            interactive={true}
-            center={center}
-            Map={Map}
-            onClick={reverseFunction}
-            userLocation
-            apiKey={
-              "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0"
-            }
-            onDrag={(e) => onDragHandler(e)}
-          >
-            {markerArray}
-          </Mapir>
+          <Map
+            initialViewState={{
+              longitude: 51.375433528216654,
+              latitude: 35.73356434056531,
+              zoom: 11,
+            }}
+            style={{ height: 200 }}
+            mapStyle="https://map.ir/vector/styles/main/mapir-xyz-style.json"
+            transformRequest={(url) => {
+              return {
+                url,
+                headers: {
+                  "x-api-key": apiKey,
+                },
+              };
+            }}
+          />
         </div>
 
         <div className="flex mt-5 justify-center w-100">
