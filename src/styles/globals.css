@@ -105,7 +105,7 @@ body {
   border-bottom: 4px solid var(--diveder-color);
 }
 
-@media (min-width:900px) {
+@media (min-width:760px) {
   .border-dir {
     border-bottom: 0;
     border-left: 4px solid var(--diveder-color);
@@ -635,4 +635,51 @@ input:-internal-autofill-selected {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.loader {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 32px 0 #fff, -32px 0 #fff;
+  position: relative;
+  animation: flash 0.5s ease-out infinite alternate;
+}
+
+@keyframes flash {
+  0% {
+    background-color: #FFF2;
+    box-shadow: 32px 0 #FFF2, -32px 0 #FFF;
+  }
+
+  50% {
+    background-color: #FFF;
+    box-shadow: 32px 0 #FFF2, -32px 0 #FFF2;
+  }
+
+  100% {
+    background-color: #FFF2;
+    box-shadow: 32px 0 #FFF, -32px 0 #FFF2;
+  }
+}
+
+.min-w-200 {
+  min-width: 200px;
+}
+
+@media (min-width:767px) {
+  .leading-md {
+    line-height: 1.5 !important;
+  }
+}
+
+.intro-swiper {
+  background-color: transparent;
+}
+
+@media (min-width:650px) {
+  .intro-swiper {
+    background-color: var(--light-green);
+  }
 }
