@@ -1,4 +1,4 @@
-import "./../Styles/OffCanvas.css";
+import "./../styles/OffCanvas.css";
 const OffCanvas = ({
   children,
   origin,
