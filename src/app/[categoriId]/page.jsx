@@ -207,7 +207,9 @@ const CategoryPage = ({ params }) => {
                 height={300}
                 alt="basket image"
               />
-              <Link href="/">بازگشت</Link>
+              <Link href="/" className="mt-10">
+                بازگشت
+              </Link>
             </div>
           )}
         </div>

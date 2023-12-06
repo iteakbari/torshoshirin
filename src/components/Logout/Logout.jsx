@@ -17,7 +17,9 @@ export default function Logout() {
 
   return (
     <>
-      <span onClick={handleLogout}>خروج</span>
+      <span onClick={handleLogout} className="inline-block w-full">
+        خروج
+      </span>
     </>
   );
 }

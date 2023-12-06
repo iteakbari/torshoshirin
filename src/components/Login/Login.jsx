@@ -58,7 +58,7 @@ const Login = () => {
         const data = await mutateGetOtp({ phoneNumber });
         if (data.success) {
           toast.success(data.messageList);
-          console.log(data);
+          toast.success(data.params1, { duration: 7000 });
           setStep(2);
           setTime(RESEND_TIME);
           setPhoneNumberCode("");
@@ -85,7 +85,7 @@ const Login = () => {
         toast.success(data.messageList);
         if (data.success) {
           if (!data.data.firstName) {
-            router.push("/profile");
+            router.push("/dashboard/profile");
           } else {
             router.push("/");
           }

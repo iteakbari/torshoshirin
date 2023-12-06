@@ -596,3 +596,43 @@ input:-internal-autofill-selected {
 .h-350 {
   height: 350px;
 }
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  width: 200px;
+  height: max-content;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.dropdown-menu a,
+.dropdown-menu span {
+  font-size: 17px;
+  color: var(--text-color);
+  padding: 5px 10px;
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu span:hover {
+  background-color: var(--light-gray);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

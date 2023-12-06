@@ -1,6 +1,26 @@
+"use client";
+import Cookies from "js-cookie";
 import Link from "next/link";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 const SideBar = () => {
+  const path = usePathname();
+  const router = useRouter();
+
+  function handleLogout() {
+    Cookies.remove("token");
+    if (typeof window !== "undefined" && window.location)
+      window.location.reload();
+    setTimeout(() => {
+      router.push("/");
+    }, 100);
+  }
+
   return (
     <aside className="col-span-2 bg-white p-10 rounded-2xl shadow-md h-700px flex flex-col">
       <p className="text-lg font-bold">خسرو اکبری لالایی</p>
@@ -33,8 +53,10 @@ const SideBar = () => {
       <ul className="flex flex-col gap-2 flex-1 pt-3">
         <li>
           <Link
-            href=""
-            className="flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all"
+            href="/dashboard/orders"
+            className={`flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all ${
+              path === "/dashboard/orders" ? "text-orange" : ""
+            }`}
           >
             سفارش‌ها
             <svg
@@ -48,15 +70,17 @@ const SideBar = () => {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M20.3267 1.43351C17.152 0.688829 13.848 0.68883 10.6733 1.43351C6.08868 2.50893 2.50893 6.08867 1.43351 10.6733C0.688829 13.848 0.688829 17.152 1.43351 20.3267C2.50893 24.9113 6.08868 28.4911 10.6733 29.5665C13.848 30.3112 17.152 30.3112 20.3267 29.5665C24.9113 28.4911 28.4911 24.9113 29.5665 20.3267C30.3112 17.152 30.3112 13.848 29.5665 10.6733C28.4911 6.08868 24.9113 2.50893 20.3267 1.43351ZM13.5909 9.63117C13.8252 9.86548 13.8252 10.2454 13.5909 10.4797L10.4797 13.5909C10.2454 13.8252 9.86548 13.8252 9.63117 13.5909L8.07558 12.0353C7.84126 11.801 7.84126 11.4211 8.07558 11.1868C8.30989 10.9524 8.68979 10.9524 8.92411 11.1868L10.0554 12.3181L12.7423 9.63117C12.9767 9.39685 13.3566 9.39685 13.5909 9.63117ZM16.4556 12.3888C16.4556 12.0574 16.7242 11.7888 17.0556 11.7888H22.5002C22.8315 11.7888 23.1002 12.0574 23.1002 12.3888C23.1002 12.7202 22.8315 12.9888 22.5002 12.9888H17.0556C16.7242 12.9888 16.4556 12.7202 16.4556 12.3888ZM13.5909 17.4091C13.8252 17.6434 13.8252 18.0233 13.5909 18.2577L10.4797 21.3688C10.2454 21.6031 9.86548 21.6031 9.63117 21.3688L8.07558 19.8132C7.84126 19.5789 7.84126 19.199 8.07558 18.9647C8.30989 18.7304 8.68979 18.7304 8.92411 18.9647L10.0554 20.096L12.7423 17.4091C12.9767 17.1748 13.3566 17.1748 13.5909 17.4091ZM16.4556 20.1668C16.4556 19.8354 16.7242 19.5668 17.0556 19.5668H22.5002C22.8315 19.5668 23.1002 19.8354 23.1002 20.1668C23.1002 20.4981 22.8315 20.7668 22.5002 20.7668H17.0556C16.7242 20.7668 16.4556 20.4981 16.4556 20.1668Z"
-                fill="#20422A"
+                fill={`${path === "/dashboard/orders" ? "#db7167" : "#20422A"}`}
               />
             </svg>
           </Link>
         </li>
         <li>
           <Link
-            href=""
-            className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
+            href="/dashboard/myAddress"
+            className={`flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all ${
+              path === "/dashboard/myAddress" ? "text-orange" : ""
+            }`}
           >
             آدرس‌های من
             <svg
@@ -70,15 +94,19 @@ const SideBar = () => {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M13.5 0.875C6.29763 0.875 0.5 6.89225 0.5 14.2632C0.5 17.9225 1.92722 21.8427 4.21064 24.8551C6.48882 27.8606 9.75335 30.125 13.5 30.125C17.2466 30.125 20.5112 27.8606 22.7894 24.8551C25.0728 21.8427 26.5 17.9225 26.5 14.2632C26.5 6.89225 20.7024 0.875 13.5 0.875ZM8.89429 13.25C8.89429 10.6819 10.9563 8.6 13.5 8.6C16.0437 8.6 18.1057 10.6819 18.1057 13.25C18.1057 15.8181 16.0437 17.9 13.5 17.9C10.9563 17.9 8.89429 15.8181 8.89429 13.25ZM13.5 10.4C11.941 10.4 10.6771 11.676 10.6771 13.25C10.6771 14.824 11.941 16.1 13.5 16.1C15.059 16.1 16.3229 14.824 16.3229 13.25C16.3229 11.676 15.059 10.4 13.5 10.4Z"
-                fill="#20422A"
+                fill={`${
+                  path === "/dashboard/myAddress" ? "#db7167" : "#20422A"
+                }`}
               />
             </svg>
           </Link>
         </li>
         <li>
           <Link
-            href=""
-            className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
+            href="/dashboard/lastSeen"
+            className={`flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all ${
+              path === "/dashboard/lastSeen" ? "text-orange" : ""
+            }`}
           >
             بازدید‌های اخیر
             <svg
@@ -92,15 +120,19 @@ const SideBar = () => {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M10.6734 1.43351C13.8481 0.688829 17.152 0.688829 20.3267 1.43351C24.9114 2.50893 28.4912 6.08869 29.5666 10.6734C30.3113 13.8481 30.3113 17.152 29.5666 20.3267C28.4912 24.9114 24.9114 28.4912 20.3267 29.5666C17.152 30.3113 13.8481 30.3113 10.6734 29.5666C6.08869 28.4912 2.50894 24.9114 1.43351 20.3267C0.688829 17.152 0.688829 13.8481 1.43351 10.6734C2.50894 6.08869 6.08869 2.50893 10.6734 1.43351ZM15.9482 10.8332C15.9482 10.2947 15.5117 9.85822 14.9732 9.85822C14.4348 9.85822 13.9982 10.2947 13.9982 10.8332V16.5794C13.9982 16.9128 14.1686 17.2231 14.4498 17.402L18.8655 20.2116C19.3199 20.5007 19.9225 20.3667 20.2115 19.9124C20.5006 19.4581 20.3666 18.8554 19.9123 18.5664L15.9482 16.0442V10.8332Z"
-                fill="#20422A"
+                fill={`${
+                  path === "/dashboard/lastSeen" ? "#db7167" : "#20422A"
+                }`}
               />
             </svg>
           </Link>
         </li>
         <li>
           <Link
-            href=""
-            className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
+            href="/dashboard/favorites"
+            className={`flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all ${
+              path === "/dashboard/favorites" ? "text-orange" : ""
+            }`}
           >
             لیست علاقه‌مندی‌ها
             <svg
@@ -112,15 +144,18 @@ const SideBar = () => {
             >
               <path
                 d="M20.1427 4.00453C18.4089 -0.168176 12.5911 -0.16818 10.8573 4.00453L9.94849 6.19182C9.58662 7.06274 8.79808 7.65495 7.89678 7.757L5.36063 8.04416C1.07338 8.5296 -0.637388 13.8667 2.44523 16.8469L4.59856 18.9288C5.23473 19.5438 5.52077 20.4562 5.34534 21.3435L4.82544 23.9731C3.96224 28.3391 8.66687 31.7471 12.4578 29.3134L14.1586 28.2214C14.9795 27.6945 16.0205 27.6945 16.8414 28.2214L18.5422 29.3134C22.3331 31.7471 27.0378 28.3391 26.1746 23.9731L25.6547 21.3435C25.4792 20.4562 25.7653 19.5438 26.4014 18.9288L28.5548 16.8469C31.6374 13.8667 29.9266 8.5296 25.6394 8.04416L23.1032 7.757C22.2019 7.65495 21.4134 7.06274 21.0515 6.19182L20.1427 4.00453Z"
-                fill="#20422A"
+                fill={`${
+                  path === "/dashboard/favorites" ? "#db7167" : "#20422A"
+                }`}
               />
             </svg>
           </Link>
         </li>
         <li className="mt-auto">
           <Link
-            href=""
+            href="#"
             className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
+            onClick={handleLogout}
           >
             خروج از حساب کاربری
             <svg

@@ -177,7 +177,10 @@ const Profile = () => {
   return (
     <>
       <h3 className="text-xl">تکمیل پروفایل</h3>
-      <form onSubmit={formik.handleSubmit} className="flex flex-wrap gap-10">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-wrap gap-10 mt-10"
+      >
         <FormikTextInputField
           label="نام"
           name="firstName"
