@@ -1,5 +1,4 @@
 import TextFieldInput from "@/common/TextFieldInput";
-import { CircularProgress } from "@mui/material";
 
 const GetMobileNumber = ({
   phoneNumber,
@@ -25,7 +24,7 @@ const GetMobileNumber = ({
         variant="contained"
         className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-20"
       >
-        {isLoading ? <CircularProgress color="inherit" /> : "ارسال کد"}
+        {isLoading ? <span class="loader"></span> : "ارسال کد"}
       </button>
     </form>
   );

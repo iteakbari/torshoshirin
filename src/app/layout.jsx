@@ -9,7 +9,6 @@ import Providers from "./Providers";
 import { ShopContextProvider } from "@/context/shopContext";
 import AuthProvider from "@/context/AuthContext";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata = {
   title: "فروشگاه ترش و شیرین",
@@ -45,7 +44,6 @@ export default function RootLayout({ children }) {
 
       <body className={`min-h-screen ${iransans.className}`}>
         <Providers>
-          <ReactQueryDevtools initialIsOpen={false} />
           <AuthProvider>
             <ShopContextProvider>
               <Toaster />

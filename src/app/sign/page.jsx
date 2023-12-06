@@ -2,14 +2,13 @@
 
 import Login from "@/components/Login/Login";
 import SwiperSlider from "@/components/Swiper/SwiperSlider";
-import { Grid } from "@mui/material";
 import Image from "next/image";
 
 const Sign = () => {
   return (
     <div className="lg:px-32 py-20">
-      <Grid container spacing={2}>
-        <Grid item md={6}>
+      <div className="flex">
+        <div className="w-3/6">
           <Image
             src="/assets/img/logo.png"
             width={270}
@@ -18,11 +17,11 @@ const Sign = () => {
           />
           <h3 className="text-3xl font-bold py-10">خرید آسان و مطمئن</h3>
           <SwiperSlider />
-        </Grid>
-        <Grid item md={5}>
+        </div>
+        <div className="w-3/6">
           <Login />
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     </div>
   );
 };

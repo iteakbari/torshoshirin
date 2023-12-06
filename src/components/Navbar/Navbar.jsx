@@ -1,31 +1,22 @@
 "use client";
 
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "../SearchBar/SearchBar";
-import { getCategories } from "@/services/categorisService";
-
-import { createTheme } from "@mui/material/styles";
 import useGetProfile from "@/hooks/useGetProfile";
 import { ShopContext } from "@/context/shopContext";
 import { NumericFormat } from "react-number-format";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import DropdownMenu from "@/common/DropdownMenu";
 import Logout from "../Logout/Logout";
-
-const theme = createTheme({
-  direction: "rtl",
-});
+import useCategories from "@/hooks/useCategories";
 
 function Navbar() {
-  const [menu, setMenu] = useState();
   const [token, setToken] = useState("");
+  const { data: menuList } = useCategories();
+
+  console.log(menuList);
 
   const { cartItems, resetCart, removeFromCart, totalPrice } =
     useContext(ShopContext);
@@ -40,19 +31,6 @@ function Navbar() {
   }, []);
   const { data } = useGetProfile(token);
 
-  const [state, setState] = useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  useEffect(() => {
-    getCategories().then(({ data }) => {
-      setMenu(data);
-    });
-  }, []);
-
   const router = useRouter();
 
   const cartHandler = () => {
@@ -60,13 +38,9 @@ function Navbar() {
   };
 
   return (
-    <AppBar
-      position="sticky"
-      className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md z-40"
-      theme={theme}
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters className="flex justify-between">
+    <header className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md z-40 sticky">
+      <div className="container mx-auto">
+        <div className="flex justify-between items-center">
           <Link href="/">
             <Image
               src="/assets/img/logo.png"
@@ -76,10 +50,7 @@ function Navbar() {
             />
           </Link>
 
-          <Box
-            component="ul"
-            className="hidden lg:flex flex-1 lg:gap-5 xl:gap-10 justify-center lg:text-lg xl:text-xl"
-          >
+          <ul className="hidden lg:flex flex-1 lg:gap-5 xl:gap-10 justify-center lg:text-lg xl:text-xl">
             <li>
               <Link href="/">خانه</Link>
             </li>
@@ -103,9 +74,9 @@ function Navbar() {
                   </svg>
                 </span>
                 <ul className="dropdown-menu">
-                  {menu?.map((m) => (
+                  {menuList?.data?.map((m) => (
                     <li key={m.id}>
-                      <Link href="">{m.name}</Link>
+                      <Link href={`/${m.name}-${m.id}`}>{m.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -166,8 +137,8 @@ function Navbar() {
                 </div>
               </li>
             )}
-          </Box>
-          <Box component="div" className="flex gap-3 items-center">
+          </ul>
+          <div className="flex gap-3 items-center">
             <div className="relative cartIcon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -293,10 +264,10 @@ function Navbar() {
                 <rect y="6" width="21" height="2" rx="1" fill="#20422A" />
               </svg>
             </button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }
 export default Navbar;

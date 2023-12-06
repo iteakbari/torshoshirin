@@ -1,4 +1,3 @@
-import { Divider, Grid, Item } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,63 +6,40 @@ const Footer = () => {
     <footer className="px-20 md:px-0 pt-5">
       <div className="container mx-auto">
         <ul className="border-t-4 border-b-4 divider-color grid justify-center md:flex md:justify-around xl:px-20 py-4">
-          <li className="py-3 text-center">
+          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
             <Link href="/about" className="xl:text-xl">
               درباره ما
             </Link>
           </li>
-          <Divider
+          {/* <Divider
             orientation="vertical"
             className="divider-color border-2 w-20 mx-auto  md:w-auto"
             variant="middle"
             flexItem
-          />
-          <li className="py-3 text-center ">
+          /> */}
+          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
             <Link href="/about" className="md:text-md xl:text-xl">
               پرسش‌های متداول
             </Link>
           </li>
-          <Divider
-            orientation="vertical"
-            className="divider-color border-2 w-20 mx-auto md:w-auto"
-            variant="middle"
-            flexItem
-          />
-          <li className="py-3 text-center ">
+          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
             <Link href="/about" className="xl:text-xl">
               انتقادات و پیشنهادات
             </Link>
           </li>
-          <Divider
-            orientation="vertical"
-            className="divider-color border-2 w-20 mx-auto md:w-auto"
-            variant="middle"
-            flexItem
-          />
-          <li className="py-3 text-center ">
+          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
             <Link href="/about" className="xl:text-xl">
               قوانین خدمات
             </Link>
           </li>
-          <Divider
-            orientation="vertical"
-            className="divider-color border-2 w-20 mx-auto md:w-auto"
-            variant="middle"
-            flexItem
-          />
-          <li className="py-3 text-center">
+          <li className="py-3 text-center flex-1 ">
             <Link href="/about" className="xl:text-xl">
               شرایط بهداشتی فروشگاه
             </Link>
           </li>
         </ul>
-        <Grid
-          className="py-10 border-b-4 divider-color"
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        >
-          <Grid item xs={12} md={4} className="border-dir pb-5 md:pb-0">
+        <div className="py-10 border-b-4 divider-color flex flex-wrap">
+          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
               <Link
@@ -79,8 +55,8 @@ const Footer = () => {
                 تماس با ما
               </Link>
             </div>
-          </Grid>
-          <Grid item xs={12} md={4} className="border-dir pb-5 md:pb-0">
+          </div>
+          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
               <address className="text-color-light">
@@ -93,14 +69,9 @@ const Footer = () => {
                 ساعت کاری: 22-8
               </Link>
             </div>
-          </Grid>
-          <Grid container item xs={12} md={4} className="pb-5 md:pb-0">
-            <Grid
-              item
-              xs={12}
-              md={5}
-              className="grid place-content-center gap-5 text-center"
-            >
+          </div>
+          <div className="pb-5 md:pb-0 flex-1 flex flex-wrap min-w-200">
+            <div className="grid place-content-center gap-5 text-center flex-1">
               <h5 className="text-xl">شبکه‌های اجتماعی</h5>
               <div className="flex gap-5 md:grid justify-center">
                 <Link href="#" className="flex justify-center">
@@ -120,8 +91,8 @@ const Footer = () => {
                   />
                 </Link>
               </div>
-            </Grid>
-            <Grid item xs={12} md={7} className="flex justify-center items-end">
+            </div>
+            <div className="flex justify-center items-end">
               <Link href="#" className="flex justify-center">
                 <Image
                   src="/assets/img/enamad.png"
@@ -138,9 +109,9 @@ const Footer = () => {
                   alt="telegram"
                 />
               </Link>
-            </Grid>
-          </Grid>
-        </Grid>
+            </div>
+          </div>
+        </div>
         <div className="py-3">
           <p className="text-center">
             تمام حقوق سایت برای فروشگاه اینترنتی ترش‌و‌شیرین‌ محفوظ است.

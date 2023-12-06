@@ -1,4 +1,3 @@
-import { CircularProgress } from "@mui/material";
 import OtpInput from "react-otp-input";
 
 const ConfrimLogin = ({
@@ -32,14 +31,14 @@ const ConfrimLogin = ({
           variant="contained"
           className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-4"
         >
-          {isCheckingOtp ? <CircularProgress color="inherit" /> : "ثبت"}
+          {isCheckingOtp ? <span class="loader"></span> : "ثبت"}
         </button>
       ) : (
         <button
           variant="contained"
           className="bg-gray-400 w-full mt-5 h-14 text-gray-100 rounded-lg mb-4 pointer-events-none"
         >
-          {isCheckingOtp ? <CircularProgress color="inherit" /> : "ثبت"}
+          {isCheckingOtp ? <span class="loader"></span> : "ثبت"}
         </button>
       )}
 

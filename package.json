@@ -9,11 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.15",
     "@tanstack/react-query": "^4.36.1",
-    "@tanstack/react-query-devtools": "^5.8.4",
     "axios": "^1.5.1",
     "formik": "^2.4.5",
     "js-cookie": "^3.0.5",

@@ -1,5 +1,4 @@
 import CategoriesList from "@/components/Category/CategorisList";
-import { Grid } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
