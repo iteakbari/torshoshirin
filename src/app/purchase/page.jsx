@@ -15,21 +15,21 @@ const tabData = [
   {
     id: 1,
     title: "سبد خرید",
-    img: "/assets/img/Bucker.png",
+    img: "https://admin.torshoshirin.com/files/react-img/Bucker.png",
     des: "basket image",
     customeClass: "w-9",
   },
   {
     id: 2,
     title: "اطلاعات ارسال",
-    img: "/assets/img/marker.png",
+    img: "https://admin.torshoshirin.com/files/react-img/marker.png",
     des: "marker image",
     customeClass: "w-7",
   },
   {
     id: 3,
     title: "پرداخت",
-    img: "/assets/img/pos.png",
+    img: "https://admin.torshoshirin.com/files/react-img/pos.png",
     des: "pos image",
     customeClass: "w-10",
   },
@@ -39,6 +39,7 @@ const Purchase = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [reciveType, setReciveType] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [paymentResult, setPaymentResult] = useState();
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto">
@@ -79,10 +80,13 @@ const Purchase = () => {
                 setIsOpen={setIsOpen}
               />
             ) : activeTab === 3 ? (
-              <Payment setActiveTab={setActiveTab} />
-            ) : (
-              <PaymentSuccess />
-            )}
+              <Payment
+                setActiveTab={setActiveTab}
+                setPaymentResult={setPaymentResult}
+              />
+            ) : activeTab === 4 ? (
+              <PaymentSuccess paymentResult={paymentResult} />
+            ) : null}
           </div>
         </div>
       </div>

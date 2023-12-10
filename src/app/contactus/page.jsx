@@ -13,7 +13,7 @@ const ContactUs = () => {
             <div className="grid grid-cols-1 md:grid-cols-6 ">
               <div className="col-span-1 md:col-span-4">
                 <Image
-                  src="/assets/img/location.png"
+                  src="https://admin.torshoshirin.com/files/react-img/location.png"
                   width={300}
                   height={200}
                   alt="location png"
@@ -28,7 +28,7 @@ const ContactUs = () => {
               </div>
               <div className="col-span-2">
                 <Image
-                  src="/assets/img/phone.png"
+                  src="https://admin.torshoshirin.com/files/react-img/phone.png"
                   alt="location png"
                   width={200}
                   height={200}
@@ -53,7 +53,7 @@ const ContactUs = () => {
               </div>
               <div className="h-60 col-span-2 order-1 md:order-2 flex justify-center items-center bg-pattern">
                 <Image
-                  src="/assets/img/instagram.png"
+                  src="https://admin.torshoshirin.com/files/react-img/instagram.png"
                   width={150}
                   height={150}
                   alt="instagram banner"
@@ -62,7 +62,7 @@ const ContactUs = () => {
               <div className="bg-light-green h-60 order-3 col-span-2 flex justify-center items-center">
                 <Link href="" className="h-9">
                   <Image
-                    src="/assets/img/instaId.png"
+                    src="https://admin.torshoshirin.com/files/react-img/instaId.png"
                     width={300}
                     height={58}
                     alt="instagram id"

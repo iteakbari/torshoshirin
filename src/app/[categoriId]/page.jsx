@@ -161,10 +161,10 @@ const CategoryPage = ({ params }) => {
                   >
                     <path
                       stroke={`${step === 1 ? "#e5eec3" : "#1a3622"}`}
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      stroke-width="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                      strokeWidth="1.5"
                       d="M14.43 5.93L20.5 12l-6.07 6.07M3.5 12h16.83"
                     ></path>
                   </svg>
@@ -186,10 +186,10 @@ const CategoryPage = ({ params }) => {
                   >
                     <path
                       stroke={`${step === pageEnd + 1 ? "#e5eec3" : "#1a3622"}`}
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-miterlimit="10"
-                      stroke-width="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="10"
+                      strokeWidth="1.5"
                       d="M9.57 5.93L3.5 12l6.07 6.07M20.5 12H3.67"
                     ></path>
                   </svg>
@@ -202,7 +202,7 @@ const CategoryPage = ({ params }) => {
                 محصولی در این دسته بندی ثبت نشده است.
               </p>
               <Image
-                src="/assets/img/b2.png"
+                src="https://admin.torshoshirin.com/files/react-img/b2.png"
                 width={300}
                 height={300}
                 alt="basket image"

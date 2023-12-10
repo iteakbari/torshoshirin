@@ -153,7 +153,7 @@ const HorizontalCard = ({
             displayType="text"
             className="px-1"
           />
-          تومان
+          ریال
         </p>
         <div className="flex gap-7 mt-8 justify-center flex-wrap w-96">
           {unitCountingId === 1 ? (

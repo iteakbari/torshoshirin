@@ -118,7 +118,7 @@ const Product = (product) => {
             value={salePrice}
             thousandSeparator=","
           />
-          <span>تومان</span>
+          <span>ریال</span>
         </p>
       </div>
       <div className="bg-light-gray p-5 mt-3 rounded-xl h-36 flex flex-col justify-end">

@@ -1,6 +1,6 @@
 import TextFieldInput from "@/common/TextFieldInput";
 import useStateList from "@/hooks/useStateList";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
@@ -8,12 +8,14 @@ import { getDiscount } from "@/services/discountService";
 import Cookies from "js-cookie";
 import useShowCartItems from "@/hooks/useShowCartItems";
 import { setPaymentTypeOrder } from "@/services/paymentTypeService";
+import { ShopContext } from "@/context/shopContext";
 
-const Payment = ({ setActiveTab }) => {
+const Payment = ({ setActiveTab, setPaymentResult }) => {
   const token = Cookies.get("token");
   const { data: getSatatesList } = useStateList();
   const [paymentType, setPaymentType] = useState();
   const [discount, setDiscount] = useState("");
+  const { resetCart } = useContext(ShopContext);
   const { data: discountData, mutateAsync: getDiscountFunc } = useMutation({
     mutationFn: getDiscount,
   });
@@ -43,6 +45,8 @@ const Payment = ({ setActiveTab }) => {
 
     if (data?.data?.success) {
       setActiveTab(4);
+      setPaymentResult(data?.data);
+      resetCart();
     }
   };
 
@@ -101,7 +105,7 @@ const Payment = ({ setActiveTab }) => {
                   displayType="text"
                   value={showCartItems?.data?.data?.cartTotal}
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
           </div>
@@ -114,7 +118,7 @@ const Payment = ({ setActiveTab }) => {
                   displayType="text"
                   value={showCartItems?.data?.data?.cartShippingCostTotal}
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
           </div>
@@ -127,7 +131,7 @@ const Payment = ({ setActiveTab }) => {
                   displayType="text"
                   value={showCartItems?.data?.data?.cartDiscountTotal}
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
           </div>
@@ -140,7 +144,7 @@ const Payment = ({ setActiveTab }) => {
                   displayType="text"
                   value={45455211}
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
           </div> */}
@@ -157,7 +161,7 @@ const Payment = ({ setActiveTab }) => {
                     showCartItems?.data?.data?.cartDiscountTotal
                   }
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
           </div>

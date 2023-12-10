@@ -206,7 +206,7 @@ const SelectReciveType = ({
                   displayType="text"
                   value={item.totalPrice}
                 />
-                <small className="text-xs pr-1">تومان</small>
+                <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
             <p className="text-sm">

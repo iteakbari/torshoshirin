@@ -60,7 +60,7 @@ const Basket = ({ setActiveTab }) => {
                 className="font-bold"
                 thousandSeparator=","
               />
-              <small className="text-sm pr-2">تومان</small>
+              <small className="text-sm pr-2">ریال</small>
             </span>
           </div>
           <div className="pt-4 flex items-end gap-10">
@@ -113,7 +113,7 @@ const Basket = ({ setActiveTab }) => {
             value={itemCount}
           />
         </span>
-        <small className="text-sm pr-2">تومان</small>
+        <small className="text-sm pr-2">ریال</small>
       </p>
 
       <div className="flex justify-center pt-5">

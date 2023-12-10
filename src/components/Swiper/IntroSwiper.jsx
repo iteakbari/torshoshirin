@@ -30,7 +30,7 @@ const IntroSwiper = () => {
             width={200}
             height={200}
             alt=""
-            src="/assets/img/f1.png"
+            src="https://admin.torshoshirin.com/files/react-img/f1.png"
             className="w-36"
           />
           <p className="font-bold text-center text-4xl mt-4">تازگی</p>
@@ -42,7 +42,7 @@ const IntroSwiper = () => {
             width={200}
             height={200}
             alt=""
-            src="/assets/img/f2.png"
+            src="https://admin.torshoshirin.com/files/react-img/f2.png"
             className="w-36"
           />
           <p className="font-bold text-center text-4xl mt-4">تنوع</p>
@@ -54,7 +54,7 @@ const IntroSwiper = () => {
             width={200}
             height={200}
             alt=""
-            src="/assets/img/basket.png"
+            src="https://admin.torshoshirin.com/files/react-img/basket.png"
             className="w-36"
           />
           <p className="font-bold text-center text-4xl mt-4">خرید آسان</p>

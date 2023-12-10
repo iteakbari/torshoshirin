@@ -28,7 +28,7 @@ export default function Home() {
             </div>
             <div className="flex justify-center xl:mt-16 mb-16 xl:mb-0 order-1 lg:order-2">
               <Image
-                src="/assets/img/ill.png"
+                src="https://admin.torshoshirin.com/files/react-img/ill.png"
                 width={300}
                 height={300}
                 alt="illustration"
@@ -45,14 +45,14 @@ export default function Home() {
 
           <div className="my-20 w-4/5 md:w-3/4 mx-auto pt-32">
             <Image
-              src="/assets/img/banner.png"
+              src="https://admin.torshoshirin.com/files/react-img/banner.png"
               width={400}
               height={251}
               alt="instagram banner"
               className="w-full hidden md:block"
             />
             <Image
-              src="/assets/img/mbanner.png"
+              src="https://admin.torshoshirin.com/files/react-img//mbanner.png"
               width={400}
               height={251}
               alt="instagram banner"

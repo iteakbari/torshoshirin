@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //process.env.Access_Control_Allow_Origin = "http://localhost:3000";
 import logout from "@/functions/logout";
 import axios from "axios";

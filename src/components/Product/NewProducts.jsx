@@ -7,7 +7,12 @@ const NewProducts = () => {
       <li>
         <div className="border-t border-r flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
-            <Image width={100} height={100} alt="" src="/assets/img/fc1.png" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
+            />
           </div>
           <div className="w-1/2 flex items-center">
             <p className="price">
@@ -17,7 +22,7 @@ const NewProducts = () => {
                 value={123500}
                 thousandSeparator=","
               />
-              <span>تومان</span>
+              <span>ریال</span>
             </p>
           </div>
         </div>
@@ -25,7 +30,12 @@ const NewProducts = () => {
       <li>
         <div className="border-t border-r flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
-            <Image width={100} height={100} alt="" src="/assets/img/fc1.png" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
+            />
           </div>
           <div className="w-1/2 flex items-center">
             <p className="price">
@@ -35,7 +45,7 @@ const NewProducts = () => {
                 value={123500}
                 thousandSeparator=","
               />
-              <span>تومان</span>
+              <span>ریال</span>
             </p>
           </div>
         </div>
@@ -43,7 +53,12 @@ const NewProducts = () => {
       <li>
         <div className="border-t border-r flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
-            <Image width={100} height={100} alt="" src="/assets/img/fc1.png" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
+            />
           </div>
           <div className="w-1/2 flex items-center">
             <p className="price">
@@ -53,7 +68,7 @@ const NewProducts = () => {
                 value={123500}
                 thousandSeparator=","
               />
-              <span>تومان</span>
+              <span>ریال</span>
             </p>
           </div>
         </div>
@@ -61,7 +76,12 @@ const NewProducts = () => {
       <li>
         <div className="border-t border-r flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
-            <Image width={100} height={100} alt="" src="/assets/img/fc1.png" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
+            />
           </div>
           <div className="w-1/2 flex items-center">
             <p className="price">
@@ -71,7 +91,7 @@ const NewProducts = () => {
                 value={123500}
                 thousandSeparator=","
               />
-              <span>تومان</span>
+              <span>ریال</span>
             </p>
           </div>
         </div>
@@ -79,7 +99,12 @@ const NewProducts = () => {
       <li>
         <div className="border-t border-r flex items-center p-3 ">
           <div className="flex justify-center items-center w-1/2">
-            <Image width={100} height={100} alt="" src="/assets/img/fc1.png" />
+            <Image
+              width={100}
+              height={100}
+              alt=""
+              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
+            />
           </div>
           <div className="w-1/2 flex items-center">
             <p className="price">
@@ -89,7 +114,7 @@ const NewProducts = () => {
                 value={123500}
                 thousandSeparator=","
               />
-              <span>تومان</span>
+              <span>ریال</span>
             </p>
           </div>
         </div>

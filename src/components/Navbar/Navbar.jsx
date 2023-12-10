@@ -16,8 +16,6 @@ function Navbar() {
   const [token, setToken] = useState("");
   const { data: menuList } = useCategories();
 
-  console.log(menuList);
-
   const { cartItems, resetCart, removeFromCart, totalPrice } =
     useContext(ShopContext);
 
@@ -43,7 +41,7 @@ function Navbar() {
         <div className="flex justify-between items-center">
           <Link href="/">
             <Image
-              src="/assets/img/logo.png"
+              src="https://admin.torshoshirin.com/files/react-img/logo.png"
               width={100}
               height={50}
               alt="logo"
@@ -187,7 +185,14 @@ function Navbar() {
                         </span>
                         <div>
                           <p>{item.name}</p>
-                          <p>{item.totalPrice}</p>
+                          <p>
+                            <NumericFormat
+                              thousandSeparator=","
+                              displayType="text"
+                              value={item.totalPrice}
+                            />
+                            ریال
+                          </p>
                           <p>{item.weight ? item.weight : item.count}</p>
                         </div>
                         <div className="w-24 h-24 rounded-lg overflow-hidden">
@@ -210,6 +215,7 @@ function Navbar() {
                           displayType="text"
                           value={totalPrice}
                         />
+                        ریال
                       </p>
                       <div className="flex gap-2">
                         <button

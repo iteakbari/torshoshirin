@@ -21,7 +21,12 @@ const SwiperSlider = () => {
       >
         <SwiperSlide>
           <div className="flex items-center gap-5">
-            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <Image
+              src="https://admin.torshoshirin.com/files/react-img/s1.png"
+              alt=""
+              width={220}
+              height={220}
+            />
             <p className="text-xl">
               به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
             </p>
@@ -29,7 +34,12 @@ const SwiperSlider = () => {
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex items-center gap-5">
-            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <Image
+              src="https://admin.torshoshirin.com/files/react-img/s1.png"
+              alt=""
+              width={220}
+              height={220}
+            />
             <p className="text-xl">
               به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
             </p>
@@ -37,7 +47,12 @@ const SwiperSlider = () => {
         </SwiperSlide>
         <SwiperSlide>
           <div className="flex items-center gap-5">
-            <Image src="/assets/img/s1.png" alt="" width={220} height={220} />
+            <Image
+              src="https://admin.torshoshirin.com/files/react-img/s1.png"
+              alt=""
+              width={220}
+              height={220}
+            />
             <p className="text-xl">
               به سادگی سوابق خرید و فعالیت‌های خودتون رو مدیریت کنین.
             </p>

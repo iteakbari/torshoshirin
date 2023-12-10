@@ -27,7 +27,7 @@ const About = () => {
                   alt="blog slider"
                   layout="fill"
                   objectFit="cover"
-                  src="/assets/img/aboutSlide1.png"
+                  src="https://admin.torshoshirin.com/files/react-img/aboutSlide1.png"
                 />
               </SwiperSlide>
               <SwiperSlide>
@@ -35,7 +35,7 @@ const About = () => {
                   alt="blog slider"
                   layout="fill"
                   objectFit="cover"
-                  src="/assets/img/aboutSlide1.png"
+                  src="https://admin.torshoshirin.com/files/react-img/aboutSlide1.png"
                 />
               </SwiperSlide>
               <SwiperSlide>
@@ -43,7 +43,7 @@ const About = () => {
                   alt="blog slider"
                   layout="fill"
                   objectFit="cover"
-                  src="/assets/img/aboutSlide1.png"
+                  src="https://admin.torshoshirin.com/files/react-img/aboutSlide1.png"
                 />
               </SwiperSlide>
             </Swiper>
@@ -62,7 +62,7 @@ const About = () => {
         <div className="bg-color-gray p-10 xl:p-14 rounded-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <Image
-              src="/assets/img/clock2.svg"
+              src="https://admin.torshoshirin.com/files/react-img/clock2.svg"
               width={90}
               height={90}
               alt="clock"
@@ -75,7 +75,7 @@ const About = () => {
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <Image
-              src="/assets/img/refresh.svg"
+              src="https://admin.torshoshirin.com/files/react-img/refresh.svg"
               width={90}
               height={90}
               alt="refresh icon"
@@ -88,7 +88,7 @@ const About = () => {
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <Image
-              src="/assets/img/sandwatch.svg"
+              src="https://admin.torshoshirin.com/files/react-img/sandwatch.svg"
               width={60}
               height={83}
               alt="sandwatch icon"
@@ -101,7 +101,7 @@ const About = () => {
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <Image
-              src="/assets/img/creditcard.svg"
+              src="https://admin.torshoshirin.com/files/react-img/creditcard.svg"
               width={90}
               height={90}
               alt="creditcard icon"

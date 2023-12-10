@@ -76,7 +76,7 @@ const Footer = () => {
               <div className="flex gap-5 md:grid justify-center">
                 <Link href="#" className="flex justify-center">
                   <Image
-                    src="/assets/img/insta.png"
+                    src="https://admin.torshoshirin.com/files/react-img/insta.png"
                     width={46}
                     height={46}
                     alt="instagram"
@@ -84,7 +84,7 @@ const Footer = () => {
                 </Link>
                 <Link href="#" className="flex justify-center">
                   <Image
-                    src="/assets/img/telegram.png"
+                    src="https://admin.torshoshirin.com/files/react-img/telegram.png"
                     width={46}
                     height={46}
                     alt="telegram"
@@ -95,7 +95,7 @@ const Footer = () => {
             <div className="flex justify-center items-end">
               <Link href="#" className="flex justify-center">
                 <Image
-                  src="/assets/img/enamad.png"
+                  src="https://admin.torshoshirin.com/files/react-img/enamad.png"
                   width={100}
                   height={144}
                   alt="instagram"
@@ -103,7 +103,7 @@ const Footer = () => {
               </Link>
               <Link href="#" className="flex justify-center">
                 <Image
-                  src="/assets/img/samandehi.png"
+                  src="https://admin.torshoshirin.com/files/react-img/samandehi.png"
                   width={120}
                   height={120}
                   alt="telegram"
