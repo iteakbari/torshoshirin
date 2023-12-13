@@ -25,6 +25,16 @@ export function getUserProfile({ queryKey }) {
     .then(({ data }) => data.data);
 }
 
+// export function getUserProfile({ queryKey }) {
+//   return fetch(`${process.env.NEXT_PUBLIC_API_URL}/AccountApi/GetProfile`, {
+//     headers: {
+//       Authorization: "Bearer " + queryKey[1],
+//     },
+//   })
+//     .then((res) => res.json())
+//     .then(({ data }) => data);
+// }
+
 export function getUserAddressList({ queryKey }) {
   return http
     .get("/AccountApi/GetListAddress", {

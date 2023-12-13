@@ -83,7 +83,6 @@ export function editAddressFunc({
 }
 
 export function deleteAddress({ id, token }) {
-  console.log(id, token);
   return http.post(
     `/AccountApi/DeleteAddress?CustomerAddressId=${id}`,
     {},

@@ -1,31 +1,35 @@
 "use client";
-import Cookies from "js-cookie";
 import Link from "next/link";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Logout from "../Logout/Logout";
+import Cookies from "js-cookie";
+import useGetProfile from "@/hooks/useGetProfile";
+import Skeleton from "react-loading-skeleton";
 
 const SideBar = () => {
   const path = usePathname();
-  const router = useRouter();
-
-  function handleLogout() {
-    Cookies.remove("token");
-    if (typeof window !== "undefined" && window.location)
-      window.location.reload();
-    setTimeout(() => {
-      router.push("/");
-    }, 100);
-  }
+  const token = Cookies.get("token");
+  const { data, isLoading } = useGetProfile(token);
 
   return (
     <aside className="col-span-2 bg-white p-10 rounded-2xl shadow-md h-700px flex flex-col">
-      <p className="text-lg font-bold">خسرو اکبری لالایی</p>
+      <p className="text-lg font-bold w-72 h-8">
+        {isLoading ? (
+          <Skeleton width={200} height={30} baseColor="#ff0606" />
+        ) : data?.data?.firstName ? (
+          `${data?.data?.firstName} ${data?.data?.lastName}`
+        ) : (
+          <span className="text-orange">اطلاعات پروفایل تکمیل نشده است</span>
+        )}
+      </p>
       <div className="flex justify-between py-4 border-b-4 border-green">
-        <span>09112274967</span>
+        <span>
+          {isLoading ? (
+            <Skeleton width={200} height={30} baseColor="#ff0606" />
+          ) : (
+            data?.data?.phoneNumber
+          )}
+        </span>
         <Link href="/dashboard/profile" className="flex gap-2">
           ویرایش پروفایل
           <svg
@@ -152,27 +156,28 @@ const SideBar = () => {
           </Link>
         </li>
         <li className="mt-auto">
-          <Link
-            href="#"
-            className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
-            onClick={handleLogout}
-          >
-            خروج از حساب کاربری
-            <svg
-              width="31"
-              height="31"
-              viewBox="0 0 31 31"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <Logout>
+            <Link
+              href="#"
+              className="flex gap-2 justify-between p-2 items-center hover:bg-gray-200 rounded-xl transition-all"
             >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M1.43351 10.6733C0.688829 13.848 0.68883 17.152 1.43351 20.3267C2.50893 24.9113 6.08867 28.4911 10.6733 29.5665C13.848 30.3112 17.152 30.3112 20.3267 29.5665C24.9113 28.4911 28.4911 24.9113 29.5665 20.3267C30.3112 17.152 30.3112 13.848 29.5665 10.6733C28.4911 6.08868 24.9113 2.50893 20.3267 1.43351C17.152 0.688829 13.848 0.688832 10.6733 1.43351C6.08868 2.50893 2.50893 6.08867 1.43351 10.6733ZM14.3687 19.8133C14.1344 20.0476 13.7545 20.0476 13.5202 19.8133L9.63118 15.9243C9.51866 15.8118 9.45545 15.6592 9.45545 15.5001C9.45545 15.3409 9.51866 15.1883 9.63118 15.0758L13.5202 11.1868C13.7545 10.9525 14.1344 10.9525 14.3687 11.1868C14.603 11.4211 14.603 11.801 14.3687 12.0353L11.504 14.9001L20.9446 14.9001C21.276 14.9001 21.5446 15.1687 21.5446 15.5001C21.5446 15.8314 21.276 16.1001 20.9446 16.1001L11.504 16.1001L14.3687 18.9648C14.603 19.1991 14.603 19.579 14.3687 19.8133Z"
-                fill="#20422A"
-              />
-            </svg>
-          </Link>
+              خروج از حساب کاربری
+              <svg
+                width="31"
+                height="31"
+                viewBox="0 0 31 31"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M1.43351 10.6733C0.688829 13.848 0.68883 17.152 1.43351 20.3267C2.50893 24.9113 6.08867 28.4911 10.6733 29.5665C13.848 30.3112 17.152 30.3112 20.3267 29.5665C24.9113 28.4911 28.4911 24.9113 29.5665 20.3267C30.3112 17.152 30.3112 13.848 29.5665 10.6733C28.4911 6.08868 24.9113 2.50893 20.3267 1.43351C17.152 0.688829 13.848 0.688832 10.6733 1.43351C6.08868 2.50893 2.50893 6.08867 1.43351 10.6733ZM14.3687 19.8133C14.1344 20.0476 13.7545 20.0476 13.5202 19.8133L9.63118 15.9243C9.51866 15.8118 9.45545 15.6592 9.45545 15.5001C9.45545 15.3409 9.51866 15.1883 9.63118 15.0758L13.5202 11.1868C13.7545 10.9525 14.1344 10.9525 14.3687 11.1868C14.603 11.4211 14.603 11.801 14.3687 12.0353L11.504 14.9001L20.9446 14.9001C21.276 14.9001 21.5446 15.1687 21.5446 15.5001C21.5446 15.8314 21.276 16.1001 20.9446 16.1001L11.504 16.1001L14.3687 18.9648C14.603 19.1991 14.603 19.579 14.3687 19.8133Z"
+                  fill="#20422A"
+                />
+              </svg>
+            </Link>
+          </Logout>
         </li>
       </ul>
     </aside>

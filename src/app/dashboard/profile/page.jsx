@@ -1,29 +1,21 @@
 "use client";
 
-import React from "react";
 import CitiesSelectBox from "@/common/CitiesSelectBox";
 import FormikTextInputField from "@/common/FormikTextInputField";
 import StateSelectBox from "@/common/StateSelectBox";
-// import TextFieldInput from "@/common/TextFieldInput";
-// import TextareaFieldInput from "@/common/TextareaFieldInput";
-// import Address from "@/components/Address/Address";
 import useGetProfile from "@/hooks/useGetProfile";
 import useStateList from "@/hooks/useStateList";
 import { changeProfile } from "@/services/changeProfile";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
-import Map from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
-
-const apiKey =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIn0.eyJhdWQiOiIyMTE4NCIsImp0aSI6IjI4YjBkMWE5Zjg4YTIyZDk0ZGJhYzQ2MWI3ZGU3MjA3ZGRjY2RkYTRjMWRkZDZiODJmODI4NjlhM2IzMDMyN2U1NTEyZTc3ZTcwZTUyNTkzIiwiaWF0IjoxNjc2ODc3NTIwLCJuYmYiOjE2NzY4Nzc1MjAsImV4cCI6MTY3OTI5NjcyMCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.kLJGEv7gCNCMBZbSwuvumVTYX0ZbOkFaKt5uVsqIvrAXw2PLPQxXf_X0iFbpT5JJxCnqAcP1vBiaOZlxn4ObBIkNdNZzMMSWv-9FVoAlepY8B-9u5GcUmMQImt8GMebp839y1Mgmdq9bXTfsby2dz41u6QsQMPGgURvS9eBRrC309VQiV_GF-2KktTYrIyDnLdSd6SZ6Apc_NZNHVR5ma5uNKYC7_9GT6CPgOBG2uNa_U_OA9baDo42AFBW4WDJxriSHD6UlxznCg1SVmavIki_YwxT9zp7CXqvbIK_d0la1SSOvzlSSJaPQlrUCUhvl2At-kDY-fkMVbozn-cO-NA";
+import Address from "@/common/Address";
 
 const Profile = () => {
-  const [markerArray, setMarkerArray] = useState([]);
-  const [coord, setCoord] = useState([51.42, 35.72]);
+  const [addressData, setAddressData] = useState(null);
+  const [address, setAddress] = useState("");
   const [userAddress, setUserAddress] = useState("");
   const token = Cookies.get("token");
   const { data } = useGetProfile(token);
@@ -31,7 +23,10 @@ const Profile = () => {
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
-  const [userLocation, setUserLocation] = useState(["51.42047", "35.729054"]);
+  const [userLocation, setUserLocation] = useState([
+    "53.07910956280803",
+    "36.559345877660625",
+  ]);
   const [formValues, setFormValues] = useState({
     id: null,
     firstName: "",
@@ -52,10 +47,6 @@ const Profile = () => {
   const { data: profile, mutateAsync: updateProfile } = useMutation({
     mutationFn: changeProfile,
   });
-
-  const addressHandler = (e) => {
-    setUserAddress(e.target.value);
-  };
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required("لطفا اطلاعات فیلد را تکمیل کنید"),
@@ -156,7 +147,8 @@ const Profile = () => {
     setTimeout(() => {
       formik.values.cityName
         ? setSelectedCity(
-            showCities?.find((city) => city.title === formik.values.cityName)
+            showCities &&
+              showCities?.find((city) => city.title === formik.values.cityName)
           )
         : "";
     }, 3000);
@@ -240,23 +232,8 @@ const Profile = () => {
         </div>
         <div className="w-48">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
-          <Map
-            initialViewState={{
-              longitude: 51.375433528216654,
-              latitude: 35.73356434056531,
-              zoom: 11,
-            }}
-            style={{ height: 200 }}
-            mapStyle="https://map.ir/vector/styles/main/mapir-xyz-style.json"
-            transformRequest={(url) => {
-              return {
-                url,
-                headers: {
-                  "x-api-key": apiKey,
-                },
-              };
-            }}
-          />
+
+          <Address address={address} setAddress={setAddress} />
         </div>
 
         <div className="flex mt-5 justify-center w-100">

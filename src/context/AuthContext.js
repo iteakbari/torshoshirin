@@ -2,8 +2,8 @@
 import useAuth from "@/hooks/useAuth";
 import { createContext } from "react";
 
-const AuthContext = createContext({
-  isAuthenticated: null,
+export const AuthContext = createContext({
+  isAuthenticated: false,
 });
 
 const AuthProvider = ({ children }) => {

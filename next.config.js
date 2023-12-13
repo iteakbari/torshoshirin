@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  compress: false,
   env: {
     NEXT_PUBLIC_API_URL: "https://webservice.torshoshirin.com/api",
     HOSTNAME: "web.torshoshirin.com",
+    URL: "https://webservice.torshoshirin.com",
   },
   images: {
     domains: ["localhost", "web.torshoshirin.com"],

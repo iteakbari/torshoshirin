@@ -683,3 +683,9 @@ input:-internal-autofill-selected {
     background-color: var(--light-green);
   }
 }
+
+.mapboxgl-map {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px;
+}

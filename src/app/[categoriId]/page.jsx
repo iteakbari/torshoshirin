@@ -22,6 +22,7 @@ const CategoryPage = ({ params }) => {
     pageSize,
     token,
   });
+  console.log(data);
 
   const productsList = data?.productlist;
   const productsCount = data?.totalCount;

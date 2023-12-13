@@ -24,7 +24,7 @@ const GetMobileNumber = ({
         variant="contained"
         className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-20"
       >
-        {isLoading ? <span class="loader"></span> : "ارسال کد"}
+        {isLoading ? <span className="loader"></span> : "ارسال کد"}
       </button>
     </form>
   );

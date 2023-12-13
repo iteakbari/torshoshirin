@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import GetMobileNumber from "./GetNumber";
 import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
@@ -7,7 +7,7 @@ import { checkOtp, getOtp } from "@/services/authServices";
 import ConfrimLogin from "./ConfrimLogin";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-// import { cookies } from "next/headers";
+import { AuthContext } from "@/context/AuthContext";
 const RESEND_TIME = 90;
 
 const Login = () => {
@@ -16,7 +16,7 @@ const Login = () => {
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
   const [time, setTime] = useState(0);
   const [error, setError] = useState(false);
-  // const [token, setToken] = useState("");
+  const { setProfile } = useContext(AuthContext);
   const router = useRouter();
   const {
     data: otpResponse,
@@ -73,22 +73,24 @@ const Login = () => {
     }
   };
 
-  // const cookiesStore = cookies();
-  // console.log(cookiesStore);
-
   const confirmCodeSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await mutateCheckOtp({ phoneNumber, phoneNumberCode });
+      Cookies.set("token", data.data.jwToken);
+
       if (phoneNumberCode && time) {
-        Cookies.set("token", data.data.jwToken);
         toast.success(data.messageList);
+        console.log(data);
         if (data.success) {
+          // setProfile(data?.data.firstName);
+
           if (!data.data.firstName) {
             router.push("/dashboard/profile");
           } else {
             router.push("/");
           }
+          console.log(typeof window);
 
           setTimeout(() => {
             if (typeof window !== "undefined") window.location.reload();

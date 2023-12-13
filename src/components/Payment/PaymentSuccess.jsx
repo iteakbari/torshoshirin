@@ -3,6 +3,7 @@ import Image from "next/image";
 import { NumericFormat } from "react-number-format";
 
 const PaymentSuccess = ({ paymentResult }) => {
+  console.log(paymentResult);
   return (
     <div className="flex gap-12">
       <div className="w-3/6">

@@ -51,6 +51,7 @@ const SelectReciveType = ({
       paymentTypeId: 0,
       token,
     });
+    console.log(data);
     setActiveTab(3);
   };
 

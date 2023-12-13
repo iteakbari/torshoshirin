@@ -129,7 +129,7 @@ function Navbar() {
                       <Link href="/dashboard/profile">پروفایل</Link>
                     </li>
                     <li>
-                      <Logout />
+                      <Logout>خروج</Logout>
                     </li>
                   </ul>
                 </div>

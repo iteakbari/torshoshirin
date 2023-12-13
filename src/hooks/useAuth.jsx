@@ -1,25 +1,22 @@
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [path, setPath] = useState("");
+  const [profile, setProfile] = useState("");
   const router = useRouter();
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPath(window?.location?.pathname);
-    }
-  }, [path]);
+  const path = usePathname();
 
   useEffect(() => {
-    Cookies.get("token") && setIsAuthenticated(true);
-    !Cookies.get("token") &&
-      path.startsWith("/dashboard") &&
-      router.push("/sign");
-  }, [isAuthenticated, path]);
+    Cookies.get("isAuth")
+      ? setIsAuthenticated(true)
+      : setIsAuthenticated(false);
+    !isAuthenticated && path.startsWith("/dashboard") && router.push("/sign");
+    isAuthenticated && !profile && router.push("/dashboard/profile");
+  }, [isAuthenticated]);
 
-  return { isAuthenticated };
+  return { isAuthenticated, setIsAuthenticated, setProfile };
 };
 
 export default useAuth;

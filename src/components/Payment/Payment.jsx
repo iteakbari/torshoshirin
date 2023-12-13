@@ -42,6 +42,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
       paymentTypeId: +paymentType,
       token,
     });
+    console.log(data);
 
     if (data?.data?.success) {
       setActiveTab(4);
