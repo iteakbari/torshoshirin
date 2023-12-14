@@ -13,13 +13,13 @@ import { useMutation } from "@tanstack/react-query";
 import { addressFunc, editAddressFunc } from "@/services/addressService";
 import Address from "@/common/Address";
 
-const apiKey =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk4YmU4YTc5ODhjMWRlYTM3YWZhZDJlMGQ3NTZjMGEzM2M5MzFjZDIyOGQ3ZDJiY2QzNjBkMjcwN2IxNjQ4YTI1YjgwMzBjZTg5MjVmOTgyIn0.eyJhdWQiOiIyNTMxNCIsImp0aSI6Ijk4YmU4YTc5ODhjMWRlYTM3YWZhZDJlMGQ3NTZjMGEzM2M5MzFjZDIyOGQ3ZDJiY2QzNjBkMjcwN2IxNjQ4YTI1YjgwMzBjZTg5MjVmOTgyIiwiaWF0IjoxNzAyNDA5NjgyLCJuYmYiOjE3MDI0MDk2ODIsImV4cCI6MTcwNDkxNTI4Miwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.s6Et58RQVlmqmAJpJfOC24vXyuX4oIIeasL3CxKGxLBN9EL0NlVuDor5GGVVvGYUxRg3coo0b6FBYSzH3SelSI5T_2ej-Vz-hTCVVXcmJ0HGCRUY_9BuQxvOMS4b8B62kZ5fPuehWSS9t4m2ojSE2W7zcIGfBAdmUsfp7DsfnubBH0a8q7LAKN_GZhRy4pT-7TyiBlSrqsTGu5lOhggmpQEexOFkNkQUaQaBM1jPDH26Wv7GUFLx1oXhJAY7bzpCGFITqC7LSkrnsLWSgC5ejlsn_C178AIVU1Qj9L7CJqiCy4bEm0xUPSyI2Q3LpDdSqM6ags2Cuagivyv-GOApCw";
 const AddAddress = ({
   selectedAddress,
   setIsOpen,
   refetch,
   getSatatesList,
+  setSelectedAddress,
+  isOpen,
 }) => {
   const [userAddress, setUserAddress] = useState("");
   const token = Cookies.get("token");
@@ -85,7 +85,6 @@ const AddAddress = ({
   };
 
   useEffect(() => {
-    console.log(userAddress);
     selectedAddress &&
       setFormValues({
         id: selectedAddress.id,
@@ -110,8 +109,7 @@ const AddAddress = ({
     ).id;
     const latX = parseFloat(center[0]);
     const longY = parseFloat(center[1]);
-    const id = data?.data.id;
-    console.log(values.address);
+    // const id = data?.data.id;
 
     if (selectedAddress) {
       try {
@@ -132,7 +130,6 @@ const AddAddress = ({
         });
 
         if (data.success) {
-          setFormValues("");
           setIsOpen(false);
         }
       } catch (error) {
@@ -157,7 +154,6 @@ const AddAddress = ({
         });
 
         if (data.success) {
-          setFormValues("");
           setIsOpen(false);
         }
       } catch (error) {
@@ -165,9 +161,8 @@ const AddAddress = ({
       }
     }
 
-    formik.setFieldValue("stateName", "");
-    formik.setFieldValue("cityName", "");
-    setUserAddress("");
+    formik.resetForm();
+    setSelectedAddress(null);
 
     refetch();
   };
@@ -205,6 +200,10 @@ const AddAddress = ({
   useEffect(() => {
     formik.setFieldValue("address", userAddress);
   }, [userAddress]);
+
+  useEffect(() => {
+    !isOpen && setSelectedState([]);
+  }, [isOpen]);
 
   return (
     <div>
@@ -299,7 +298,7 @@ const AddAddress = ({
                 };
               }}
             /> */}
-            <Address />
+            <Address setAddress={setUserAddress} />
           </div>
         </div>
 

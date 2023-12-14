@@ -10,7 +10,6 @@ const Address = ({ address, setAddress }) => {
   const [markerArray, setMarkerArray] = useState([]);
 
   const draghandler = (e) => {
-    console.log(e);
     e._moving = true;
     setCenter([e?.viewState?.longitude, e?.viewState?.latitude]);
   };
@@ -26,7 +25,8 @@ const Address = ({ address, setAddress }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setAddress(data.address);
+        console.log(data);
+        setAddress(data.postal_address);
       });
     const array = [];
     array.push(

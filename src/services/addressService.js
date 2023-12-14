@@ -15,6 +15,7 @@ export function addressFunc({
   lname,
   token,
 }) {
+  console.log("add");
   return http
     .post(
       "/AccountApi/CreateAddress",
@@ -56,6 +57,7 @@ export function editAddressFunc({
   lname,
   token,
 }) {
+  console.log("edit");
   return http
     .post(
       "/AccountApi/EditAddress",

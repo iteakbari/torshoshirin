@@ -37,23 +37,40 @@ const SelectReciveType = ({
 
   const deleteAddressHandler = async (id) => {
     try {
-      const data = await deleteAddress({ id, token });
+      const data = await deleteAddressfunc({ id, token });
       refetch();
     } catch (error) {
       console.log(error);
     }
   };
-
   const setAddresOrderHandler = async () => {
-    const data = await setAddressOrderfunc({
-      receiverOrderId: reciveType,
-      customerAddressId: selectedAddressId ? selectedAddressId : 0,
-      paymentTypeId: 0,
-      token,
-    });
+    if (reciveType === "1") {
+      console.log(reciveType);
+      const data = await setAddressOrderfunc({
+        receiverOrderId: reciveType,
+        customerAddressId: 0,
+        paymentTypeId: 0,
+        token,
+      });
+      setActiveTab(3);
+    } else if (reciveType === "2") {
+      if (selectedAddressId) {
+        const data = await setAddressOrderfunc({
+          receiverOrderId: reciveType,
+          customerAddressId: selectedAddressId,
+          paymentTypeId: 0,
+          token,
+        });
+        setActiveTab(3);
+      }
+    }
+
     console.log(data);
-    setActiveTab(3);
   };
+
+  useEffect(() => {
+    !isOpen && setSelectedAddress(null);
+  }, [isOpen]);
 
   return (
     <div className="flex justify-between">
@@ -119,8 +136,8 @@ const SelectReciveType = ({
                     <label htmlFor={data.id} className="text-xl">
                       {data.stateName +
                         " " +
-                        data.cityName +
-                        " " +
+                        // data.cityName +
+                        // " " +
                         data.address}
                     </label>
                   </div>
@@ -248,7 +265,9 @@ const SelectReciveType = ({
         <AddAddress
           refetch={refetch}
           selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
           setIsOpen={setIsOpen}
+          isOpen={isOpen}
           getSatatesList={getSatatesList}
         />
       </OffCanvas>
