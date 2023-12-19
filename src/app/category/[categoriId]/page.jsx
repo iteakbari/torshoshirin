@@ -4,25 +4,27 @@ import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Loading from "../loading";
+import Loading from "../../loading";
 import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState("cheapest");
-  const cId = params.categoriId.split("-");
-  const cName = decodeURI(cId[0]);
-  const categoryId = cId[1];
-  const pageSize = 2;
+
+  const categoryName = decodeURI(params?.categoriId);
+  const regex = /([^\/]+)-(\d+)/;
+  const match = categoryName.match(regex);
+  const cName = match[1];
+  const categoryId = match[2];
+  const pageSize = 20;
   const token = Cookies.get("token");
   const { data, isLoading } = useProducts({
-    categoryId,
+    categoryId: +categoryId,
     step,
     pageSize,
     token,
   });
-  console.log(data);
 
   const productsList = data?.productlist;
   const productsCount = data?.totalCount;
@@ -141,7 +143,7 @@ const CategoryPage = ({ params }) => {
                   <Product
                     key={product.productId}
                     {...product}
-                    categoriId={params.categoriId}
+                    categoriId={categoryId}
                   />
                 ))}
               </div>

@@ -45,7 +45,7 @@ const SelectReciveType = ({
   };
   const setAddresOrderHandler = async () => {
     if (reciveType === "1") {
-      console.log(reciveType);
+      // console.log(reciveType);
       const data = await setAddressOrderfunc({
         receiverOrderId: reciveType,
         customerAddressId: 0,
@@ -65,7 +65,7 @@ const SelectReciveType = ({
       }
     }
 
-    console.log(data);
+    // console.log(data);
   };
 
   useEffect(() => {

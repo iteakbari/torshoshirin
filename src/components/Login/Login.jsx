@@ -81,7 +81,7 @@ const Login = () => {
 
       if (phoneNumberCode && time) {
         toast.success(data.messageList);
-        console.log(data);
+        // console.log(data);
         if (data.success) {
           // setProfile(data?.data.firstName);
 
@@ -90,7 +90,7 @@ const Login = () => {
           } else {
             router.push("/");
           }
-          console.log(typeof window);
+          // console.log(typeof window);
 
           setTimeout(() => {
             if (typeof window !== "undefined") window.location.reload();
@@ -98,7 +98,7 @@ const Login = () => {
         }
 
         // setToken(data.data.jwToken);
-        console.log(data);
+        // console.log(data);
       } else {
         toast.error(data.messageList);
       }

@@ -35,9 +35,11 @@ function Navbar() {
     data?.success ? router.push("purchase") : router.push("sign");
   };
 
+  console.log(cartItems);
+
   return (
-    <header className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 shadow-md z-40 sticky">
-      <div className="container mx-auto">
+    <header className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 sticky">
+      <div className="container mx-auto lg:px-5">
         <div className="flex justify-between items-center">
           <Link href="/">
             <Image
@@ -45,10 +47,11 @@ function Navbar() {
               width={100}
               height={50}
               alt="logo"
+              className="h-12 w-auto xl:h-16"
             />
           </Link>
 
-          <ul className="hidden lg:flex flex-1 lg:gap-5 xl:gap-10 justify-center lg:text-lg xl:text-xl">
+          <ul className="hidden lg:flex flex-1 lg:gap-5 xl:gap-10 justify-center lg:text-md xl:text-xl">
             <li>
               <Link href="/">خانه</Link>
             </li>
@@ -74,7 +77,7 @@ function Navbar() {
                 <ul className="dropdown-menu">
                   {menuList?.data?.map((m) => (
                     <li key={m.id}>
-                      <Link href={`/${m.name}-${m.id}`}>{m.name}</Link>
+                      <Link href={`/category/${m.name}-${m.id}`}>{m.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -156,7 +159,7 @@ function Navbar() {
                   {itemCount}
                 </span>
               )}
-              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-96 cart">
+              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-80 xl:w-96 cart">
                 {itemCount > 0 ? (
                   <div className="grid gap-3">
                     {cartItems.map((item) => (
@@ -195,20 +198,20 @@ function Navbar() {
                           </p>
                           <p>{item.weight ? item.weight : item.count}</p>
                         </div>
-                        <div className="w-24 h-24 rounded-lg overflow-hidden">
+                        <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
                           <Image
                             src={item.img}
                             alt={item.name}
                             width={100}
                             height={100}
-                            className="w-full h-full object-cover"
+                            className="w-16 h-16 xl:w-full xl:h-full object-cover"
                           />
                         </div>
                       </div>
                     ))}
 
                     <div className="border-t pt-3 flex justify-between items-center">
-                      <p className="text-sm">
+                      <p className="text-xs xl:text-sm">
                         مجموع:
                         <NumericFormat
                           thousandSeparator=","
@@ -220,14 +223,14 @@ function Navbar() {
                       <div className="flex gap-2">
                         <button
                           type="button"
-                          className="border text-orange py-2 px-3 text-sm rounded-lg"
+                          className="border text-orange py-2 px-3 text-xs xl:text-sm rounded-lg"
                           onClick={() => resetCart()}
                         >
                           حذف سبد
                         </button>
                         <button
                           type="button"
-                          className="bg-green text-white text-sm py-2 px-5 rounded-lg"
+                          className="bg-green text-white text-xs xl:text-sm py-2 px-5 rounded-lg"
                           onClick={() => cartHandler()}
                         >
                           پرداخت

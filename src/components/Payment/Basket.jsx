@@ -37,7 +37,7 @@ const Basket = ({ setActiveTab }) => {
 
   const sendBasketHandler = async () => {
     const data = await mutateSendCart({ basket, token });
-    console.log(data);
+    // console.log(data);
     setActiveTab(2);
   };
 

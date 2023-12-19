@@ -15,14 +15,10 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { likeProduct } from "@/services/likeProduct";
 
-const HorizontalCard = ({
-  farsiName,
-  moreImages,
-  salePrice,
-  isFavorite,
-  unitCountingId,
-  id,
-}) => {
+const HorizontalCard = (product) => {
+  const { farsiName, moreImages, salePrice, isFavorite, unitCountingId, id } =
+    product || "";
+
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
@@ -159,7 +155,7 @@ const HorizontalCard = ({
           {unitCountingId === 1 ? (
             <Counter step={1} label="عدد" />
           ) : unitCountingId === 2 ? (
-            <GramsCounter />
+            <GramsCounter product={product} />
           ) : (
             <Counter step={1} label="بسته" />
           )}

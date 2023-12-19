@@ -17,9 +17,10 @@ const GramsCounter = ({ product, weight }) => {
     unitCountingId,
     variantId,
     stock,
+    step,
   } = product || "";
   const [kilo, setKilo] = useState(0);
-  const [grams, setGrams] = useState(0);
+  const [grams, setGrams] = useState(step);
   const [showBtn, setShowBtn] = useState(true);
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -38,14 +39,16 @@ const GramsCounter = ({ product, weight }) => {
     }
   }, []);
 
+  console.log(product);
+
   const kiloIncrementHandler = () => {
     setKilo((k) => k + 1);
     addToCart({
       productId: productId ? productId : product.id,
-      pathImage,
+      pathImage: pathImage ? pathImage : product.mainImage,
       salePrice: salePrice ? +salePrice : product.price,
-      productName,
-      variantId,
+      productName: productName ? productName : product.farsiName,
+      variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
       totalValue: kilo + 1 + grams,
     });
@@ -56,10 +59,10 @@ const GramsCounter = ({ product, weight }) => {
 
     reduceFromCart({
       productId: productId ? productId : product.id,
-      pathImage,
+      pathImage: pathImage ? pathImage : product.mainImage,
       salePrice: salePrice ? salePrice : product.price,
-      productName,
-      variantId,
+      productName: productName ? productName : product.farsiName,
+      variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
       totalValue: kilo - 1 + grams,
     });
@@ -70,25 +73,25 @@ const GramsCounter = ({ product, weight }) => {
   };
 
   const gramsIncrementHandler = () => {
-    setGrams((g) => g + 250 / 1000);
+    setGrams((g) => g + step / 1000);
 
     addToCart({
       productId: productId ? productId : product.id,
       salePrice: salePrice ? salePrice : product.price,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
-      variantId,
-      totalValue: grams + 0.25 + kilo,
+      variantId: variantId ? variantId : product.variantId,
+      totalValue: grams + step / 1000 + kilo,
     });
   };
 
   const gramsDecrementHandler = () => {
-    grams >= 0.25 && setGrams((g) => g - 250 / 1000);
+    grams >= 0.25 && setGrams((g) => g - step / 1000);
     reduceFromCart({
       productId: productId ? productId : product.id,
       salePrice: salePrice ? salePrice : product.price,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
-      variantId,
-      totalValue: grams - 0.25 + kilo,
+      variantId: variantId ? variantId : product.variantId,
+      totalValue: grams - step / 1000 + kilo,
     });
   };
 
@@ -272,7 +275,7 @@ const GramsCounter = ({ product, weight }) => {
           </div>
           {showBtn && (
             <button
-              className="w-10 h-10 bg-orange text-white rounded-md flex justify-center items-center"
+              className="w-10 h-10 mt-5 bg-orange text-white rounded-md flex justify-center items-center"
               onClick={() => cartHandler()}
             >
               <svg

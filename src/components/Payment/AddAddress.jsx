@@ -100,7 +100,7 @@ const AddAddress = ({
   }, [selectedAddress]);
 
   const submitHandler = async (values) => {
-    console.log(values);
+    // console.log(values);
     const stateId = getSatatesList?.data.statesList.find(
       (s) => s.title === formik.values.stateName
     ).id;

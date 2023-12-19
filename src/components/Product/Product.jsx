@@ -21,6 +21,7 @@ const Product = (product) => {
     unitCountingId,
     isFavorite,
     categoriId,
+    variantId,
   } = product;
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
@@ -99,11 +100,16 @@ const Product = (product) => {
           />
         </svg>
       </label>
-      <Link href="" className="flex justify-center">
+      <Link
+        href={`/category/${categoriId}/${productId}-${variantId}`}
+        className="flex justify-center"
+      >
         <Image width={200} height={200} alt="" src={pathImage} />
       </Link>
       <div className="flex justify-between items-center">
-        <Link href={`/${categoriId}/${productId}`}>{productName}</Link>
+        <Link href={`/category/${categoriId}/${productId}-${variantId}`}>
+          {productName}
+        </Link>
         <p className="price">
           <span>
             هر{" "}

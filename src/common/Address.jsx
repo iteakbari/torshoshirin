@@ -25,7 +25,7 @@ const Address = ({ address, setAddress }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setAddress(data.postal_address);
       });
     const array = [];

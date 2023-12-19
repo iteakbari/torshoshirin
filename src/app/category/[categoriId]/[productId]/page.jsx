@@ -7,8 +7,8 @@ import NewProductsLoading from "@/components/Product/NewProductsLoading";
 import useProduct from "@/hooks/useProduct";
 
 const ProductDetails = ({ params }) => {
-  const { data, isLoading } = useProduct(params.productId);
-
+  const para = params.productId.split("-");
+  const { data, isLoading } = useProduct(para[0], para[1]);
   const product = data?.data?.data?.data;
 
   return (

@@ -689,3 +689,37 @@ input:-internal-autofill-selected {
   height: 100% !important;
   border-radius: 10px;
 }
+
+.searchBar {
+  position: relative;
+
+}
+
+.searchBar form {
+  border-radius: 30px;
+  display: flex;
+  border: 2px solid var(--border-color-green);
+  padding: 3px 10px;
+  max-width: 230px;
+  height: 50px;
+}
+
+/* .searchBar input {
+  max-width: 85%;
+} */
+
+.searchBar input::placeholder {
+  font-size: 14px;
+}
+
+@media (min-width:1200px) {
+  .searchBar {
+    max-width: 300px;
+  }
+}
+
+@media (max-width:991px) {
+  .searchBar {
+    display: none;
+  }
+}
