@@ -700,13 +700,18 @@ input:-internal-autofill-selected {
   display: flex;
   border: 2px solid var(--border-color-green);
   padding: 3px 10px;
-  max-width: 230px;
   height: 50px;
+  width: 100%;
+  background-color: #fff;
 }
 
-/* .searchBar input {
-  max-width: 85%;
-} */
+.searchBar .price {
+  font-size: 13px;
+}
+
+.searchBar .price span:nth-child(2) {
+  letter-spacing: 5px;
+}
 
 .searchBar input::placeholder {
   font-size: 14px;
@@ -714,7 +719,7 @@ input:-internal-autofill-selected {
 
 @media (min-width:1200px) {
   .searchBar {
-    max-width: 300px;
+    max-width: 320px;
   }
 }
 
@@ -722,4 +727,8 @@ input:-internal-autofill-selected {
   .searchBar {
     display: none;
   }
+}
+
+.no-scroll::-webkit-scrollbar {
+  width: 0;
 }

@@ -9,7 +9,7 @@ import useProduct from "@/hooks/useProduct";
 const ProductDetails = ({ params }) => {
   const para = params.productId.split("-");
   const { data, isLoading } = useProduct(para[0], para[1]);
-  const product = data?.data?.data?.data;
+  const product = data?.data;
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto">

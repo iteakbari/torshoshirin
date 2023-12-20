@@ -12,9 +12,11 @@ export function getProductsList({ queryKey }) {
 }
 
 export function getProduct({ queryKey }) {
-  return http.get(
-    `/ProductApi/ProductDetails?ProductId=${queryKey[1].productId}&VarianId=${queryKey[1].variantId}`
-  );
+  return http
+    .get(
+      `/ProductApi/ProductDetails?ProductId=${queryKey[1].productId}&VarianId=${queryKey[1].variantId}`
+    )
+    .then(({ data }) => data.data);
 }
 
 export function searchProduct({
@@ -26,13 +28,15 @@ export function searchProduct({
   pageSize,
   totalCount,
 }) {
-  return http.post("/ProductApi/SearchProduct", {
-    categoryId,
-    brandId,
-    barcode,
-    keyWord,
-    step,
-    pageSize,
-    totalCount,
-  });
+  return http
+    .post("/ProductApi/SearchProduct", {
+      categoryId,
+      brandId,
+      barcode,
+      keyWord,
+      step,
+      pageSize,
+      totalCount,
+    })
+    .then(({ data }) => data.data);
 }

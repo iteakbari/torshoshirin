@@ -8,7 +8,7 @@ import Product from "@/components/Product/Product";
 const Favorites = () => {
   const token = Cookies.get("token");
   const { data, isLoading } = useLikedProducts(token);
-  console.log(data?.data);
+  console.log(data?.data?.productlist);
 
   return (
     <>
@@ -18,7 +18,9 @@ const Favorites = () => {
         {isLoading ? (
           <ProductLoading />
         ) : data ? (
-          data.data?.map((product) => <Product key={product.id} {...product} />)
+          data.data.productlist?.map((product) => (
+            <Product key={product.id} {...product} />
+          ))
         ) : (
           <div className="w-full h-full flex justify-center items-center flex-col">
             <p className="text-center mb-10 text-light text-xl">

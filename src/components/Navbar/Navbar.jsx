@@ -35,8 +35,6 @@ function Navbar() {
     data?.success ? router.push("purchase") : router.push("sign");
   };
 
-  console.log(cartItems);
-
   return (
     <header className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 sticky">
       <div className="container mx-auto lg:px-5">

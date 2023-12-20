@@ -2,16 +2,24 @@
 import { searchProduct } from "@/services/productService";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { NumericFormat } from "react-number-format";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
   const [searchValue, setSearchValue] = useState("");
-  const { data, mutateAsync: searchProductFunc } = useMutation({
+  const [searchList, setSearchList] = useState();
+  const { mutateAsync: searchProductFunc } = useMutation({
+    mutationKey: ["search"],
     mutationFn: searchProduct,
   });
 
-  const searchProductHandler = (e) => {
+  const router = useRouter();
+
+  const searchProductHandler = async (e) => {
     setSearchValue(e.target.value);
-    const { data } = searchProductFunc({
+    const { data } = await searchProductFunc({
       categoryId: null,
       brandId: null,
       barcode: "",
@@ -20,20 +28,26 @@ export default function SearchBar() {
       pageSize: 20,
       totalCount: 0,
     });
+    console.log(data);
+    setSearchList(data?.productlist);
   };
 
-  const searchList = data?.data?.data?.data?.productlist;
-  console.log(searchList);
+  const submitSearchHandler = (e) => {
+    e.preventDefault();
+    router.push(`/search?keyword=${searchValue}`);
+    setSearchValue("");
+  };
 
   return (
     <>
       <div></div>
       <div className="searchBar">
-        <form className="relative z-20">
+        <form className="relative z-20" onSubmit={submitSearchHandler}>
           <input
             type="search"
             placeholder="جستجو در محصولات"
             className="rounded-full outline-none px-3 bg-transparent"
+            value={searchValue}
             onChange={(e) => searchProductHandler(e)}
           />
           {!searchValue && (
@@ -55,12 +69,54 @@ export default function SearchBar() {
           )}
         </form>
         <div
-          className={`w-full border-2  rounded-3xl transition-all duration-300 z-10 bg-white absolute top-0 left-0 right-0 ${
+          className={`w-full border-2 px-3 pt-16 overflow-y-auto overflow-x-hidden no-scroll  rounded-3xl transition-all duration-300 z-10 bg-white absolute top-0 left-0 right-0 ${
             searchValue.length > 0
               ? "h-80 border-color-green"
               : "h-0 border-transparent"
           }`}
-        ></div>
+        >
+          {searchList?.length > 0 ? (
+            searchList.map((item) => (
+              <Link
+                href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                key={item.productId}
+                className="flex py-4 border-b last:border-b-0"
+              >
+                <div className="w-2/5 flex justify-center items-center">
+                  <Image
+                    width={80}
+                    height={80}
+                    alt={item.productName}
+                    src={item.pathImage}
+                  />
+                </div>
+                <div className="w-3/5">
+                  <p className="w-full text-center text-sm mb-1">
+                    {item.productName}
+                  </p>
+                  <p className="price">
+                    <span>
+                      هر{" "}
+                      {item.unitCountingId === 1
+                        ? "عدد"
+                        : item.unitCountingId === 2
+                        ? "کیلو"
+                        : "بسته"}
+                    </span>
+                    <NumericFormat
+                      displayType="text"
+                      value={item.salePrice}
+                      thousandSeparator=","
+                    />
+                    <span>ریال</span>
+                  </p>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p>نتیجه ای یافت نشد</p>
+          )}
+        </div>
       </div>
     </>
   );
