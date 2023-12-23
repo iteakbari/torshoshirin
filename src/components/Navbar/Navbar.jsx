@@ -11,10 +11,13 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Logout from "../Logout/Logout";
 import useCategories from "@/hooks/useCategories";
+import OffCanvas from "@/common/OffCanvas";
+import MobileMenu from "../MobileMenu/MobileMenu";
 
 function Navbar() {
   const [token, setToken] = useState("");
   const { data: menuList } = useCategories();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { cartItems, resetCart, removeFromCart, totalPrice } =
     useContext(ShopContext);
@@ -32,7 +35,7 @@ function Navbar() {
   const router = useRouter();
 
   const cartHandler = () => {
-    data?.success ? router.push("purchase") : router.push("sign");
+    data?.success ? router.push("/purchase") : router.push("/sign");
   };
 
   return (
@@ -154,7 +157,7 @@ function Navbar() {
               </svg>
               {itemCount > 0 && (
                 <span className="absolute flex w-6 h-6 rounded-full justify-center items-center -top-2 -right-3 bg-orange">
-                  {itemCount}
+                  {itemCount < 1 ? 1 : itemCount}
                 </span>
               )}
               <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-80 xl:w-96 cart">
@@ -241,8 +244,12 @@ function Navbar() {
                 )}
               </div>
             </div>
-            <SearchBar />
-            <button className="lg:hidden">
+
+            <div className="hidden lg:block">
+              <SearchBar />
+            </div>
+
+            {/* <button className="lg:hidden">
               <svg
                 width="33"
                 height="33"
@@ -257,9 +264,29 @@ function Navbar() {
                   strokeLinecap="round"
                 />
               </svg>
-            </button>
+            </button> */}
 
-            <button className="xs:flex lg:hidden">
+            <Link href="/search" className="lg:hidden">
+              <svg
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M24.75 21.6783L26.8638 23.7922C27.7121 24.6404 27.7121 26.0156 26.8638 26.8638C26.0156 27.7121 24.6404 27.7121 23.7922 26.8638L21.6783 24.75M5.5 14.85C5.5 9.68614 9.68613 5.5 14.85 5.5C20.0138 5.5 24.2 9.68614 24.2 14.85C24.2 20.0139 20.0138 24.2 14.85 24.2C9.68613 24.2 5.5 20.0139 5.5 14.85Z"
+                  stroke="#1a3622"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </Link>
+
+            <button
+              className="xs:flex lg:hidden"
+              onClick={() => setIsOpen(!isOpen)}
+            >
               <svg
                 width="21"
                 height="8"
@@ -271,6 +298,17 @@ function Navbar() {
                 <rect y="6" width="21" height="2" rx="1" fill="#20422A" />
               </svg>
             </button>
+
+            <OffCanvas
+              origin="right"
+              height="h-full"
+              show={isOpen ? "show" : ""}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+              customeClass="p-0 rounded-tl-xl rounded-bl-xl overflow-hidden w-300px"
+            >
+              <MobileMenu setIsOpen={setIsOpen} token={token} />
+            </OffCanvas>
           </div>
         </div>
       </div>

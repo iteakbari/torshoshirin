@@ -4,6 +4,7 @@ import HorizontalCard from "@/components/HorizontalCard/HorizontalCard";
 import HorizontalCardLoading from "@/components/HorizontalCard/HorizontalCardLoading";
 import NewProducts from "@/components/Product/NewProducts";
 import NewProductsLoading from "@/components/Product/NewProductsLoading";
+import RelatedProducts from "@/components/Product/RelatedProducts";
 import useProduct from "@/hooks/useProduct";
 
 const ProductDetails = ({ params }) => {
@@ -38,12 +39,13 @@ const ProductDetails = ({ params }) => {
         </div>
         <div className="md:hidden lg:block">
           <p className="py-8 text-center text-xl">محصولات جدید</p>
-          {/* <NewProducts /> */}
-          <NewProductsLoading />
+          <NewProducts />
         </div>
       </div>
       <p className="text-xl">محصولات مرتبط</p>
-      <div className="mt-5 bg-white"></div>
+      <div className="mt-5 bg-white">
+        <RelatedProducts categoryId={product?.categoryId} />
+      </div>
 
       <div className="flex flex-col items-center">
         <p className="mt-10 text-center">

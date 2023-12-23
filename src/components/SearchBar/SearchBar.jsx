@@ -42,11 +42,11 @@ export default function SearchBar() {
     <>
       <div></div>
       <div className="searchBar">
-        <form className="relative z-20" onSubmit={submitSearchHandler}>
+        <form className="relative z-30" onSubmit={submitSearchHandler}>
           <input
             type="search"
             placeholder="جستجو در محصولات"
-            className="rounded-full outline-none px-3 bg-transparent"
+            className="rounded-full outline-none px-3 bg-transparent flex-1"
             value={searchValue}
             onChange={(e) => searchProductHandler(e)}
           />
@@ -69,7 +69,7 @@ export default function SearchBar() {
           )}
         </form>
         <div
-          className={`w-full border-2 px-3 pt-16 overflow-y-auto overflow-x-hidden no-scroll  rounded-3xl transition-all duration-300 z-10 bg-white absolute top-0 left-0 right-0 ${
+          className={`w-full border-2 px-3 lg:pt-16 overflow-y-auto overflow-x-hidden no-scroll  rounded-3xl transition-all duration-300 z-20 bg-white absolute top-0 left-0 right-0 ${
             searchValue.length > 0
               ? "h-80 border-color-green"
               : "h-0 border-transparent"

@@ -5,6 +5,10 @@ const useGetProfile = (token) => {
   return useQuery({
     queryKey: ["get-profile", token],
     queryFn: getUserProfile,
+    refetchIntervalInBackground: false,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 };
 

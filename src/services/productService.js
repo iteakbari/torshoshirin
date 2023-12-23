@@ -40,3 +40,13 @@ export function searchProduct({
     })
     .then(({ data }) => data.data);
 }
+
+export function newProducts() {
+  return http.get("/ProductApi/CurrentProduct").then(({ data }) => data.data);
+}
+
+export function relatedProducts({ queryKey }) {
+  return http
+    .get(`/ProductApi/RelatedProduct?CategoryId=${queryKey[1]}`)
+    .then(({ data }) => data.data);
+}

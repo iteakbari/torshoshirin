@@ -120,8 +120,11 @@ const Basket = ({ setActiveTab }) => {
       <div className="flex justify-center pt-5">
         <button
           type="button"
-          className="bg-orange text-white w-72 h-12 rounded-md"
+          className={`bg-orange text-white w-72 h-12 rounded-md ${
+            cartItems?.length > 0 ? "" : "disabled-btn"
+          }`}
           onClick={() => sendBasketHandler()}
+          disabled={!cartItems?.length > 0}
         >
           ثبت سبد خرید
         </button>

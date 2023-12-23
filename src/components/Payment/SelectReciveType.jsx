@@ -235,7 +235,7 @@ const SelectReciveType = ({
 
         <button
           type="button"
-          className="flex items-center gap-2 text-xl"
+          className="flex items-center gap-2 text-xl "
           onClick={() => setActiveTab(1)}
         >
           بازگشت به سبد خرید
@@ -260,7 +260,7 @@ const SelectReciveType = ({
         show={isOpen ? "show" : ""}
         setIsOpen={setIsOpen}
         isOpen={isOpen}
-        customeClass="py-14"
+        customeClass="py-14 px-5"
       >
         <AddAddress
           refetch={refetch}

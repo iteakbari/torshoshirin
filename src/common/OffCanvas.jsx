@@ -21,7 +21,7 @@ const OffCanvas = ({
       )}
 
       <div
-        className={`offCanvas-content ${customeClass} px-5 ${
+        className={`offCanvas-content ${customeClass}  ${
           origin === "right"
             ? "offcanvas-right"
             : origin === "bottom"

@@ -28,6 +28,7 @@ const useCart = () => {
     unitCountingId,
     totalValue,
     variantId,
+    step,
   }) => {
     if (!cartItems?.find((item) => item.id === productId))
       setCartItems([
@@ -37,11 +38,12 @@ const useCart = () => {
           name: productName,
           img: pathImage,
           price: salePrice,
-          totalPrice: salePrice * totalValue,
+          totalPrice: Math.round(salePrice * totalValue),
           count: unitCountingId === 2 ? 1 : totalValue ? totalValue : 1,
           weight: unitCountingId === 2 && totalValue,
           UCI: unitCountingId,
           variantId: variantId,
+          step,
         },
       ]);
     else
@@ -50,7 +52,7 @@ const useCart = () => {
           if (item.id === productId)
             return {
               ...item,
-              totalPrice: salePrice * totalValue,
+              totalPrice: Math.round(salePrice * totalValue),
               count: unitCountingId === 2 ? 1 : item.count + 1,
               weight: unitCountingId === 2 && totalValue,
             };
@@ -67,13 +69,17 @@ const useCart = () => {
     unitCountingId,
     totalValue,
   }) => {
+    // console.log(totalValue);
+
     setCartItems(
       cartItems.map((item) => {
         if (item.id === productId)
           return {
             ...item,
-            totalPrice: salePrice * totalValue,
+            totalPrice: Math.round(salePrice * totalValue),
             count: unitCountingId === 2 ? 1 : item.count - 1,
+            // count:
+            //   unitCountingId !== 2 ? item.count - 1 : totalValue > 0 ? 1 : 0,
             weight: unitCountingId === 2 && totalValue,
           };
         else return item;

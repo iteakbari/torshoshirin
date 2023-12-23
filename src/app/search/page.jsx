@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import ProductLoading from "@/components/Product/ProductLoading";
 import { searchProduct } from "@/services/productService";
 import { useMutation } from "@tanstack/react-query";
+import SearchBar from "@/components/SearchBar/SearchBar";
 
 const SearchProducts = ({ searchParams }) => {
   const [step, setStep] = useState(1);
@@ -29,7 +30,7 @@ const SearchProducts = ({ searchParams }) => {
       pageSize: 20,
       totalCount: 0,
     });
-    console.log(data);
+    // console.log(data);
     setSearchList(data?.productlist);
   };
 
@@ -60,10 +61,15 @@ const SearchProducts = ({ searchParams }) => {
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto">
       <div className="py-16">
-        <div className="sm:flex justify-between px-3">
-          <h1 className="text-3xl sm:text-2xl lg:text-3xl text-center sm:text-right flex-1 mb-5 sm:mb-0">
-            جستجو برای <span className="text-orange">{para}</span>
-          </h1>
+        <div className="lg:hidden">
+          <SearchBar />
+        </div>
+        <div className="sm:flex justify-between px-3 mt-5 lg:mt-0">
+          {para && (
+            <h1 className="text-xl sm:text-2xl lg:text-3xl  sm:text-right flex-1 mb-5 sm:mb-0">
+              جستجو برای <span className="text-orange">{para}</span>
+            </h1>
+          )}
           <div className="flex items-center md:items-end gap-5">
             <p className="flex items-end gap-3">
               <svg

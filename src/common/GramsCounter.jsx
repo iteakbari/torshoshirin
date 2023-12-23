@@ -19,10 +19,13 @@ const GramsCounter = ({ product, weight }) => {
     stock,
     step,
   } = product || "";
+
+  const s = step || 250;
   const [kilo, setKilo] = useState(0);
-  const [grams, setGrams] = useState(step);
+  const [grams, setGrams] = useState(0);
   const [showBtn, setShowBtn] = useState(true);
   const [token, setToken] = useState("");
+  const [w, setW] = useState(0);
   useEffect(() => {
     const getToken = Cookies.get("token") ? Cookies.get("token") : null;
     setToken(getToken);
@@ -33,13 +36,12 @@ const GramsCounter = ({ product, weight }) => {
     if (weight) {
       const integerPart = Math.floor(weight);
       const decimalPart = (weight - integerPart).toFixed(2);
+      // console.log(weight, integerPart, decimalPart);
       setKilo(+integerPart);
-      setGrams(+decimalPart);
+      setGrams(+decimalPart * 1000);
       setShowBtn(false);
     }
   }, []);
-
-  console.log(product);
 
   const kiloIncrementHandler = () => {
     setKilo((k) => k + 1);
@@ -50,12 +52,13 @@ const GramsCounter = ({ product, weight }) => {
       productName: productName ? productName : product.farsiName,
       variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
-      totalValue: kilo + 1 + grams,
+      step: s,
+      totalValue: kilo + 1 + grams / 1000,
     });
   };
 
   const kiloDecrementHandler = () => {
-    setKilo((k) => k - 1);
+    kilo >= 0 && setKilo((k) => k - 1);
 
     reduceFromCart({
       productId: productId ? productId : product.id,
@@ -64,36 +67,42 @@ const GramsCounter = ({ product, weight }) => {
       productName: productName ? productName : product.farsiName,
       variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
-      totalValue: kilo - 1 + grams,
+      step: s,
+      totalValue: kilo - 1 + grams / 1000,
     });
 
-    if (kilo - 1 < 1) {
+    if (kilo - 1 < 1 && grams === 0) {
       removeFromCart(productId);
     }
   };
 
   const gramsIncrementHandler = () => {
-    setGrams((g) => g + step / 1000);
+    setGrams((g) => g + s);
 
     addToCart({
       productId: productId ? productId : product.id,
       salePrice: salePrice ? salePrice : product.price,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
       variantId: variantId ? variantId : product.variantId,
-      totalValue: grams + step / 1000 + kilo,
+      totalValue: (grams + s) / 1000 + kilo,
     });
   };
 
   const gramsDecrementHandler = () => {
-    grams >= 0.25 && setGrams((g) => g - step / 1000);
+    grams > 0 && setGrams((g) => g - s);
     reduceFromCart({
       productId: productId ? productId : product.id,
       salePrice: salePrice ? salePrice : product.price,
       unitCountingId: unitCountingId ? unitCountingId : product.UCI,
       variantId: variantId ? variantId : product.variantId,
-      totalValue: grams - step / 1000 + kilo,
+      totalValue: (grams - s) / 1000 + kilo,
     });
   };
+
+  useEffect(() => {
+    setW(kilo + grams);
+    kilo === 0 && grams === 0 && removeFromCart(productId);
+  }, [grams, kilo]);
 
   const router = useRouter();
   const cartHandler = () => {
@@ -102,17 +111,17 @@ const GramsCounter = ({ product, weight }) => {
 
   return (
     <div className="flex justify-between items-center gap-2 flex-1">
-      <div className={`${kilo === 0 && "w-full"}`}>
-        {kilo > 0 && <p className="text-sm text-center">کیلو</p>}
+      <div className={`${kilo === 0 && grams === 0 && "w-full"}`}>
+        {w > 0 && <p className="text-sm text-center">کیلو</p>}
         <div className="flex justify-between items-center gap-2">
           <button
             type="button"
             onClick={() => kiloIncrementHandler()}
-            className={`${kilo === 0 && "w-full"} ${
+            className={`${kilo === 0 && grams === 0 && "w-full"} ${
               kilo >= stock && "disable"
             }`}
           >
-            {kilo > 0 ? (
+            {kilo > 0 || grams > 0 ? (
               <svg
                 width="40"
                 height="40"
@@ -146,13 +155,15 @@ const GramsCounter = ({ product, weight }) => {
                 />
               </svg>
             ) : (
-              <span className="w-full flex h-12 bg-orange text-white rounded-md justify-center items-center">
-                افزودن به سبد خرید
-              </span>
+              grams === 0 && (
+                <span className="w-full flex h-12 bg-orange text-white rounded-md justify-center items-center">
+                  افزودن به سبد خرید
+                </span>
+              )
             )}
           </button>
 
-          {kilo > 0 && (
+          {w > 0 && (
             <>
               <NumericFormat
                 thousandSeparator=","
@@ -162,7 +173,7 @@ const GramsCounter = ({ product, weight }) => {
                 value={kilo}
                 // onValueChange={(values) => setKilo(+values.value)}
               />
-              <button type="button" onClick={kiloDecrementHandler}>
+              <button type="button" onClick={() => kiloDecrementHandler()}>
                 <svg
                   width="40"
                   height="40"
@@ -193,14 +204,14 @@ const GramsCounter = ({ product, weight }) => {
           )}
         </div>
       </div>
-      {kilo > 0 && (
+      {w > 0 && (
         <>
           <div>
             <p className="text-sm text-center">گرم</p>
             <div className="flex justify-between items-center gap-2">
               <button
                 type="button"
-                className={`${grams === 0.75 && "pointer-events-none"}`}
+                className={`${grams === 1000 - s && "pointer-events-none"}`}
                 onClick={() => gramsIncrementHandler()}
               >
                 <svg
@@ -240,11 +251,15 @@ const GramsCounter = ({ product, weight }) => {
                 thousandSeparator=","
                 className="text-center bg-transparent w-7 h-10 text-sm flex justify-center items-center"
                 placeholder="0"
-                value={grams * 1000}
+                value={grams}
                 displayType="text"
                 // onValueChange={(values) => setGrams(+values.value)}
               />
-              <button type="button" onClick={gramsDecrementHandler}>
+              <button
+                type="button"
+                onClick={() => gramsDecrementHandler()}
+                className={`${grams === 0 && "disable"}`}
+              >
                 <svg
                   width="40"
                   height="40"

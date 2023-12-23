@@ -138,7 +138,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-white p-10 px-16 rounded-3xl shadow-sm">
+    <div className="bg-white p-10 sm:px-16 rounded-3xl shadow-sm">
       <p>اکانت اختصاصی</p>
       <p className="text-2xl">ورود | ثبت نام</p>
       {renderSteps()}

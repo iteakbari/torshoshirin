@@ -102,12 +102,21 @@ const Product = (product) => {
       </label>
       <Link
         href={`/category/${categoriId}/${productId}-${variantId}`}
-        className="flex justify-center"
+        className="flex justify-center h-36"
       >
-        <Image width={200} height={200} alt="" src={pathImage} />
+        <Image
+          width={200}
+          height={200}
+          alt=""
+          src={pathImage}
+          className="w-auto"
+        />
       </Link>
       <div className="flex justify-between items-center">
-        <Link href={`/category/${categoriId}/${productId}-${variantId}`}>
+        <Link
+          href={`/category/${categoriId}/${productId}-${variantId}`}
+          className="inline-block w-52"
+        >
           {productName}
         </Link>
         <p className="price">

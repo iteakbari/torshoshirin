@@ -1,124 +1,44 @@
+"use client";
+import useNewProducts from "@/hooks/useNewProducts";
 import Image from "next/image";
 import { NumericFormat } from "react-number-format";
+import Link from "next/link";
 
 const NewProducts = () => {
+  const { data, isLoading } = useNewProducts();
+
   return (
     <ul>
-      <li>
-        <div className="border-t border-r flex items-center p-3">
-          <div className="flex justify-center items-center w-1/2">
-            <Image
-              width={100}
-              height={100}
-              alt=""
-              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
-            />
-          </div>
-          <div className="w-1/2 flex items-center">
-            <p className="price">
-              <span>هر بسته</span>
-              <NumericFormat
-                displayType="text"
-                value={123500}
-                thousandSeparator=","
-              />
-              <span>ریال</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div className="border-t border-r flex items-center p-3">
-          <div className="flex justify-center items-center w-1/2">
-            <Image
-              width={100}
-              height={100}
-              alt=""
-              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
-            />
-          </div>
-          <div className="w-1/2 flex items-center">
-            <p className="price">
-              <span>هر بسته</span>
-              <NumericFormat
-                displayType="text"
-                value={123500}
-                thousandSeparator=","
-              />
-              <span>ریال</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div className="border-t border-r flex items-center p-3">
-          <div className="flex justify-center items-center w-1/2">
-            <Image
-              width={100}
-              height={100}
-              alt=""
-              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
-            />
-          </div>
-          <div className="w-1/2 flex items-center">
-            <p className="price">
-              <span>هر بسته</span>
-              <NumericFormat
-                displayType="text"
-                value={123500}
-                thousandSeparator=","
-              />
-              <span>ریال</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div className="border-t border-r flex items-center p-3">
-          <div className="flex justify-center items-center w-1/2">
-            <Image
-              width={100}
-              height={100}
-              alt=""
-              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
-            />
-          </div>
-          <div className="w-1/2 flex items-center">
-            <p className="price">
-              <span>هر بسته</span>
-              <NumericFormat
-                displayType="text"
-                value={123500}
-                thousandSeparator=","
-              />
-              <span>ریال</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div className="border-t border-r flex items-center p-3 ">
-          <div className="flex justify-center items-center w-1/2">
-            <Image
-              width={100}
-              height={100}
-              alt=""
-              src="https://admin.torshoshirin.com/files/react-img/fc1.png"
-            />
-          </div>
-          <div className="w-1/2 flex items-center">
-            <p className="price">
-              <span>هر بسته</span>
-              <NumericFormat
-                displayType="text"
-                value={123500}
-                thousandSeparator=","
-              />
-              <span>ریال</span>
-            </p>
-          </div>
-        </div>
-      </li>
+      {data?.data?.productlist?.map((item) => (
+        <li key={item.id}>
+          <Link
+            href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+            className="border-t border-r flex items-center p-3"
+          >
+            <div className="flex justify-center items-center w-1/2">
+              <Image width={100} height={100} alt="" src={item.pathImage} />
+            </div>
+            <div className="w-1/2 flex items-center">
+              <p className="price">
+                <span>
+                  هر{" "}
+                  {item.unitCountingId === 1
+                    ? "عدد"
+                    : item.unitCountingId === 2
+                    ? "کیلو"
+                    : "بسته"}
+                </span>
+                <NumericFormat
+                  displayType="text"
+                  value={item.salePrice}
+                  thousandSeparator=","
+                />
+                <span>ریال</span>
+              </p>
+            </div>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };

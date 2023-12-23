@@ -104,7 +104,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.data?.data?.cartTotal}
+                  value={Math.round(showCartItems?.data?.data?.cartTotal)}
                 />
                 <small className="text-xs pr-1">ریال</small>
               </span>
@@ -117,7 +117,9 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.data?.data?.cartShippingCostTotal}
+                  value={Math.round(
+                    showCartItems?.data?.data?.cartShippingCostTotal
+                  )}
                 />
                 <small className="text-xs pr-1">ریال</small>
               </span>
@@ -130,7 +132,9 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={showCartItems?.data?.data?.cartDiscountTotal}
+                  value={Math.round(
+                    showCartItems?.data?.data?.cartDiscountTotal
+                  )}
                 />
                 <small className="text-xs pr-1">ریال</small>
               </span>
@@ -156,11 +160,11 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                 <NumericFormat
                   thousandSeparator=","
                   displayType="text"
-                  value={
+                  value={Math.round(
                     showCartItems?.data?.data?.cartTotal +
-                    showCartItems?.data?.data?.cartShippingCostTotal -
-                    showCartItems?.data?.data?.cartDiscountTotal
-                  }
+                      showCartItems?.data?.data?.cartShippingCostTotal -
+                      showCartItems?.data?.data?.cartDiscountTotal
+                  )}
                 />
                 <small className="text-xs pr-1">ریال</small>
               </span>

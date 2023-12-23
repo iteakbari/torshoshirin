@@ -8,7 +8,7 @@ import Product from "@/components/Product/Product";
 const Favorites = () => {
   const token = Cookies.get("token");
   const { data, isLoading } = useLikedProducts(token);
-  console.log(data?.data?.productlist);
+  // console.log(data?.data?.productlist);
 
   return (
     <>
