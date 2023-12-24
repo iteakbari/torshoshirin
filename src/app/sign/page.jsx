@@ -4,7 +4,7 @@ import Login from "@/components/Login/Login";
 import SwiperSlider from "@/components/Swiper/SwiperSlider";
 import Image from "next/image";
 
-const Sign = () => {
+const Sign = ({ searchParams }) => {
   return (
     <div className="container mx-auto">
       <div className="md:px-32 lg:px-10 xl:px-32 lg:py-20">
@@ -25,7 +25,7 @@ const Sign = () => {
             </div>
           </div>
           <div className="w-full lg:w-3/6 py-16">
-            <Login />
+            <Login searchParams={searchParams} />
           </div>
         </div>
       </div>

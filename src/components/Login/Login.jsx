@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { AuthContext } from "@/context/AuthContext";
 const RESEND_TIME = 90;
 
-const Login = () => {
+const Login = ({ searchParams }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [step, setStep] = useState(1);
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
@@ -86,6 +86,12 @@ const Login = () => {
 
           if (!data.data.firstName) {
             router.push("/dashboard/profile");
+          } else if (
+            data.data.firstName &&
+            window.location.search.split("?")[1] === "purchase"
+          ) {
+            console.log("yyyyyyyyyyyyyyyyyyyyyy");
+            router.push("/purchase");
           } else {
             router.push("/");
           }
@@ -126,6 +132,12 @@ const Login = () => {
 
           if (!data.data.firstName) {
             router.push("/dashboard/profile");
+          } else if (
+            data.data.firstName &&
+            window.location.search.split("?")[1] === "purchase"
+          ) {
+            console.log("yyyyyyyyyyyyyyyyyyyyyy");
+            router.push("/purchase");
           } else {
             router.push("/");
           }

@@ -136,7 +136,7 @@ const Product = (product) => {
           <span>ریال</span>
         </p>
       </div>
-      <div className="bg-light-gray p-5 mt-3 rounded-xl h-36 flex flex-col justify-end">
+      <div className="bg-light-gray p-5 sm:p-2 md:p-5 mt-3 rounded-xl h-36 flex flex-col justify-end">
         {unitCountingId === 1 ? (
           <>
             {/* <p className="pb-7 text-color-light">تعداد</p> */}

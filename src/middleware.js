@@ -5,7 +5,7 @@ export async function middleware(req) {
   const pathname = req.nextUrl.pathname;
   const token = req.cookies.get("token");
 
-  if (pathname?.startsWith("/dashboard")) {
+  if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/purchase")) {
     // console.log(token);
 
     if (!token || token === undefined)
@@ -29,5 +29,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/dashboard/:path*"],
+  matcher: ["/dashboard", "/dashboard/:path*", "/purchase"],
 };

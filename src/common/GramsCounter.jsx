@@ -290,7 +290,7 @@ const GramsCounter = ({ product, weight }) => {
           </div>
           {showBtn && (
             <button
-              className="w-10 h-10 mt-5 bg-orange text-white rounded-md flex justify-center items-center"
+              className="w-10 h-10 mt-5 bg-orange text-white rounded-md hidden md:flex justify-center items-center"
               onClick={() => cartHandler()}
             >
               <svg

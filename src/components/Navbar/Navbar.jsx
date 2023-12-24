@@ -35,7 +35,7 @@ function Navbar() {
   const router = useRouter();
 
   const cartHandler = () => {
-    data?.success ? router.push("/purchase") : router.push("/sign");
+    data?.success ? router.push("/purchase") : router.push("/sign?purchase");
   };
 
   return (
