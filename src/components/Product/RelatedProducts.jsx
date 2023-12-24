@@ -11,7 +11,60 @@ const RelatedProducts = ({ categoryId }) => {
   const { data } = useRelatedProducts(categoryId);
 
   return (
-    <Swiper slidesPerView={4.1} spaceBetween={30} className="w-full">
+    <Swiper
+      breakpoints={{
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 10,
+        },
+        370: {
+          slidesPerView: 1.1,
+          spaceBetween: 10,
+        },
+        420: {
+          slidesPerView: 1.2,
+          spaceBetween: 10,
+        },
+        470: {
+          slidesPerView: 1.3,
+          spaceBetween: 10,
+        },
+        520: {
+          slidesPerView: 1.4,
+          spaceBetween: 10,
+        },
+        550: {
+          slidesPerView: 1.5,
+          spaceBetween: 10,
+        },
+        600: {
+          slidesPerView: 1.6,
+          spaceBetween: 10,
+        },
+        650: {
+          slidesPerView: 1.8,
+          spaceBetween: 10,
+        },
+        767: {
+          slidesPerView: 2,
+          spaceBetween: 10,
+        },
+        1024: {
+          slidesPerView: 2.5,
+          spaceBetween: 30,
+        },
+        1280: {
+          slidesPerView: 3,
+          spaceBetween: 10,
+        },
+        1536: {
+          slidesPerView: 4,
+          spaceBetween: 10,
+        },
+      }}
+      spaceBetween={30}
+      className="w-full"
+    >
       {data?.data?.productlist?.map((item) => (
         <SwiperSlide key={item.productId}>
           <Product {...item} />

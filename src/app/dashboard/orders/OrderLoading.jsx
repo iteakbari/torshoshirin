@@ -5,36 +5,36 @@ const OrderLoading = () => {
   return (
     <>
       <div className=" py-7 border-b last:border-0">
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between">
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
         </div>
-        <Skeleton className="mt-5" height={30} width={300} />
+        <Skeleton className="mt-5 w-full sm:w-72" height={30} />
       </div>
       <div className=" py-7 border-b last:border-0">
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between">
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
         </div>
-        <Skeleton className="mt-5" height={30} width={300} />
+        <Skeleton className="mt-5 w-full sm:w-72" height={30} />
       </div>
       <div className=" py-7 border-b last:border-0">
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between">
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
         </div>
-        <Skeleton className="mt-5" height={30} width={300} />
+        <Skeleton className="mt-5 w-full sm:w-72" height={30} />
       </div>
       <div className=" py-7 border-b last:border-0">
-        <div className="flex justify-between">
+        <div className="flex flex-wrap justify-between">
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
           <Skeleton height={30} width={220} />
         </div>
-        <Skeleton className="mt-5" height={30} width={300} />
+        <Skeleton className="mt-5 w-full sm:w-72" height={30} />
       </div>
     </>
   );

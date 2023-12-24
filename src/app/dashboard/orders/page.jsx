@@ -18,7 +18,7 @@ const Orders = () => {
       ) : data && data.length > 0 ? (
         data.map((item) => (
           <div key={item.id} className=" py-7 border-b last:border-0">
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between">
               <p>
                 وضعیت سفارش :‌{" "}
                 {item.orderStatusId === 1 ? (
@@ -45,7 +45,7 @@ const Orders = () => {
                 تاریخ سفارش :‌{" "}
                 <time dateTime={item.orderDate}>{item.orderDate}</time>
               </p>
-              <p className="w-1/3 flex items-center">
+              <p className="md:w-1/3 flex flex-wrap items-center">
                 <span className="w-56 inline-block">ارسال به آدرس : </span>
                 <span className="inline-block truncate">
                   {item.customerAddress}
@@ -61,16 +61,16 @@ const Orders = () => {
           </div>
         ))
       ) : (
-        <div className="w-full h-full flex justify-center items-center flex-col">
-          <p className="text-center mb-10 text-light text-xl">
-            محصولی در این دسته بندی ثبت نشده است.
-          </p>
+        <div className="w-full h-full flex justify-start items-center flex-col">
           <Image
-            src="https://admin.torshoshirin.com/files/react-img/b2.png"
+            src="https://admin.torshoshirin.com/files/react-img/no-order.png"
             width={300}
             height={300}
             alt="basket image"
           />
+          <p className="text-center text-xl font-bold">
+            سفارشی از طرف شما به ثبت نرسیده.
+          </p>
         </div>
       )}
     </>

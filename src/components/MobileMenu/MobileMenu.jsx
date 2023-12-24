@@ -45,22 +45,28 @@ const MobileMenu = ({ setIsOpen, token }) => {
               </Link>
             </li>
             <li>
-              <Link href="/orders" onClick={() => setIsOpen(false)}>
+              <Link href="/dashboard/orders" onClick={() => setIsOpen(false)}>
                 سفارش‌ها
               </Link>
             </li>
             <li>
-              <Link href="/myAddress" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/dashboard/myAddress"
+                onClick={() => setIsOpen(false)}
+              >
                 آدرس‌های من
               </Link>
             </li>
-            <li>
-              <Link href="/lstSeen" onClick={() => setIsOpen(false)}>
+            {/* <li>
+              <Link href="/dashboard/lstSeen" onClick={() => setIsOpen(false)}>
                 بازدیدهای اخیر
               </Link>
-            </li>
+            </li> */}
             <li>
-              <Link href="/favorites" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/dashboard/favorites"
+                onClick={() => setIsOpen(false)}
+              >
                 لیست علاقمندی‌ها
               </Link>
             </li>

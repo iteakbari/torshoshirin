@@ -9,7 +9,7 @@ import Providers from "./Providers";
 import { ShopContextProvider } from "@/context/shopContext";
 
 export const metadata = {
-  metadataBase: "https://admin.torshoshirin.com",
+  metadataBase: "https://.torshoshirin.com",
   title: "فروشگاه ترش و شیرین",
   description: "فروشگاه ترش و شیرین میوه و تره بار",
   openGraph: {
@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
             <div className="flex justify-center py-5">
               <Link href="/">
                 <Image
-                  src="https://admin.torshoshirin.com/files/react-img//logo.png"
+                  src="https://admin.torshoshirin.com/files/react-img/logo.png"
                   width={240}
                   height={160}
                   alt="logo"

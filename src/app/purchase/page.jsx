@@ -52,7 +52,7 @@ const Purchase = () => {
                 className="flex justify-center items-center flex-1"
               >
                 <div
-                  className={`flex justify-center items-center gap-2 p-3 tab-item ${
+                  className={`flex justify-center items-center gap-2 sm:p-3 tab-item ${
                     tab.id === activeTab ? "active" : ""
                   }`}
                 >
@@ -61,14 +61,14 @@ const Purchase = () => {
                     width={30}
                     height={30}
                     alt={tab.des}
-                    className={`${tab.customeClass}`}
+                    className={`hidden sm:block ${tab.customeClass}`}
                   />
-                  <span className="text-base">{tab.title}</span>
+                  <span className="text-sm sm:text-base">{tab.title}</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="pt-10 px-10 pb-5 h-3/4">
+          <div className="pt-10 sm:px-10 pb-5 h-3/4">
             {activeTab === 1 ? (
               <Basket setActiveTab={setActiveTab} />
             ) : activeTab === 2 ? (

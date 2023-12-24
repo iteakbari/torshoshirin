@@ -43,7 +43,7 @@ const ProductDetails = ({ params }) => {
         </div>
       </div>
       <p className="text-xl">محصولات مرتبط</p>
-      <div className="mt-5 bg-white">
+      <div className="mt-5 bg-white px-5">
         <RelatedProducts categoryId={product?.categoryId} />
       </div>
 

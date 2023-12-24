@@ -5,8 +5,8 @@ import { NumericFormat } from "react-number-format";
 const PaymentSuccess = ({ paymentResult }) => {
   // console.log(paymentResult);
   return (
-    <div className="flex gap-12">
-      <div className="w-3/6">
+    <div className="flex flex-wrap md:flex-nowrap gap-12">
+      <div className="md:w-3/6">
         <p className="flex gap-2 items-end">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ const PaymentSuccess = ({ paymentResult }) => {
           </p>
         </div>
       </div>
-      <div className="w-2/6">
+      <div className="md:w-3/6 lg:w-2/6">
         <p className="mb-5">سبد خرید</p>
         <div className="border-4 border-light-green rounded-lg p-10">
           {paymentResult?.data?.productsList?.map((item) => (

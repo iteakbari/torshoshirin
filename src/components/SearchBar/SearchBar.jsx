@@ -114,7 +114,16 @@ export default function SearchBar() {
               </Link>
             ))
           ) : (
-            <p>نتیجه ای یافت نشد</p>
+            <div className="flex flex-col justify-center items-center gap-3">
+              <p className="text-center">نتیجه ای یافت نشد</p>
+
+              <Image
+                width={100}
+                height={100}
+                alt="empty-basket"
+                src="https://admin.torshoshirin.com/files/react-img/no-result.png"
+              />
+            </div>
           )}
         </div>
       </div>

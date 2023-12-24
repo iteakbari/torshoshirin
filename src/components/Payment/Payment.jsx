@@ -53,7 +53,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap">
         <div>
           <p className="text-xl font-bold">انتخاب روش پرداخت</p>
           <div className="mt-10">
@@ -74,7 +74,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
               </div>
             ))}
           </div>
-          <form className="flex items-end gap-3 mt-10">
+          <form className="flex items-end gap-3 mt-10 mb-10 md:mb-0">
             <div className="input-box discount border rounded-md flex">
               <input
                 type="text"

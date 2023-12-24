@@ -240,7 +240,15 @@ function Navbar() {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-center py-3">کالایی در سبد وجود ندارد</p>
+                  <div className="flex flex-col justify-center items-center gap-3">
+                    <p className="text-center py-3">کالایی در سبد وجود ندارد</p>
+                    <Image
+                      width={100}
+                      height={100}
+                      alt="empty-basket"
+                      src="https://admin.torshoshirin.com/files/react-img/b.png"
+                    />
+                  </div>
                 )}
               </div>
             </div>

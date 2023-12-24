@@ -151,7 +151,7 @@ const HorizontalCard = (product) => {
           />
           ریال
         </p>
-        <div className="flex gap-7 mt-8 justify-center flex-wrap w-96">
+        <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-96">
           {unitCountingId === 1 ? (
             <Counter step={1} label="عدد" />
           ) : unitCountingId === 2 ? (

@@ -16,21 +16,24 @@ const MyAddress = () => {
         <AddressLoading />
       ) : data ? (
         data.data?.map((item) => (
-          <div key={item.id} className="border w-2/4 p-5 rounded-lg mb-5">
+          <div
+            key={item.id}
+            className="border lg:3/4 xl:w-2/4 p-5 rounded-lg mb-5"
+          >
             {item.address}
           </div>
         ))
       ) : (
-        <div className="w-full h-full flex justify-center items-center flex-col">
-          <p className="text-center mb-10 text-light text-xl">
-            محصولی در این دسته بندی ثبت نشده است.
-          </p>
+        <div className="w-full h-full flex justify-start items-center flex-col">
           <Image
-            src="https://admin.torshoshirin.com/files/react-img/b2.png"
+            src="https://admin.torshoshirin.com/files/react-img/no-location.png"
             width={300}
             height={300}
             alt="basket image"
           />
+          <p className="text-center text-xl font-bold mt-5">
+            آدرسی از طرف شما ثبت نشده.
+          </p>
         </div>
       )}
     </>

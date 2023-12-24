@@ -44,8 +44,28 @@ const Basket = ({ setActiveTab }) => {
   return (
     <div>
       {cartItems?.map((item) => (
-        <div key={item.id} className="border-b-2 pt-5 pb-2">
-          <div className="flex items-center gap-3">
+        <div key={item.id} className="border-b-2 pt-5 pb-2 relative">
+          <button
+            type="button"
+            className="flex items-center sm:hidden mb-2 gap-1 text-orange absolute left-5"
+            onClick={() => removeFromCart(item.id)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <div className="flex flex-col sm:flex-row items-center gap-3">
             <Image
               src={item.img}
               width={56}
@@ -64,7 +84,7 @@ const Basket = ({ setActiveTab }) => {
               <small className="text-sm pr-2">ریال</small>
             </span>
           </div>
-          <div className="pt-4 flex items-end gap-10">
+          <div className="pt-4 flex items-end sm:gap-10">
             {item.UCI === 2 ? (
               <div className="w-72">
                 <GramsCounter weight={item.weight} product={item} />
@@ -81,7 +101,7 @@ const Basket = ({ setActiveTab }) => {
             )}
             <button
               type="button"
-              className="flex items-center mb-2 gap-1 text-orange"
+              className="hidden sm:flex items-center mb-2 gap-1 text-orange"
               onClick={() => removeFromCart(item.id)}
             >
               <svg

@@ -105,7 +105,7 @@ const SideBar = () => {
             </svg>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             href="/dashboard/lastSeen"
             className={`flex gap-2 justify-between p-2 items-center hover:bg-gray-100 rounded-xl transition-all ${
@@ -130,7 +130,7 @@ const SideBar = () => {
               />
             </svg>
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link
             href="/dashboard/favorites"

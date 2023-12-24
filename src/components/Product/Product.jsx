@@ -115,7 +115,7 @@ const Product = (product) => {
       <div className="flex justify-between items-center">
         <Link
           href={`/category/${categoriId}/${productId}-${variantId}`}
-          className="inline-block w-52"
+          className="inline-block w-48 sm:w-52"
         >
           {productName}
         </Link>

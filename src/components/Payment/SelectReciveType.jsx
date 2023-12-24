@@ -73,8 +73,8 @@ const SelectReciveType = ({
   }, [isOpen]);
 
   return (
-    <div className="flex justify-between">
-      <div>
+    <div className="flex justify-between flex-wrap">
+      <div className="order-2 md:order-1">
         <p className="text-xl font-bold">
           روش دریافت سفارش خود را انتخاب کنید.
         </p>
@@ -210,7 +210,7 @@ const SelectReciveType = ({
           ثبت
         </button>
       </div>
-      <div className="bg-light-gray p-5 w-96 rounded-md">
+      <div className="bg-light-gray p-5 w-96 rounded-md order-1 md:order-2 mb-8 md:mb-0">
         {cartItems?.map((item) => (
           <div key={item.id} className="text-light mb-5">
             <div className="flex justify-between items-center">
