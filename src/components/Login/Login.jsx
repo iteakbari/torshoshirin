@@ -73,6 +73,45 @@ const Login = () => {
     }
   };
 
+  const onSendOtpHandler = async () => {
+    try {
+      const data = await mutateCheckOtp({ phoneNumber, phoneNumberCode });
+      Cookies.set("token", data.data.jwToken);
+
+      if (phoneNumberCode && time) {
+        toast.success(data.messageList);
+        // console.log(data);
+        if (data.success) {
+          // setProfile(data?.data.firstName);
+
+          if (!data.data.firstName) {
+            router.push("/dashboard/profile");
+          } else {
+            router.push("/");
+          }
+          // console.log(typeof window);
+
+          setTimeout(() => {
+            if (typeof window !== "undefined") window.location.reload();
+          }, 100);
+        }
+
+        // setToken(data.data.jwToken);
+        // console.log(data);
+      } else {
+        toast.error(data.messageList);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.messageList);
+    }
+  };
+
+  useEffect(() => {
+    if (phoneNumberCode?.length === 5 && !error) {
+      onSendOtpHandler();
+    }
+  }, [phoneNumberCode]);
+
   const confirmCodeSubmit = async (e) => {
     e.preventDefault();
     try {

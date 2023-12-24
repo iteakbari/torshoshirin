@@ -31,14 +31,14 @@ const ConfrimLogin = ({
           variant="contained"
           className="bg-green-950 w-full mt-5 h-14 text-white hover:bg-green-800 transition-all rounded-lg mb-4"
         >
-          {isCheckingOtp ? <span className="loader"></span> : "ثبت"}
+          {isCheckingOtp ? <span className="loader"></span> : "ورود"}
         </button>
       ) : (
         <button
           variant="contained"
           className="bg-gray-400 w-full mt-5 h-14 text-gray-100 rounded-lg mb-4 pointer-events-none"
         >
-          {isCheckingOtp ? <span className="loader"></span> : "ثبت"}
+          {isCheckingOtp ? <span className="loader"></span> : "ورود"}
         </button>
       )}
 

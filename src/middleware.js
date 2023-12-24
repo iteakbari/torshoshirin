@@ -3,12 +3,13 @@ import { NextResponse } from "next/server";
 export async function middleware(req) {
   const url = req.url;
   const pathname = req.nextUrl.pathname;
-  const token = req.cookies.get("token")?.value;
-  console.log("in midlware", pathname);
+  const token = req.cookies.get("token");
 
   if (pathname?.startsWith("/dashboard")) {
-    console.log("check midlware", pathname);
-    if (!token) return NextResponse.redirect(new URL("/sign", url));
+    // console.log(token);
+
+    if (!token || token === undefined)
+      return NextResponse.redirect(new URL("/sign", url));
     // try {
     //   const res = await fetch(
     //     `${process.env.NEXT_PUBLIC_API_URL}/AccountApi/GetProfile`,
