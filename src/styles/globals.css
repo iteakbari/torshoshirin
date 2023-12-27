@@ -748,3 +748,7 @@ input:-internal-autofill-selected {
 .w-300px {
   width: 300px !important;
 }
+
+.mapboxgl-ctrl-bottom-right {
+  display: none !important;
+}

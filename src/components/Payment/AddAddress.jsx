@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import Switch from "@/common/Switch";
 import { useMutation } from "@tanstack/react-query";
 import { addressFunc, editAddressFunc } from "@/services/addressService";
-import Address from "@/common/Address";
+import Address from "@/common/AddressMap";
 
 const AddAddress = ({
   selectedAddress,

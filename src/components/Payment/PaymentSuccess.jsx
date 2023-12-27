@@ -54,26 +54,49 @@ const PaymentSuccess = ({ paymentResult }) => {
       </div>
       <div className="md:w-3/6 lg:w-2/6">
         <p className="mb-5">سبد خرید</p>
-        <div className="border-4 border-light-green rounded-lg p-10">
-          {paymentResult?.data?.productsList?.map((item) => (
-            <div key={item.index} className="text-light mb-5">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Image src={item.pathImage} width={56} height={56} alt="" />
-                  <span>{item.name}</span>
+
+        <div className="border-4 border-light-green rounded-lg h-80">
+          <div className="p-7 overflow-auto h-64 no-scroll">
+            {paymentResult?.data?.productsList?.map((item) => (
+              <div key={item.index} className="text-light mb-5 ">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <Image src={item.pathImage} width={56} height={56} alt="" />
+                    <span>{item.name}</span>
+                  </div>
+                  <span>
+                    <NumericFormat
+                      thousandSeparator=","
+                      displayType="text"
+                      value={item.unitPrice}
+                    />
+                    <small className="text-xs pr-1">ریال</small>
+                  </span>
                 </div>
-                <span>
-                  <NumericFormat
-                    thousandSeparator=","
-                    displayType="text"
-                    value={item.unitPrice}
-                  />
-                  <small className="text-xs pr-1">ریال</small>
-                </span>
+                <p className="text-sm">
+                  {item.quantity}
+                  <span className="pr-1">
+                    {item.unitName === "وزن"
+                      ? "کیلوگرم"
+                      : item.unitName === "عدد"
+                      ? "عدد"
+                      : "تعداد"}
+                  </span>
+                </p>
               </div>
-              <p className="text-sm">{item.quantity}</p>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="flex justify-between py-3 px-7 border-t-2 border-green-light">
+            مجموع
+            <span>
+              <NumericFormat
+                thousandSeparator=","
+                displayType="text"
+                value={data?.data?.sumPaymentAmount}
+              />
+              تومان
+            </span>
+          </div>
         </div>
       </div>
     </div>
