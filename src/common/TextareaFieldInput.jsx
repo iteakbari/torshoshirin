@@ -2,9 +2,9 @@ const TextareaFieldInput = ({
   label,
   name,
   id,
-  value,
-  onChange,
   customClass,
+  forced,
+  formik,
 }) => {
   return (
     <div className={`input-box ${customClass}`}>
@@ -12,11 +12,14 @@ const TextareaFieldInput = ({
         name={name}
         id={id}
         className="bg-transparent textarea"
-        value={value}
-        onChange={onChange}
+        value={formik.values[name]}
+        onChange={formik.handleChange}
         placeholder=" "
+        onBlur={formik.handleBlur}
       ></textarea>
-      <label>{label}</label>
+      <label>
+        {label} {forced && <span className="text-orange">*</span>}
+      </label>
     </div>
   );
 };

@@ -4,8 +4,7 @@ const AddressMapWithNoSSR = dynamic(() => import("./AddressMap"), {
   ssr: false,
 });
 
-const MapComponent = ({ lat, lng }) => {
-  const [address, setAddress] = useState("");
+const MapComponent = ({ lat, lng, setUserAddress }) => {
   const [userLocation, setUserLocation] = useState({
     // این مقادیر پیشفرض را می‌توانید تغییر دهید
     lat: 35.6892, // عرض جغرافیایی استاندارد، مثلاً برای تهران
@@ -13,28 +12,27 @@ const MapComponent = ({ lat, lng }) => {
   });
 
   useEffect(() => {
-    // فقط اگر lat و lng از props دریافت شده‌اند، موقعیت کاربر را تنظیم کنید.
-    // در غیر این صورت، موقعیت فعلی کاربر را با استفاده از Geolocation API بگیرید.
     if (lat && lng) {
       setUserLocation({ lat, lng });
-    } else {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error getting user's location:", error);
-        },
-        { enableHighAccuracy: true } // این گزینه را برای دقت بهتر موقعیت اضافه کرده‌ام
-      );
     }
+    // else {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       setUserLocation({
+    //         lat: position.coords.latitude,
+    //         lng: position.coords.longitude,
+    //       });
+    //     },
+    //     (error) => {
+    //       console.error("Error getting user's location:", error);
+    //     },
+    //     { enableHighAccuracy: true } // این گزینه را برای دقت بهتر موقعیت اضافه کرده‌ام
+    //   );
+    // }
   }, [lat, lng]); // افزودن lat و lng به dependency array
 
   const handleLocationChange = ({ address, position }) => {
-    setAddress(address);
+    setUserAddress(address);
     // اینجا با نیاز شما ممکن است متفاوت باشد
     setUserLocation({
       lat: position.lat,

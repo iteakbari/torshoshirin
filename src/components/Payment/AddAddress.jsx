@@ -12,6 +12,7 @@ import Switch from "@/common/Switch";
 import { useMutation } from "@tanstack/react-query";
 import { addressFunc, editAddressFunc } from "@/services/addressService";
 import Address from "@/common/AddressMap";
+import MapComponent from "@/common/Map";
 
 const AddAddress = ({
   selectedAddress,
@@ -25,11 +26,6 @@ const AddAddress = ({
   const token = Cookies.get("token");
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
-  const [center, setCenter] = useState([
-    "53.07908436335572",
-    "36.559256856426714",
-  ]);
-
   const [reciver, setReciver] = useState(false);
   const [formValues, setFormValues] = useState({
     id: 0,
@@ -53,11 +49,6 @@ const AddAddress = ({
   const { mutateAsync: editAddressFunction } = useMutation({
     mutationFn: editAddressFunc,
   });
-
-  function onDragHandler(e) {
-    e._moving = true;
-    setCenter([e?.transform?._center?.lng, e?.transform?._center?.lat]);
-  }
 
   const validationSchema = Yup.object({
     codePost: Yup.string().matches(
@@ -107,8 +98,8 @@ const AddAddress = ({
     const cityId = getSatatesList?.data.citiesList.find(
       (c) => c.title === formik.values.cityName
     ).id;
-    const latX = parseFloat(center[0]);
-    const longY = parseFloat(center[1]);
+    const latX = parseFloat(selectedAddress.lonY);
+    const longY = parseFloat(selectedAddress.latX);
     // const id = data?.data.id;
 
     if (selectedAddress) {
@@ -205,6 +196,8 @@ const AddAddress = ({
     !isOpen && setSelectedState([]);
   }, [isOpen]);
 
+  console.log("bbbb", selectedAddress);
+
   return (
     <div>
       <form onSubmit={formik.handleSubmit} className="flex flex-wrap gap-5">
@@ -298,7 +291,10 @@ const AddAddress = ({
                 };
               }}
             /> */}
-            <Address setAddress={setUserAddress} />
+            <MapComponent
+              lat={selectedAddress?.longY}
+              lng={selectedAddress?.latX}
+            />
           </div>
         </div>
 

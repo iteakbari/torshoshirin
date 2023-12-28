@@ -7,7 +7,7 @@ import Product from "@/components/Product/Product";
 
 const Favorites = () => {
   const token = Cookies.get("token");
-  const { data, isLoading } = useLikedProducts(token);
+  const { data, isLoading, refetch } = useLikedProducts(token);
   // console.log(data?.data?.productlist);
 
   return (
@@ -16,11 +16,17 @@ const Favorites = () => {
 
       <div>
         {isLoading ? (
-          <ProductLoading />
-        ) : data && data.length > 0 ? (
           <div className="grid grid-cols-3 gap-3">
-            {data.data.productlist?.map((product) => (
-              <Product key={product.id} {...product} />
+            <ProductLoading />
+          </div>
+        ) : data ? (
+          <div className="grid grid-cols-3 gap-3">
+            {data?.data?.productlist?.map((product) => (
+              <Product
+                key={product.id}
+                {...product}
+                refetch={() => refetch()}
+              />
             ))}
           </div>
         ) : (

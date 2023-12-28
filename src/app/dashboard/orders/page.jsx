@@ -45,7 +45,10 @@ const Orders = () => {
                 تاریخ سفارش :‌{" "}
                 <time dateTime={item.orderDate}>{item.orderDate}</time>
               </p>
-              <p className="md:w-1/3 flex flex-wrap items-center">
+              <p>
+                کد سفارش: <span>{item.id}</span>
+              </p>
+              <p className="flex w-full mt-3 flex-wrap items-center">
                 <span className="w-56 inline-block">ارسال به آدرس : </span>
                 <span className="inline-block truncate">
                   {item.customerAddress}

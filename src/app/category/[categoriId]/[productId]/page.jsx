@@ -3,7 +3,7 @@ import Comment from "@/components/Comment/Comment";
 import HorizontalCard from "@/components/HorizontalCard/HorizontalCard";
 import HorizontalCardLoading from "@/components/HorizontalCard/HorizontalCardLoading";
 import NewProducts from "@/components/Product/NewProducts";
-import NewProductsLoading from "@/components/Product/NewProductsLoading";
+// import NewProductsLoading from "@/components/Product/NewProductsLoading";
 import RelatedProducts from "@/components/Product/RelatedProducts";
 import useProduct from "@/hooks/useProduct";
 
@@ -48,7 +48,7 @@ const ProductDetails = ({ params }) => {
       </div>
 
       <div className="flex flex-col items-center">
-        <p className="mt-10 text-center">
+        <p className="mt-16 text-center">
           نظرتون در مورد این محصول چیه؟ 🍊 با ما به اشتراک بگذارین!
         </p>
         <Comment />

@@ -21,7 +21,7 @@ const SelectReciveType = ({
   const { data, refetch } = useAddressList(token);
   const { cartItems } = useContext(ShopContext);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [selectedAddressId, setSelectedAddressId] = useState(3);
   const { data: getSatatesList } = useStateList();
   const { mutateAsync: deleteAddressfunc } = useMutation({
     mutationFn: deleteAddress,
@@ -67,10 +67,11 @@ const SelectReciveType = ({
 
     // console.log(data);
   };
-
   useEffect(() => {
     !isOpen && setSelectedAddress(null);
   }, [isOpen]);
+
+  console.log(selectedAddressId);
 
   return (
     <div className="flex justify-between flex-wrap">
@@ -132,6 +133,7 @@ const SelectReciveType = ({
                       value={data.id}
                       onChange={(e) => setSelectedAddressId(e.target.value)}
                       className="w-4 h-4"
+                      defaultChecked={data.id === 3}
                     />
                     <label htmlFor={data.id} className="text-xl">
                       {data.stateName +
@@ -201,14 +203,22 @@ const SelectReciveType = ({
             </div>
           </>
         )}
-
-        <button
-          type="button"
-          className="bg-orange text-white w-72 h-12 rounded-md mt-8"
-          onClick={() => setAddresOrderHandler()}
-        >
-          ثبت
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            className="bg-white text-orange border w-72 h-12 rounded-md mt-8"
+            onClick={() => setActiveTab(1)}
+          >
+            مرحله قبل
+          </button>
+          <button
+            type="button"
+            className="bg-orange text-white w-72 h-12 rounded-md mt-8"
+            onClick={() => setAddresOrderHandler()}
+          >
+            ثبت
+          </button>
+        </div>
       </div>
       <div className="bg-light-gray p-5 w-96 rounded-md order-1 md:order-2 mb-8 md:mb-0">
         {cartItems?.map((item) => (

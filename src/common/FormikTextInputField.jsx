@@ -6,6 +6,7 @@ const FormikTextInputField = ({
   readOnly,
   type,
   formik,
+  forced,
 }) => {
   return (
     <div className={`input-box ${customClass}`}>
@@ -18,9 +19,11 @@ const FormikTextInputField = ({
         id={id}
         placeholder=" "
         readOnly={readOnly}
-        onBlur={formik.hsndleBlur}
+        onBlur={formik.handleBlur}
       />
-      <label>{label}</label>
+      <label>
+        {label} {forced && <span className="text-orange">*</span>}
+      </label>
       {formik.errors[name] && formik.touched[name] && (
         <p className="text-xs text-red-500  mt-1">{formik.errors[name]}</p>
       )}

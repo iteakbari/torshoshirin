@@ -45,7 +45,9 @@ const ContactUs = () => {
               </div>
               <div className="bg-orange order-2 md:order-1 h-60 col-span-2 flex justify-center items-center">
                 <Link
-                  href=""
+                  href="https://www.instagram.com/torsh_shirin_sari70/"
+                  passHref={true}
+                  target="_blanck"
                   className="w-36 h-9 flex justify-center items-center text-black font-bold rounded-lg bg-white shadow-sm"
                 >
                   Fallow
@@ -60,7 +62,12 @@ const ContactUs = () => {
                 />
               </div>
               <div className="bg-light-green h-60 order-3 col-span-2 flex justify-center items-center">
-                <Link href="" className="h-9">
+                <Link
+                  href="https://www.instagram.com/torsh_shirin_sari70/"
+                  passHref={true}
+                  target="_blanck"
+                  className="h-9"
+                >
                   <Image
                     src="https://admin.torshoshirin.com/files/react-img/instaId.png"
                     width={300}

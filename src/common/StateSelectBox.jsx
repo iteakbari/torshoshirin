@@ -6,6 +6,7 @@ const StateSelectBox = ({
   value,
   error,
   errorMessage,
+  forced,
 }) => {
   const states = statesList?.map((state) => ({
     value: state.title,
@@ -23,7 +24,9 @@ const StateSelectBox = ({
         placeholder=""
         className="h-14 w-full select"
       />
-      <label className={value ? "top" : ""}>استان</label>
+      <label className={value ? "top" : ""}>
+        استان {forced && <span className="text-orange">*</span>}
+      </label>
       {error && (
         <p className="text-xs text-red-500  mt-1">{errorMessage.state}</p>
       )}

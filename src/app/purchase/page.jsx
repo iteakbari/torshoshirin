@@ -50,6 +50,7 @@ const Purchase = () => {
               <div
                 key={tab.id}
                 className="flex justify-center items-center flex-1"
+                // onClick={() => setActiveTab(tab.id)}
               >
                 <div
                   className={`flex justify-center items-center gap-2 sm:p-3 tab-item ${

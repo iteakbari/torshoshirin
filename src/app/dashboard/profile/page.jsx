@@ -16,8 +16,6 @@ import Address from "@/common/AddressMap";
 import MapComponent from "@/common/Map";
 
 const Profile = () => {
-  const [addressData, setAddressData] = useState(null);
-  const [address, setAddress] = useState("");
   const [userAddress, setUserAddress] = useState("");
   const token = Cookies.get("token");
   const { data } = useGetProfile(token);
@@ -49,7 +47,7 @@ const Profile = () => {
     stateName: "",
   });
 
-  const { data: profile, mutateAsync: updateProfile } = useMutation({
+  const { mutateAsync: updateProfile } = useMutation({
     mutationFn: changeProfile,
   });
 
@@ -93,7 +91,7 @@ const Profile = () => {
     const userName = data?.data.phoneNumber;
 
     try {
-      const data = await updateProfile({
+      const { data } = await updateProfile({
         ...values,
         id,
         stateId,
@@ -103,7 +101,8 @@ const Profile = () => {
         userName,
         token,
       });
-      data?.isSuccess &&
+      console.log(data);
+      data?.success &&
         toast.custom((t) => (
           <div className="bg-green-700 p-7 rounded-3xl shadow-lg md:w-96 mt-10">
             <div className="flex items-center justify-center gap-5">
@@ -166,10 +165,15 @@ const Profile = () => {
   }, [formik.values.stateName]);
 
   useEffect(() => {
+    const states =
+      formik.values.stateName &&
+      getSatatesList?.data?.statesList?.find(
+        (state) => state.title === formik.values.stateName
+      );
     setShowCities(
-      selectedState &&
+      states &&
         getSatatesList?.data?.citiesList?.filter(
-          (city) => city.parentId === selectedState.id
+          (city) => city.parentId === states.id
         )
     );
   }, [selectedState]);
@@ -228,7 +232,7 @@ const Profile = () => {
       );
   }, []);
 
-  console.log(userLocation);
+  console.log(userAddress);
 
   return (
     <>
@@ -242,12 +246,14 @@ const Profile = () => {
           name="firstName"
           customClass="w-48"
           formik={formik}
+          forced={true}
         />
         <FormikTextInputField
           label="نام‌خانواگی"
           name="lastName"
           customClass="w-48"
           formik={formik}
+          forced={true}
         />
         <FormikTextInputField
           label="شماره موبایل"
@@ -255,6 +261,7 @@ const Profile = () => {
           customClass="w-48"
           formik={formik}
           readOnly={true}
+          forced={true}
         />
         <FormikTextInputField
           label="کدپستی(اختیاری)"
@@ -277,6 +284,7 @@ const Profile = () => {
           value={formik.values.stateName}
           statesList={getSatatesList?.data.statesList}
           onChange={(value) => formik.setFieldValue("stateName", value.value)}
+          forced={true}
         />
 
         <CitiesSelectBox
@@ -284,6 +292,7 @@ const Profile = () => {
           citiesList={showCities}
           onChange={(value) => formik.setFieldValue("cityName", value.value)}
           customClass={selectedState ? "" : "disabled"}
+          forced={true}
         />
 
         <div className="pt-4 w-48">
@@ -292,13 +301,18 @@ const Profile = () => {
             name="address"
             customClass="mt-3"
             formik={formik}
+            forced={true}
           />
         </div>
         <div className="w-48">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
 
           <div className="h-56">
-            <MapComponent lat={userLocation?.lat} lng={userLocation?.lng} />
+            <MapComponent
+              lat={userLocation?.lat}
+              lng={userLocation?.lng}
+              setUserAddress={setUserAddress}
+            />
           </div>
         </div>
 

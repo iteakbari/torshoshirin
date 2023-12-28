@@ -133,6 +133,12 @@ function Navbar() {
                       <Link href="/dashboard/profile">پروفایل</Link>
                     </li>
                     <li>
+                      <Link href="/dashboard/orders">سفارش‌ها</Link>
+                    </li>
+                    <li>
+                      <Link href="/dashboard/favorites">علاقمندی‌ها</Link>
+                    </li>
+                    <li>
                       <Logout>خروج</Logout>
                     </li>
                   </ul>
@@ -164,9 +170,10 @@ function Navbar() {
                 {itemCount > 0 ? (
                   <div className="grid gap-3">
                     {cartItems.map((item) => (
-                      <div
+                      <Link
                         key={item.id}
                         className="flex justify-between relative"
+                        href={`/category/${item.categoryId}/${item.id}-${item.variantId}`}
                       >
                         <span
                           className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
@@ -208,7 +215,7 @@ function Navbar() {
                             className="w-16 h-16 xl:w-full xl:h-full object-cover"
                           />
                         </div>
-                      </div>
+                      </Link>
                     ))}
 
                     <div className="border-t pt-3 flex justify-between items-center">

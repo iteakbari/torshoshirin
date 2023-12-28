@@ -26,6 +26,7 @@ const useCart = () => {
     salePrice,
     productName,
     unitCountingId,
+    categoryId,
     totalValue,
     variantId,
     step,
@@ -43,6 +44,7 @@ const useCart = () => {
           weight: unitCountingId === 2 && totalValue,
           UCI: unitCountingId,
           variantId: variantId,
+          categoryId,
           step,
         },
       ]);

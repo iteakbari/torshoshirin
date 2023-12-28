@@ -62,7 +62,7 @@ const OrderDetails = ({ params }) => {
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <Image src={item.pathImage} width={56} height={56} alt="" />
-                    <span>{item.name}</span>
+                    <span>{item.farsiName}</span>
                   </div>
                   <span>
                     <NumericFormat

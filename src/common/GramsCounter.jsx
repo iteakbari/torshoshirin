@@ -18,6 +18,7 @@ const GramsCounter = ({ product, weight }) => {
     variantId,
     stock,
     step,
+    categoryId,
   } = product || "";
 
   const s = step || 250;
@@ -48,6 +49,7 @@ const GramsCounter = ({ product, weight }) => {
     addToCart({
       productId: productId ? productId : product.id,
       pathImage: pathImage ? pathImage : product.mainImage,
+      categoryId: categoryId ? categoryId : productId.categoryId,
       salePrice: salePrice ? +salePrice : product.price,
       productName: productName ? productName : product.farsiName,
       variantId: variantId ? variantId : product.variantId,
@@ -63,6 +65,7 @@ const GramsCounter = ({ product, weight }) => {
     reduceFromCart({
       productId: productId ? productId : product.id,
       pathImage: pathImage ? pathImage : product.mainImage,
+      categoryId: categoryId ? categoryId : productId.categoryId,
       salePrice: salePrice ? salePrice : product.price,
       productName: productName ? productName : product.farsiName,
       variantId: variantId ? variantId : product.variantId,
@@ -101,12 +104,12 @@ const GramsCounter = ({ product, weight }) => {
 
   useEffect(() => {
     setW(kilo + grams);
-    kilo === 0 && grams === 0 && removeFromCart(productId);
+    kilo === 0 && grams === 0 && removeFromCart(productId || product.id);
   }, [grams, kilo]);
 
   const router = useRouter();
   const cartHandler = () => {
-    data?.success ? router.push("purchase") : router.push("sign");
+    data?.success ? router.push("/purchase") : router.push("/sign");
   };
 
   return (

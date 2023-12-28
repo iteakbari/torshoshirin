@@ -16,9 +16,15 @@ import { useMutation } from "@tanstack/react-query";
 import { likeProduct } from "@/services/likeProduct";
 
 const HorizontalCard = (product) => {
-  const { farsiName, moreImages, salePrice, isFavorite, unitCountingId, id } =
-    product || "";
-
+  const {
+    farsiName,
+    mainImage,
+    moreImages,
+    salePrice,
+    isFavorite,
+    unitCountingId,
+    id,
+  } = product || "";
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
@@ -98,46 +104,52 @@ const HorizontalCard = (product) => {
             />
           </svg>
         </label>
-        <>
-          <Swiper
-            spaceBetween={10}
-            navigation={false}
-            modules={[FreeMode, Navigation, Thumbs]}
-            thumbs={{
-              swiper:
-                thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
-            }}
-            className="mainSwiper"
-          >
-            {moreImages?.map((item, index) => (
-              <SwiperSlide key={index}>
-                <Image
-                  width={300}
-                  height={260}
-                  alt=""
-                  className="w-full"
-                  src={item.mainSize}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <Swiper
-            spaceBetween={10}
-            slidesPerView={4}
-            freeMode={true}
-            watchSlidesProgress
-            modules={[FreeMode, Navigation, Thumbs]}
-            onSwiper={setThumbsSwiper}
-            className="mt-5 thumbSwiper"
-            navigation={true}
-          >
-            {moreImages?.map((item, index) => (
-              <SwiperSlide key={index}>
-                <Image width={300} height={260} alt="" src={item.mainSize} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </>
+        {moreImages.length > 0 ? (
+          <>
+            <Swiper
+              spaceBetween={10}
+              navigation={false}
+              modules={[FreeMode, Navigation, Thumbs]}
+              thumbs={{
+                swiper:
+                  thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+              }}
+              className="mainSwiper"
+            >
+              {moreImages?.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <Image
+                    width={300}
+                    height={260}
+                    alt=""
+                    className="w-full"
+                    src={item.mainSize}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={4}
+              freeMode={true}
+              watchSlidesProgress
+              modules={[FreeMode, Navigation, Thumbs]}
+              onSwiper={setThumbsSwiper}
+              className="mt-5 thumbSwiper"
+              navigation={true}
+            >
+              {moreImages?.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <Image width={300} height={260} alt="" src={item.mainSize} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </>
+        ) : (
+          <div className="w-full flex justify-center items-center">
+            <Image alt={farsiName} width={300} height={300} src={mainImage} />
+          </div>
+        )}
       </div>
       <div className="py-10 px-7 mt-5 md:mt-0 flex flex-col justify-center items-center gap-5">
         <p className="text-xl">{farsiName}</p>

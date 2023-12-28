@@ -7,6 +7,7 @@ const CitiesSelectBox = ({
   error,
   errorMessage,
   customClass,
+  forced,
 }) => {
   const cities = citiesList
     ? citiesList.map((city) => ({
@@ -28,7 +29,9 @@ const CitiesSelectBox = ({
         placeholder=""
         className="h-14 w-full select"
       />
-      <label className={value ? "top" : ""}>شهر</label>
+      <label className={value ? "top" : ""}>
+        شهر {forced && <span className="text-orange">*</span>}
+      </label>
       {error && (
         <p className="text-xs text-red-500  mt-1">{errorMessage.city}</p>
       )}

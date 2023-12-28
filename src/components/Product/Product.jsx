@@ -23,6 +23,7 @@ const Product = (product) => {
     categoriId,
     variantId,
   } = product;
+
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
     mutationFn: likeProduct,

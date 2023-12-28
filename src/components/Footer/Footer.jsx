@@ -1,7 +1,13 @@
+"use client";
+import useFooter from "@/hooks/useFooter";
 import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
+  const { data } = useFooter();
+
+  console.log(typeof data?.telegramPhoneNumber);
+
   return (
     <footer className="px-20 md:px-0 pt-5">
       <div className="container mx-auto">
@@ -46,10 +52,10 @@ const Footer = () => {
                 href="mailto:info@torshoshirin.com"
                 className="text-color-light"
               >
-                info@torshoshirin.com
+                {data?.contactUsEmail}
               </Link>
               <Link href="tel:09397777258" className="text-color-light">
-                09397777258
+                {data?.contactUsMobileNumber}
               </Link>
               <Link href="/contactus" className="text-color-light">
                 تماس با ما
@@ -59,11 +65,9 @@ const Footer = () => {
           <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
-              <address className="text-color-light">
-                ساری-میدان پلیس-نبش فاتحی
-              </address>
+              <address className="text-color-light">{data?.address}</address>
               <Link href="tel:09397777258" className="text-color-light">
-                09397777258
+                {data?.contactUsMobileNumber}
               </Link>
               <Link href="/contactus" className="text-color-light">
                 ساعت کاری: 22-8
@@ -72,9 +76,14 @@ const Footer = () => {
           </div>
           <div className="pb-5 md:pb-0 flex-1 flex flex-wrap min-w-200">
             <div className="grid place-content-center gap-5 text-center flex-1">
-              <h5 className="text-xl">شبکه‌های اجتماعی</h5>
+              {/* <h5 className="text-xl">شبکه‌های اجتماعی</h5> */}
               <div className="flex gap-5 md:grid justify-center">
-                <Link href="#" className="flex justify-center">
+                <Link
+                  href={data?.instagramName || "#"}
+                  passHref={true}
+                  target="_blanck"
+                  className="flex justify-center"
+                >
                   <Image
                     src="https://admin.torshoshirin.com/files/react-img/insta.png"
                     width={46}
@@ -82,7 +91,15 @@ const Footer = () => {
                     alt="instagram"
                   />
                 </Link>
-                <Link href="#" className="flex justify-center">
+                <Link
+                  href={
+                    `https://web.telegram.org/k/#@${data?.telegramPhoneNumber}` ||
+                    "#"
+                  }
+                  passHref={true}
+                  target="_blanck"
+                  className="flex justify-center"
+                >
                   <Image
                     src="https://admin.torshoshirin.com/files/react-img/telegram.png"
                     width={46}
@@ -118,7 +135,11 @@ const Footer = () => {
           </p>
           <p className="text-center">
             Developed by{" "}
-            <Link href="jco.ir" className="underline underline-offset-8">
+            <Link
+              href="https://jco.ir"
+              passHref={true}
+              className="underline underline-offset-8"
+            >
               jco.ir
             </Link>
           </p>
