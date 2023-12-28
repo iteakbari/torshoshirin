@@ -75,7 +75,7 @@ const GramsCounter = ({ product, weight }) => {
     });
 
     if (kilo - 1 < 1 && grams === 0) {
-      removeFromCart(productId);
+      removeFromCart(productId || product.id);
     }
   };
 
@@ -100,12 +100,20 @@ const GramsCounter = ({ product, weight }) => {
       variantId: variantId ? variantId : product.variantId,
       totalValue: (grams - s) / 1000 + kilo,
     });
+
+    if (kilo === 0 && grams - s < s) {
+      removeFromCart(productId || product.id);
+    }
   };
 
   useEffect(() => {
     setW(kilo + grams);
-    kilo === 0 && grams === 0 && removeFromCart(productId || product.id);
+    // if (kilo === 0 && grams === 0) {
+    //   removeFromCart(productId || product.id);
+    // }
   }, [grams, kilo]);
+
+  // console.log(kilo, grams);
 
   const router = useRouter();
   const cartHandler = () => {

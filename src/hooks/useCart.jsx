@@ -71,8 +71,6 @@ const useCart = () => {
     unitCountingId,
     totalValue,
   }) => {
-    // console.log(totalValue);
-
     setCartItems(
       cartItems.map((item) => {
         if (item.id === productId)

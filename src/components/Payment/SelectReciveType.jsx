@@ -71,7 +71,7 @@ const SelectReciveType = ({
     !isOpen && setSelectedAddress(null);
   }, [isOpen]);
 
-  console.log(selectedAddressId);
+  console.log(selectedAddress);
 
   return (
     <div className="flex justify-between flex-wrap">

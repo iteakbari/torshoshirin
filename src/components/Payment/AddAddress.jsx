@@ -27,6 +27,8 @@ const AddAddress = ({
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [reciver, setReciver] = useState(false);
+  const [lat, setLat] = useState(selectedAddress?.longY);
+  const [lng, setLng] = useState(selectedAddress?.latX);
   const [formValues, setFormValues] = useState({
     id: 0,
     cityId: null,
@@ -98,8 +100,8 @@ const AddAddress = ({
     const cityId = getSatatesList?.data.citiesList.find(
       (c) => c.title === formik.values.cityName
     ).id;
-    const latX = parseFloat(selectedAddress.lonY);
-    const longY = parseFloat(selectedAddress.latX);
+    // const latX = parseFloat(lng);
+    // const longY = parseFloat(lat);
     // const id = data?.data.id;
 
     if (selectedAddress) {
@@ -109,8 +111,8 @@ const AddAddress = ({
           cityId,
           stateId,
           receiverMyself: !reciver,
-          longY,
-          latX,
+          longY: lng,
+          latX: lat,
           address: values.address,
           codePost: values.codePost,
           phoneNumber: values.phoneNumber,
@@ -133,8 +135,8 @@ const AddAddress = ({
           cityId,
           stateId,
           receiverMyself: !reciver,
-          longY,
-          latX,
+          longY: lng,
+          latX: lat,
           address: userAddress,
           codePost: "",
           phoneNumber: "",
@@ -189,14 +191,20 @@ const AddAddress = ({
   }, [formik.values.address]);
 
   useEffect(() => {
+    const selectedCity =
+      showCities &&
+      showCities?.find((city) => city.title === formik.values.cityName);
+    setLat(selectedCity?.lat);
+    setLng(selectedCity?.lng);
+  }, [formik.values.cityName]);
+
+  useEffect(() => {
     formik.setFieldValue("address", userAddress);
   }, [userAddress]);
 
   useEffect(() => {
     !isOpen && setSelectedState([]);
   }, [isOpen]);
-
-  console.log("bbbb", selectedAddress);
 
   return (
     <div>
@@ -291,10 +299,7 @@ const AddAddress = ({
                 };
               }}
             /> */}
-            <MapComponent
-              lat={selectedAddress?.longY}
-              lng={selectedAddress?.latX}
-            />
+            <MapComponent lat={lat} lng={lng} setUserAddress={setUserAddress} />
           </div>
         </div>
 
