@@ -59,7 +59,7 @@ const SearchProducts = ({ searchParams }) => {
   //   }
 
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16">
         <div className="lg:hidden">
           <SearchBar />

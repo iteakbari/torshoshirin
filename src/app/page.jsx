@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <main>
         <div className="lg:px-26 py-0 h-max">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center">

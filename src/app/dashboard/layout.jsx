@@ -3,7 +3,7 @@ import "../../styles/dashboard.css";
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="dashboard">
+    <div className="dashboard pt-24">
       <div className="container lg:px-10 2xl:px-0 mx-auto">
         <div className="grid md:grid-cols-7 gap-5 py-20">
           <div className="hidden md:block md:col-span-2">

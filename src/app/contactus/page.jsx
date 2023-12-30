@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ContactUs = () => {
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16">
         <div className="px-5 lg:px-10">
           <div className="rounded-lg overflow-hidden ">

@@ -1,32 +1,12 @@
 import http from "./httpService";
 
-export function productPostComment({
-  fullName,
-  userName,
-  commentText,
-  rateValue,
-  parentId,
-  kalCommentId,
-  token,
-}) {
-  console.log(
-    fullName,
-    userName,
-    commentText,
-    rateValue,
-    parentId,
-    kalCommentId
-  );
+export function productPostComment({ commentText, productId, token }) {
   return http
     .post(
       "/ProductApi/CreateProductComment",
       {
-        fullName,
-        userName,
         commentText,
-        rateValue,
-        parentId,
-        kalCommentId,
+        productId,
       },
       {
         headers: {

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Sign = ({ searchParams }) => {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto pt-24">
       <div className="md:px-32 lg:px-10 xl:px-32 lg:py-20">
         <div className="flex flex-wrap">
           <div className="w-full lg:w-3/6">

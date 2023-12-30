@@ -6,6 +6,7 @@ import NewProducts from "@/components/Product/NewProducts";
 // import NewProductsLoading from "@/components/Product/NewProductsLoading";
 import RelatedProducts from "@/components/Product/RelatedProducts";
 import useProduct from "@/hooks/useProduct";
+import Link from "next/link";
 
 const ProductDetails = ({ params }) => {
   const para = params.productId.split("-");
@@ -13,7 +14,7 @@ const ProductDetails = ({ params }) => {
   const product = data?.data;
 
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16 grid grid-cols-1 lg:grid-cols-4">
         <div className="col-span-3 bg-white py-7 px-5 md:px-12 shadow-sm rounded-lg">
           {isLoading ? (
@@ -47,11 +48,18 @@ const ProductDetails = ({ params }) => {
         <RelatedProducts categoryId={product?.categoryId} />
       </div>
 
-      <div className="flex flex-col items-center">
-        <p className="mt-16 text-center">
+      <div className="mt-16 flex flex-col items-center">
+        <div className="rounded-xl bg-red-200 py-5 px-5 text-center sm:px-20 mb-10">
+          برای ثبت نظر ابتدا باید به حساب کاربری خود{" "}
+          <Link href="/sign" className="underline">
+            وارد
+          </Link>{" "}
+          شوید.
+        </div>
+        <p className="text-center">
           نظرتون در مورد این محصول چیه؟ 🍊 با ما به اشتراک بگذارین!
         </p>
-        <Comment />
+        <Comment productId={para[0]} />
       </div>
     </div>
   );

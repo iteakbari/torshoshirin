@@ -12,7 +12,7 @@ const FormikTextInputField = ({
     <div className={`input-box ${customClass}`}>
       <input
         type={type ? type : "text"}
-        className="h-14 bg-transparent text-right px-3"
+        className="h-14 bg-transparent text-right px-3 bg-white"
         value={formik.values[name]}
         onChange={formik.handleChange}
         name={name}

@@ -11,7 +11,7 @@ const TextareaFieldInput = ({
       <textarea
         name={name}
         id={id}
-        className="bg-transparent textarea"
+        className="bg-transparent textarea bg-white"
         value={formik.values[name]}
         onChange={formik.handleChange}
         placeholder=" "

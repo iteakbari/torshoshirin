@@ -24,17 +24,17 @@ const Footer = () => {
             flexItem
           /> */}
           <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
-            <Link href="/about" className="md:text-md xl:text-xl">
+            <Link href="/faq" className="md:text-md xl:text-xl">
               پرسش‌های متداول
             </Link>
           </li>
           <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
-            <Link href="/about" className="xl:text-xl">
+            <Link href="/suggestion" className="xl:text-xl">
               انتقادات و پیشنهادات
             </Link>
           </li>
           <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
-            <Link href="/about" className="xl:text-xl">
+            <Link href="/rules" className="xl:text-xl">
               قوانین خدمات
             </Link>
           </li>

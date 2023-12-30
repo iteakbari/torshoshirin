@@ -9,7 +9,7 @@ import { productPostComment } from "@/services/commentService";
 import useGetProfile from "@/hooks/useGetProfile";
 import Cookies from "js-cookie";
 
-const Comment = () => {
+const Comment = ({ productId }) => {
   const token = Cookies.get("token");
   const { data } = useGetProfile(token);
   const [comment, setComment] = useState("");
@@ -48,7 +48,6 @@ const Comment = () => {
   }, [data]);
 
   const submitHandler = async (values) => {
-    console.log(values);
     if (!token) {
       toast.custom((t) => (
         <div className="bg-orange p-7 rounded-3xl shadow-lg md:w-96 mt-10">
@@ -77,15 +76,10 @@ const Comment = () => {
       ));
     } else {
       try {
-        console.log("tryyyyyyyyyyyyyyy");
         const result = await postComment({
           ...values,
-          fullName: values.fullName,
-          userName: values.userName,
+          productId,
           commentText: values.commentText,
-          rateValue: 0,
-          parentId: 0,
-          kalCommentId: 0,
           token,
         });
         result?.success &&

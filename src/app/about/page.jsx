@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules";
 
 const About = () => {
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16">
         <div className="px-5 md:px-0">
           <div className="rounded-lg overflow-hidden ">

@@ -42,7 +42,7 @@ const Purchase = () => {
   const [paymentResult, setPaymentResult] = useState();
 
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16">
         <div className="bg-white p-5">
           <div className="flex gap-3 ">

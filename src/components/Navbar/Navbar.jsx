@@ -39,7 +39,7 @@ function Navbar() {
   };
 
   return (
-    <header className="top-0 navbar-bg lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 sticky">
+    <header className="top-0 lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 fixed right-0 left-0 bg-blured">
       <div className="container mx-auto lg:px-5">
         <div className="flex justify-between items-center">
           <Link href="/">
