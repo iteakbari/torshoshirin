@@ -61,12 +61,14 @@ const About = () => {
 
         <div className="bg-color-gray p-10 xl:p-14 rounded-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
-            <Image
-              src="https://admin.torshoshirin.com/files/react-img/clock2.svg"
-              width={90}
-              height={90}
-              alt="clock"
-            />
+            <div className="h-20 flex items-center">
+              <Image
+                src="https://admin.torshoshirin.com/files/react-img/clock2.svg"
+                width={90}
+                height={90}
+                alt="clock"
+              />
+            </div>
             <p className="text-2xl lg:text-xl 2xl:text-2xl">
               <span className="text-orange">&quot;</span> ساعات کاری{" "}
               <span className="text-orange">&quot;</span>
@@ -74,12 +76,15 @@ const About = () => {
             <p className="">8صبح تا12شب</p>
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
-            <Image
-              src="https://admin.torshoshirin.com/files/react-img/refresh.svg"
-              width={90}
-              height={90}
-              alt="refresh icon"
-            />
+            <div className="h-20 flex items-center">
+              <Image
+                src="https://admin.torshoshirin.com/files/react-img/refresh.svg"
+                width={90}
+                height={90}
+                alt="refresh icon"
+              />
+            </div>
+
             <p className="text-2xl lg:text-xl 2xl:text-2xl">
               <span className="text-orange">&quot;</span> ضمانت بازگشت{" "}
               <span className="text-orange">&quot;</span>
@@ -87,12 +92,15 @@ const About = () => {
             <p className="">بی‌قید و شرط</p>
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
-            <Image
-              src="https://admin.torshoshirin.com/files/react-img/sandwatch.svg"
-              width={60}
-              height={83}
-              alt="sandwatch icon"
-            />
+            <div className="h-20 flex items-center">
+              <Image
+                src="https://admin.torshoshirin.com/files/react-img/sandwatch.svg"
+                width={60}
+                height={83}
+                alt="sandwatch icon"
+              />
+            </div>
+
             <p className="text-2xl lg:text-xl 2xl:text-2xl">
               <span className="text-orange">&quot;</span> ارسال فوری{" "}
               <span className="text-orange">&quot;</span>
@@ -100,12 +108,14 @@ const About = () => {
             <p className="">به شهر ساری</p>
           </div>
           <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
-            <Image
-              src="https://admin.torshoshirin.com/files/react-img/creditcard.svg"
-              width={90}
-              height={90}
-              alt="creditcard icon"
-            />
+            <div className="h-20 flex items-center">
+              <Image
+                src="https://admin.torshoshirin.com/files/react-img/creditcard.svg"
+                width={90}
+                height={90}
+                alt="creditcard icon"
+              />
+            </div>
             <p className="text-2xl lg:text-xl 2xl:text-2xl">
               <span className="text-orange">&quot;</span> پرداخت در محل{" "}
               <span className="text-orange">&quot;</span>

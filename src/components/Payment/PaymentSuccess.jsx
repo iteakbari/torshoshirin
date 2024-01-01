@@ -3,7 +3,7 @@ import Image from "next/image";
 import { NumericFormat } from "react-number-format";
 
 const PaymentSuccess = ({ paymentResult }) => {
-  // console.log(paymentResult);
+  console.log(paymentResult);
   return (
     <div className="flex flex-wrap md:flex-nowrap gap-12">
       <div className="md:w-3/6">
@@ -44,11 +44,11 @@ const PaymentSuccess = ({ paymentResult }) => {
           </p>
           <p className="py-5 border-t-4 border-b-4 border-light flex gap-5">
             <span>ارسال به آدرس :</span>
-            <span>{paymentResult?.data?.address}</span>
+            <span>{paymentResult?.address}</span>
           </p>
           <p className="py-5 flex gap-5">
             <span>روش پرداخت : </span>
-            <span>{paymentResult?.data?.paymentType}</span>
+            <span>{paymentResult?.paymentType}</span>
           </p>
         </div>
       </div>
@@ -57,7 +57,7 @@ const PaymentSuccess = ({ paymentResult }) => {
 
         <div className="border-4 border-light-green rounded-lg h-80">
           <div className="p-7 overflow-auto h-64 no-scroll">
-            {paymentResult?.data?.productsList?.map((item) => (
+            {paymentResult?.productsList?.map((item) => (
               <div key={item.index} className="text-light mb-5 ">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
@@ -92,7 +92,7 @@ const PaymentSuccess = ({ paymentResult }) => {
               <NumericFormat
                 thousandSeparator=","
                 displayType="text"
-                value={data?.data?.sumPaymentAmount}
+                value={paymentResult?.sumPaymentAmount}
               />
               تومان
             </span>

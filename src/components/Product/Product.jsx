@@ -60,7 +60,9 @@ const Product = (product) => {
                 <p>{productName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
               </div>
               <div className="w-full flex justify-center pt-5">
-                <Link href="">مشاهده‌ی لیست علاقه‌مندی‌ها</Link>
+                <Link href="/dashboard/favorites">
+                  مشاهده‌ی لیست علاقه‌مندی‌ها
+                </Link>
               </div>
             </div>
           ));

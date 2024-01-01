@@ -700,6 +700,12 @@ input:-internal-autofill-selected {
   display: block;
 }
 
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .loader {
   width: 16px;
   height: 16px;
@@ -759,7 +765,7 @@ input:-internal-autofill-selected {
 }
 
 .searchBar form {
-  border-radius: 30px;
+  border-radius: 20px;
   display: flex;
   border: 2px solid var(--border-color-green);
   padding: 3px 10px;
@@ -778,6 +784,7 @@ input:-internal-autofill-selected {
 
 .searchBar input::placeholder {
   font-size: 14px;
+  color: #20422a40;
 }
 
 @media (min-width:1200px) {

@@ -47,7 +47,7 @@ const CategoryPage = ({ params }) => {
   }
 
   return (
-    <div className="container lg:px-10 2xl:px-0 mx-auto">
+    <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
       <div className="py-16">
         <div className="sm:flex justify-between px-3">
           <h1 className="text-3xl sm:text-2xl lg:text-3xl text-center sm:text-right flex-1 mb-5 sm:mb-0">

@@ -12,7 +12,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import Address from "@/common/AddressMap";
 import MapComponent from "@/common/Map";
 
 const Profile = () => {
@@ -156,37 +155,28 @@ const Profile = () => {
   }, [data]);
 
   useEffect(() => {
-    setSelectedState(
-      formik.values.stateName &&
-        getSatatesList?.data?.statesList?.find(
-          (state) => state.title === formik.values.stateName
-        )
+    const stateSelected = getSatatesList?.data?.statesList?.find(
+      (state) => state.title === formik.values.stateName
     );
-  }, [formik.values.stateName]);
 
-  useEffect(() => {
-    const states =
-      formik.values.stateName &&
-      getSatatesList?.data?.statesList?.find(
-        (state) => state.title === formik.values.stateName
-      );
+    setSelectedState(stateSelected);
+    console.log("state", getSatatesList);
     setShowCities(
-      states &&
+      stateSelected &&
         getSatatesList?.data?.citiesList?.filter(
-          (city) => city.parentId === states.id
+          (city) => city.parentId === stateSelected.id
         )
     );
-  }, [selectedState]);
+  }, [getSatatesList]);
 
   useEffect(() => {
-    setTimeout(() => {
-      formik.values.cityName
-        ? setSelectedCity(
-            showCities &&
-              showCities?.find((city) => city.title === formik.values.cityName)
-          )
-        : "";
-    }, 3000);
+    console.log(formik.values.cityName);
+    formik.values.cityName
+      ? setSelectedCity(
+          showCities &&
+            showCities?.find((city) => city.title === formik.values.cityName)
+        )
+      : "";
   }, [formik.values.cityName]);
 
   useEffect(() => {
@@ -231,8 +221,6 @@ const Profile = () => {
         { duration: 10000 }
       );
   }, []);
-
-  console.log(userAddress);
 
   return (
     <>

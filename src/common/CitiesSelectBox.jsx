@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Select from "react-select";
 
 const CitiesSelectBox = ({
@@ -9,12 +10,18 @@ const CitiesSelectBox = ({
   customClass,
   forced,
 }) => {
-  const cities = citiesList
-    ? citiesList.map((city) => ({
-        value: city.title,
-        label: city.title,
-      }))
-    : [];
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    if (citiesList) {
+      setCities(
+        citiesList?.map((city) => ({
+          value: city.title,
+          label: city.title,
+        }))
+      );
+    }
+  }, [citiesList]);
 
   const cityDefaultValue = (cities, value) => {
     return cities ? cities.find((city) => city.value === value) : "";

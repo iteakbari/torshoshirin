@@ -58,7 +58,7 @@ function Navbar() {
             </li>
             <li>
               <div className="dropdown">
-                دسته بندی
+                دسته‌بندی
                 <span>
                   <svg
                     width="16"

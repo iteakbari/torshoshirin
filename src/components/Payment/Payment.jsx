@@ -101,18 +101,51 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
   };
 
   const paymentTypeHandler = async () => {
-    const data = await setPaymentTypeOrderFunc({
-      receiverOrderId: 0,
-      customerAddressId: 0,
-      paymentTypeId: +paymentType,
-      token,
-    });
-    // console.log(data);
+    if (!paymentType || paymentType === undefined) {
+      toast.custom((t) => (
+        <div className="bg-orange p-7 rounded-3xl shadow-lg md:w-96 mt-10">
+          <div className="flex items-center justify-center gap-5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12 7.75V13M21.08 8.58v6.84c0 1.12-.6 2.16-1.57 2.73l-5.94 3.43c-.97.56-2.17.56-3.15 0l-5.94-3.43a3.15 3.15 0 0 1-1.57-2.73V8.58c0-1.12.6-2.16 1.57-2.73l5.94-3.43c.97-.56 2.17-.56 3.15 0l5.94 3.43c.97.57 1.57 1.6 1.57 2.73Z"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M12 16.2v.1"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            <p className="text-white">لطفا روش پرداخت رو انتخاب کنید.</p>
+          </div>
+          {/* <div className="w-full flex justify-center pt-5"></div> */}
+        </div>
+      ));
+    } else {
+      const { data } = await setPaymentTypeOrderFunc({
+        receiverOrderId: 0,
+        customerAddressId: 0,
+        paymentTypeId: +paymentType,
+        token,
+      });
+      // console.log(data);
 
-    if (data?.data?.success) {
-      setActiveTab(4);
-      setPaymentResult(data?.data);
-      resetCart();
+      if (data?.success) {
+        setActiveTab(4);
+        setPaymentResult(data?.data);
+        resetCart();
+      }
     }
   };
 
