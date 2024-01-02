@@ -1,8 +1,5 @@
 import Counter from "@/common/Counter";
 import GramsCounter from "@/common/GramsCounter";
-import { ShopContext } from "@/context/shopContext";
-import useGetProfile from "@/hooks/useGetProfile";
-import useProduct from "@/hooks/useProduct";
 import { likeProduct } from "@/services/likeProduct";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";

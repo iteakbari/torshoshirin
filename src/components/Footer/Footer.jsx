@@ -6,8 +6,6 @@ import Link from "next/link";
 const Footer = () => {
   const { data } = useFooter();
 
-  console.log(typeof data?.telegramPhoneNumber);
-
   return (
     <footer className="px-20 md:px-0 pt-5">
       <div className="container mx-auto">

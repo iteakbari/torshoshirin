@@ -5,12 +5,12 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { checkOtp, getOtp } from "@/services/authServices";
 import ConfrimLogin from "./ConfrimLogin";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import { AuthContext } from "@/context/AuthContext";
 const RESEND_TIME = 90;
 
-const Login = ({ searchParams }) => {
+const Login = ({ context }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [step, setStep] = useState(1);
   const [phoneNumberCode, setPhoneNumberCode] = useState("");
@@ -187,7 +187,7 @@ const Login = ({ searchParams }) => {
           ) {
             router.push("/purchase");
           } else {
-            router.push("/");
+            router.back();
           }
           // console.log(typeof window);
 

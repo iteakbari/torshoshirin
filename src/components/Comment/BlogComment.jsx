@@ -5,12 +5,12 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import * as Yup from "yup";
-import { productPostComment } from "@/services/commentService";
+import { blogPostComment } from "@/services/commentService";
 import useGetProfile from "@/hooks/useGetProfile";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const Comment = ({ productId }) => {
+const BlogComment = ({ documentId }) => {
   const token = Cookies.get("token");
   const { data } = useGetProfile(token);
   const [formValues, setFormValues] = useState({
@@ -19,7 +19,7 @@ const Comment = ({ productId }) => {
     commentText: "",
   });
   const { mutateAsync: postComment } = useMutation({
-    mutationFn: productPostComment,
+    mutationFn: blogPostComment,
   });
 
   const validationSchema = Yup.object({
@@ -71,15 +71,16 @@ const Comment = ({ productId }) => {
             </svg>
             <p className="text-white">لطفا ابتدا وارد شوید.</p>
           </div>
-          {/* <div className="w-full flex justify-center pt-5"></div> */}
         </div>
       ));
     } else {
       try {
         const result = await postComment({
           ...values,
-          productId,
+          documentId,
+          userName: values.userName,
           commentText: values.commentText,
+          fullName: values.fullName,
           token,
         });
         if (result?.data.success) {
@@ -105,9 +106,9 @@ const Comment = ({ productId }) => {
                 </svg>
                 <p className="text-white">{result.data.messageList}</p>
               </div>
-              {/* <div className="w-full flex justify-center pt-5"></div> */}
             </div>
           ));
+
           setFormValues({
             fullName: formik.values.fullName,
             userName: formik.values.userName,
@@ -168,4 +169,4 @@ const Comment = ({ productId }) => {
   );
 };
 
-export default Comment;
+export default BlogComment;

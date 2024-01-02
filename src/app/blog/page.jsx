@@ -1,8 +1,14 @@
 "use client";
 import BlogCard from "@/components/BlogCard/BlogCard";
 import BlogCommentSwiper from "@/components/BlogCard/BlogCommentSwiper";
+import useBlogList from "@/hooks/useBlogList";
+import { useState } from "react";
 
 const Blog = () => {
+  const [step, setStep] = useState(1);
+
+  const { data } = useBlogList({ documentGroupId: 3, step, pageSize: 20 });
+
   return (
     <div className="blog-bg">
       <div className="container lg:px-10 2xl:px-0 mx-auto pt-24 px-3">
@@ -78,12 +84,9 @@ const Blog = () => {
           </form>
         </div>
         <div className="py-20 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 px-5">
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
-          <BlogCard />
+          {data?.documentsList?.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
         </div>
       </div>
       <div className="pb-20">

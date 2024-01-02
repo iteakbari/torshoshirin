@@ -4,7 +4,6 @@ import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Loading from "../../loading";
 import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 

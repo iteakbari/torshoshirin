@@ -6,12 +6,16 @@ import NewProducts from "@/components/Product/NewProducts";
 // import NewProductsLoading from "@/components/Product/NewProductsLoading";
 import RelatedProducts from "@/components/Product/RelatedProducts";
 import useProduct from "@/hooks/useProduct";
+import Cookies from "js-cookie";
 import Link from "next/link";
 
 const ProductDetails = ({ params }) => {
   const para = params.productId.split("-");
   const { data, isLoading } = useProduct(para[0], para[1]);
   const product = data?.data;
+  const token = Cookies.get("token");
+
+  // console.log(product);
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
@@ -24,18 +28,12 @@ const ProductDetails = ({ params }) => {
           )}
 
           <div className="mt-16">
-            <div className="flex gap-5">
-              <span className="text-xl">فواید</span>
-              <p></p>
-            </div>
-            <div className="flex gap-5 mt-7">
-              <span className="text-xl">ویژگی‌ها</span>
-              <p></p>
-            </div>
-            <div className="flex gap-5 mt-7">
-              <span className="text-xl">نحوه‌ی مصرف</span>
-              <p></p>
-            </div>
+            {product?.specialFeatures?.map((f) => (
+              <div className="flex gap-5 mb-7" key={f.index}>
+                <span className="text-xl">{f.title}:</span>
+                <p>{f.value ? f.value : "-"}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div className="md:hidden lg:block">
@@ -49,13 +47,15 @@ const ProductDetails = ({ params }) => {
       </div>
 
       <div className="mt-16 flex flex-col items-center">
-        <div className="rounded-xl bg-red-200 py-5 px-5 text-center sm:px-20 mb-10">
-          برای ثبت نظر ابتدا باید به حساب کاربری خود{" "}
-          <Link href="/sign" className="underline">
-            وارد
-          </Link>{" "}
-          شوید.
-        </div>
+        {!token && (
+          <div className="rounded-xl bg-red-200 py-5 px-5 text-center sm:px-20 mb-10">
+            برای ثبت نظر ابتدا باید به حساب کاربری خود{" "}
+            <Link href="/sign" className="underline">
+              وارد
+            </Link>{" "}
+            شوید.
+          </div>
+        )}
         <p className="text-center">
           نظرتون در مورد این محصول چیه؟ 🍊 با ما به اشتراک بگذارین!
         </p>
