@@ -105,8 +105,6 @@ const SelectReciveType = ({
     !isOpen && setSelectedAddress(null);
   }, [isOpen]);
 
-  console.log(selectedAddress);
-
   return (
     <div className="flex justify-between flex-wrap">
       <div className="order-2 md:order-1">
@@ -133,7 +131,7 @@ const SelectReciveType = ({
 
         {+reciveType === 2 && (
           <>
-            <p className="text-xl my-10 font-bold flex gap-3 items-center">
+            <p className="text-xl my-10 font-bold flex flex-wrap gap-3 items-center">
               آدرس خود را انتخاب کنید.
               <button
                 type="button"
@@ -159,6 +157,7 @@ const SelectReciveType = ({
             <div>
               {data?.data?.map((data) => (
                 <React.Fragment key={data.id}>
+                  {data[0]}
                   <div className="flex items-center gap-3 py-3">
                     <input
                       type="radio"
@@ -167,7 +166,7 @@ const SelectReciveType = ({
                       value={data.id}
                       onChange={(e) => setSelectedAddressId(e.target.value)}
                       className="w-4 h-4"
-                      defaultChecked={data.id === 3}
+                      defaultChecked={data.defaultAddress}
                     />
                     <label htmlFor={data.id} className="text-xl">
                       {data.stateName +
@@ -237,7 +236,7 @@ const SelectReciveType = ({
             </div>
           </>
         )}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button
             type="button"
             className="bg-white text-orange border w-72 h-12 rounded-md mt-8"
@@ -247,14 +246,14 @@ const SelectReciveType = ({
           </button>
           <button
             type="button"
-            className="bg-orange text-white w-72 h-12 rounded-md mt-8"
+            className="bg-orange text-white w-72 h-12 rounded-md md:mt-8"
             onClick={() => setAddresOrderHandler()}
           >
             ثبت
           </button>
         </div>
       </div>
-      <div className="bg-light-gray p-5 w-96 rounded-md order-1 md:order-2 mb-8 md:mb-0">
+      <div className="bg-light-gray p-5 w-96 mt-10 xl:mt-0 rounded-md order-1 md:order-2 mb-8 md:mb-0">
         {cartItems?.map((item) => (
           <div key={item.id} className="text-light mb-5">
             <div className="flex justify-between items-center">

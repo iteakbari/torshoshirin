@@ -167,7 +167,16 @@ const Profile = () => {
           (city) => city.parentId === stateSelected.id
         )
     );
-  }, [getSatatesList]);
+  }, [getSatatesList, formik.values.stateName]);
+
+  useEffect(() => {
+    setShowCities(
+      selectedState &&
+        getSatatesList?.data?.citiesList?.filter(
+          (city) => city.parentId === selectedState.id
+        )
+    );
+  }, [selectedState, getSatatesList?.data?.citiesList]);
 
   useEffect(() => {
     console.log(formik.values.cityName);
@@ -177,7 +186,7 @@ const Profile = () => {
             showCities?.find((city) => city.title === formik.values.cityName)
         )
       : "";
-  }, [formik.values.cityName]);
+  }, [formik.values.cityName, showCities]);
 
   useEffect(() => {
     setUserLocation(
@@ -309,7 +318,7 @@ const Profile = () => {
             disabled={!formik.isValid}
             type="submit"
             variant="contained"
-            className={`bg-green-950 w-96 h-14 text-white hover:bg-green-800 transition-all rounded-lg ${
+            className={`bg-green-950 w-full sm:w-96 h-14 text-white hover:bg-green-800 transition-all rounded-lg ${
               !formik.isValid && "disabled-btn"
             }`}
           >

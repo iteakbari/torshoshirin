@@ -8,7 +8,9 @@ const Category = ({ category: { id, name, icon } }) => {
         <Image width={350} height={350} alt="" src={icon} />
       ) : (
         <div className="relative flex justify-center">
-          <span className="absolute top-16 text-3xl">{name}</span>
+          <span className="absolute top-6 sm:top-14 md:top-12 lg:top-9 xl:top-16 text-lg sm:text-2xl lg:text-xl xl:text-3xl">
+            {name}
+          </span>
           <Image
             width={350}
             height={350}

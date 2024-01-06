@@ -76,7 +76,7 @@ const Product = (product) => {
   };
 
   return (
-    <div className="card bg-transparent relative">
+    <div className="card bg-white relative">
       <label>
         <input
           type="checkbox"

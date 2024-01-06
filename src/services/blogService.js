@@ -7,6 +7,17 @@ export function getBlogList({ queryKey }) {
     .then(({ data }) => data.data.data);
 }
 
+export function searchBlog({ categoryId, pageSize, step, keyWord }) {
+  return http
+    .post(`/DocumentApi/DocumentDetailsList`, {
+      categoryId,
+      keyWord,
+      pageSize,
+      step,
+    })
+    .then(({ data }) => data.data);
+}
+
 export function getBlog({ queryKey }) {
   return http
     .get(`/DocumentApi/DocumentDetails?Id=${queryKey[1]}`)

@@ -166,57 +166,59 @@ function Navbar() {
                   {itemCount < 1 ? 1 : itemCount}
                 </span>
               )}
-              <div className="absolute top-full left-0 p-5 bg-white shadow-lg rounded-lg w-80 xl:w-96 cart">
+              <div className="absolute top-full -left-20 sm:left-0 p-5 bg-white shadow-lg rounded-lg w-80 xl:w-96 cart">
                 {itemCount > 0 ? (
                   <div className="grid gap-3">
-                    {cartItems.map((item) => (
-                      <Link
-                        key={item.id}
-                        className="flex justify-between relative"
-                        href={`/category/${item.categoryId}/${item.id}-${item.variantId}`}
-                      >
-                        <span
-                          className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
-                          onClick={() => removeFromCart(item.id)}
+                    <div className="basket-item-wrapper no-scroll">
+                      {cartItems.map((item) => (
+                        <Link
+                          key={item.id}
+                          className="flex justify-between relative"
+                          href={`/category/${item.categoryId}/${item.id}-${item.variantId}`}
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-5 h-5 text-red-500"
+                          <span
+                            className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
+                            onClick={() => removeFromCart(item.id)}
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M6 18L18 6M6 6l12 12"
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-5 h-5 text-red-500"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </span>
+                          <div>
+                            <p>{item.name}</p>
+                            <p>
+                              <NumericFormat
+                                thousandSeparator=","
+                                displayType="text"
+                                value={item.totalPrice}
+                              />
+                              ریال
+                            </p>
+                            <p>{item.weight ? item.weight : item.count}</p>
+                          </div>
+                          <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
+                            <Image
+                              src={item.img}
+                              alt={item.name}
+                              width={100}
+                              height={100}
+                              className="w-16 h-16 xl:w-full xl:h-full object-cover"
                             />
-                          </svg>
-                        </span>
-                        <div>
-                          <p>{item.name}</p>
-                          <p>
-                            <NumericFormat
-                              thousandSeparator=","
-                              displayType="text"
-                              value={item.totalPrice}
-                            />
-                            ریال
-                          </p>
-                          <p>{item.weight ? item.weight : item.count}</p>
-                        </div>
-                        <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
-                          <Image
-                            src={item.img}
-                            alt={item.name}
-                            width={100}
-                            height={100}
-                            className="w-16 h-16 xl:w-full xl:h-full object-cover"
-                          />
-                        </div>
-                      </Link>
-                    ))}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
 
                     <div className="border-t pt-3 flex justify-between items-center">
                       <p className="text-xs xl:text-sm">
@@ -316,7 +318,6 @@ function Navbar() {
 
             <OffCanvas
               origin="right"
-              height="h-full"
               show={isOpen ? "show" : ""}
               setIsOpen={setIsOpen}
               isOpen={isOpen}

@@ -58,7 +58,7 @@ const PaymentSuccess = ({ paymentResult }) => {
         <div className="border-4 border-light-green rounded-lg h-80">
           <div className="p-7 overflow-auto h-64 no-scroll">
             {paymentResult?.productsList?.map((item) => (
-              <div key={item.index} className="text-light mb-5 ">
+              <div key={item.productId} className="text-light mb-5 ">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <Image src={item.pathImage} width={56} height={56} alt="" />
@@ -80,7 +80,7 @@ const PaymentSuccess = ({ paymentResult }) => {
                       ? "کیلوگرم"
                       : item.unitName === "عدد"
                       ? "عدد"
-                      : "تعداد"}
+                      : "بسته"}
                   </span>
                 </p>
               </div>

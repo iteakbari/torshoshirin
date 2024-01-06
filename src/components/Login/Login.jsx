@@ -187,7 +187,7 @@ const Login = ({ context }) => {
           ) {
             router.push("/purchase");
           } else {
-            router.back();
+            router.push("/");
           }
           // console.log(typeof window);
 

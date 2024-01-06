@@ -40,8 +40,8 @@ const MobileMenu = ({ setIsOpen, token }) => {
         {token && (
           <>
             <li>
-              <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-                صفحه‌ی من
+              <Link href="/dashboard/profile" onClick={() => setIsOpen(false)}>
+                پروفایل
               </Link>
             </li>
             <li>

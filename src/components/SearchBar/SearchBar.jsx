@@ -68,7 +68,7 @@ export default function SearchBar() {
           )}
         </form>
         <div
-          className={`w-full border-2 px-3 lg:pt-12 overflow-y-auto overflow-x-hidden no-scroll  rounded-3xl transition-all duration-300 z-20 bg-white absolute top-0 left-0 right-0 ${
+          className={`w-full border-2 px-3 pt-12 overflow-y-auto overflow-x-hidden no-scroll  rounded-3xl transition-all duration-300 z-20 bg-white absolute top-0 left-0 right-0 ${
             searchValue.length > 0
               ? "h-80 border-color-green"
               : "h-0 border-transparent"

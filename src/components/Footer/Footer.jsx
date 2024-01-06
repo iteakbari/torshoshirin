@@ -55,20 +55,17 @@ const Footer = () => {
               <Link href="tel:09397777258" className="text-color-light">
                 {data?.contactUsMobileNumber}
               </Link>
-              <Link href="/contactus" className="text-color-light">
-                تماس با ما
-              </Link>
             </div>
           </div>
           <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
               <address className="text-color-light">{data?.address}</address>
-              <Link href="tel:09397777258" className="text-color-light">
+              {/* <Link href="tel:09397777258" className="text-color-light">
                 {data?.contactUsMobileNumber}
-              </Link>
+              </Link> */}
               <Link href="/contactus" className="text-color-light">
-                ساعت کاری: 22-8
+                8 صبح - 1 شب
               </Link>
             </div>
           </div>

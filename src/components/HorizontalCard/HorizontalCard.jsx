@@ -62,7 +62,9 @@ const HorizontalCard = (product) => {
                 <p>{farsiName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
               </div>
               <div className="w-full flex justify-center pt-5">
-                <Link href="">مشاهده‌ی لیست علاقه‌مندی‌ها</Link>
+                <Link href="/dashboard/favorites">
+                  مشاهده‌ی لیست علاقه‌مندی‌ها
+                </Link>
               </div>
             </div>
           ));
@@ -80,7 +82,7 @@ const HorizontalCard = (product) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      <div className="relative">
+      <div className="relative h-full">
         <label>
           <input
             type="checkbox"
@@ -146,7 +148,7 @@ const HorizontalCard = (product) => {
             </Swiper>
           </>
         ) : (
-          <div className="w-full flex justify-center items-center">
+          <div className="w-full h-full divider-color2  flex justify-center items-center border-l-4">
             <Image alt={farsiName} width={300} height={300} src={mainImage} />
           </div>
         )}

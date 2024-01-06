@@ -60,7 +60,7 @@ const About = () => {
         </div>
 
         <div className="bg-color-gray p-10 xl:p-14 rounded-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
+          <div className="bg-white rounded-30px p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <div className="h-20 flex items-center">
               <Image
                 src="https://admin.torshoshirin.com/files/react-img/clock2.svg"
@@ -75,7 +75,7 @@ const About = () => {
             </p>
             <p className="">8صبح تا12شب</p>
           </div>
-          <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
+          <div className="bg-white rounded-30px p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <div className="h-20 flex items-center">
               <Image
                 src="https://admin.torshoshirin.com/files/react-img/refresh.svg"
@@ -91,7 +91,7 @@ const About = () => {
             </p>
             <p className="">بی‌قید و شرط</p>
           </div>
-          <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
+          <div className="bg-white rounded-30px p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <div className="h-20 flex items-center">
               <Image
                 src="https://admin.torshoshirin.com/files/react-img/sandwatch.svg"
@@ -107,7 +107,7 @@ const About = () => {
             </p>
             <p className="">به شهر ساری</p>
           </div>
-          <div className="bg-white rounded-xl p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
+          <div className="bg-white rounded-30px p-10 lg:p-8 2xl:p-10 flex flex-col justify-center items-center gap-12">
             <div className="h-20 flex items-center">
               <Image
                 src="https://admin.torshoshirin.com/files/react-img/creditcard.svg"

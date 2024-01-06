@@ -139,7 +139,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
         paymentTypeId: +paymentType,
         token,
       });
-      // console.log(data);
+      console.log(data);
 
       if (data?.success) {
         setActiveTab(4);

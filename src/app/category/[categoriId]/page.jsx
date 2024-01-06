@@ -3,13 +3,16 @@ import Product from "@/components/Product/Product";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
+import { useInView } from "react-intersection-observer";
+import useInfiniteProducts from "@/hooks/useInfiniteProducts";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState("cheapest");
+  const [productsList, setProductsList] = useState([]);
 
   const categoryName = decodeURI(params?.categoriId);
   const regex = /([^\/]+)-(\d+)/;
@@ -18,6 +21,8 @@ const CategoryPage = ({ params }) => {
   const categoryId = match[2];
   const pageSize = 20;
   const token = Cookies.get("token");
+  const { ref, inView } = useInView();
+
   const { data, isLoading } = useProducts({
     categoryId: +categoryId,
     step,
@@ -25,25 +30,41 @@ const CategoryPage = ({ params }) => {
     token,
   });
 
-  const productsList = data?.productlist;
   const productsCount = data?.totalCount;
 
-  const pageEnd = Math.floor(productsCount / 2);
+  useEffect(() => {
+    if (data) {
+      const ppp = data?.productlist;
+
+      setProductsList((prevProducts) => [...prevProducts, ppp]);
+    }
+  }, [data]);
+
+  const newProductsList = productsList.flatMap((p) => p);
+
+  useEffect(() => {
+    if (step <= pageEnd && inView) {
+      setStep(step + 1);
+    }
+  }, [inView]);
+
+  const pageEnd = Math.floor(productsCount / pageSize);
 
   const sortProductHandler = (e) => {
     setSortBy(e.target.value);
   };
 
-  let sortedProductList = [];
+  // let sortedProductList = [];
 
-  if (productsList) {
-    sortedProductList = Object.values(productsList);
+  // if (newProductsList) {
+  //   sortedProductList = Object.values(productsList);
+  //   console.log(sortedProductList);
 
-    if (sortBy === "cheapest")
-      sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
-    if (sortBy === "expensive")
-      sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
-  }
+  //   if (sortBy === "cheapest")
+  //     sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
+  //   if (sortBy === "expensive")
+  //     sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
+  // }
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
@@ -102,7 +123,7 @@ const CategoryPage = ({ params }) => {
                   id="cheapest"
                   className="hidden"
                   value="cheapest"
-                  onChange={sortProductHandler}
+                  // onChange={sortProductHandler}
                 />
                 <label
                   className="text-base md:text-xl cursor-pointer"
@@ -118,7 +139,7 @@ const CategoryPage = ({ params }) => {
                   id="expensive"
                   className="hidden"
                   value="expensive"
-                  onChange={sortProductHandler}
+                  // onChange={sortProductHandler}
                 />
                 <label
                   htmlFor="expensive"
@@ -135,10 +156,10 @@ const CategoryPage = ({ params }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-8 h-full">
               <ProductLoading />
             </div>
-          ) : sortedProductList.length > 0 ? (
+          ) : newProductsList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
-                {sortedProductList.map((product) => (
+                {newProductsList.map((product) => (
                   <Product
                     key={product.productId}
                     {...product}
@@ -148,54 +169,7 @@ const CategoryPage = ({ params }) => {
               </div>
 
               <div className="flex justify-center items-center mt-10 gap-1">
-                <button
-                  className={`border py-2 px-5 ${
-                    step === 1 && "pointer-events-none text-light"
-                  }`}
-                  onClick={() => setStep((step) => step - 1)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      stroke={`${step === 1 ? "#e5eec3" : "#1a3622"}`}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeMiterlimit="10"
-                      strokeWidth="1.5"
-                      d="M14.43 5.93L20.5 12l-6.07 6.07M3.5 12h16.83"
-                    ></path>
-                  </svg>
-                </button>
-                <span className="inline-block p-2 border">{step}</span>
-                <button
-                  className={`border py-2 px-5 ${
-                    step === pageEnd + 1 && "pointer-events-none text-light"
-                  }`}
-                  onClick={() => setStep((step) => step + 1)}
-                  disabled={step === 10}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      stroke={`${step === pageEnd + 1 ? "#e5eec3" : "#1a3622"}`}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeMiterlimit="10"
-                      strokeWidth="1.5"
-                      d="M9.57 5.93L3.5 12l6.07 6.07M20.5 12H3.67"
-                    ></path>
-                  </svg>
-                </button>
+                <span ref={ref}></span>
               </div>
             </>
           ) : (

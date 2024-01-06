@@ -205,6 +205,7 @@ const GramsCounter = ({ product, weight }) => {
                       height="40"
                       rx="20"
                       stroke="#DB7267"
+                      strokeWidth="2"
                     />
                     <rect
                       x="15"
@@ -291,6 +292,7 @@ const GramsCounter = ({ product, weight }) => {
                       height="40"
                       rx="20"
                       stroke="#DB7267"
+                      strokeWidth="2"
                     />
                     <rect
                       x="15"
@@ -324,14 +326,14 @@ const GramsCounter = ({ product, weight }) => {
           </>
         )}
       </div>
-      {w ? (
+      {w && showBtn ? (
         <div className="border-t text-center text-sm mt-1 pt-3 w-full">
           <NumericFormat
             thousandSeparator=","
             value={
               salePrice
                 ? Math.round((kilo + grams * 0.001) * salePrice)
-                : Math.round((kilo + grams * 0.001) * product.salePrice)
+                : Math.round((kilo + grams * 0.001) * product.price)
             }
             displayType="text"
           />

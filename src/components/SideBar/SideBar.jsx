@@ -12,7 +12,7 @@ const SideBar = () => {
   const { data, isLoading } = useGetProfile(token);
 
   return (
-    <aside className="col-span-2 bg-white p-10 rounded-2xl shadow-md h-700px flex flex-col sticky top-40">
+    <aside className="col-span-2 bg-white p-5 2xl:p-10 rounded-2xl shadow-md h-700px flex flex-col sticky top-40">
       <p className="text-lg font-bold w-72 h-8">
         {isLoading ? (
           <Skeleton width={200} height={30} />
@@ -22,7 +22,7 @@ const SideBar = () => {
           <span className="text-orange">اطلاعات پروفایل تکمیل نشده است</span>
         )}
       </p>
-      <div className="flex justify-between py-4 border-b-4 border-green">
+      <div className="flex flex-wrap justify-between py-4 border-b-4 border-green">
         <span>
           {isLoading ? (
             <Skeleton width={200} height={30} />

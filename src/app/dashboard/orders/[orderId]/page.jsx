@@ -16,25 +16,7 @@ const OrderDetails = ({ params }) => {
         <div className="border-4 border-light rounded-lg p-3 my-5">
           <p className="font-bold mb-3">وضعیت سفارش:</p>
           <p>
-            {data?.data?.statusOrder === 1 ? (
-              <span className="text-orange">در مرحله سبد خرید</span>
-            ) : data?.data?.statusOrder === 2 ? (
-              <span className="text-orange">پیش فاکتور شده</span>
-            ) : data?.data?.statusOrder === 3 ? (
-              <span className="text-orange">در انتظار بررسی</span>
-            ) : data?.data?.statusOrder === 4 ? (
-              <span className="text-orange">در انتظار پرداخت</span>
-            ) : data?.data?.statusOrder === 5 ? (
-              <span className="text-orange">ارسال سفارش</span>
-            ) : data?.data?.statusOrder === 6 ? (
-              <span className="text-orange">ثبت از کارما</span>
-            ) : data?.data?.statusOrder === 7 ? (
-              <span className="text-orange">ثبت مرجوعی</span>
-            ) : data?.data?.statusOrder === 8 ? (
-              <span className="text-orange">کنسل شده</span>
-            ) : (
-              <span className="text-orange">پرداخت شد</span>
-            )}
+            <span className="text-orange">{data?.data?.statusOrder}</span>
           </p>
         </div>
 
@@ -80,7 +62,7 @@ const OrderDetails = ({ params }) => {
                       ? "کیلوگرم"
                       : item.unitName === "عدد"
                       ? "عدد"
-                      : "تعداد"}
+                      : "بسته"}
                   </span>
                 </p>
               </div>

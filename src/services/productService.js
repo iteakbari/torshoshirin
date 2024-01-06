@@ -1,4 +1,5 @@
 import http from "./httpService";
+import axios from "axios";
 
 export function getProductsList({ queryKey }) {
   const { categoryId, pageSize, step, token } = queryKey[1];

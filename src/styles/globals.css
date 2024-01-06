@@ -8,7 +8,7 @@
   --background-end-rgb: 255, 255, 255;
   --text-color: #1a3622;
   --text-color-light: #6b8370;
-  --bg-color: #f9fdf5;
+  --bg-color: #f9fdf1;
   --bg-color-gray: #d9d9d9;
   --light-gray: #f9f8f6;
   --navbar-bg: #fcfef5;
@@ -18,7 +18,7 @@
   --border-color: #AFB49F;
   --border-color-green: #A6B2A8;
   --diveder-color: #DDC9C6;
-  --white: #fffffa;
+  --white: #ffffff;
   --blog-bg: #e5eec3;
   --gray: #dee3da;
   --bg-gray: #DEE3DA;
@@ -44,6 +44,10 @@ img {
 
 .bg-gray {
   background-color: var(--bg-gray);
+}
+
+.text-color {
+  color: var(--text-color) !important;
 }
 
 body {
@@ -102,6 +106,10 @@ body {
 
 .divider-color {
   border-color: var(--diveder-color) !important;
+}
+
+.divider-color2 {
+  border-color: #ededed !important;
 }
 
 .text-color-light {
@@ -436,6 +444,18 @@ input:-internal-autofill-selected {
 
 .w-48 {
   width: 48% !important;
+}
+
+@media (max-width:1535px) {
+  .w-48 {
+    width: 46% !important;
+  }
+}
+
+@media (max-width:650px) {
+  .w-48 {
+    width: 100% !important;
+  }
 }
 
 .select {
@@ -828,3 +848,13 @@ button {
 .faq li:nth-child(even) {
   background-color: var(--gray);
 } */
+
+.basket-item-wrapper {
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.rounded-30px {
+  border-radius: 30px;
+}

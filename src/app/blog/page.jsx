@@ -2,12 +2,36 @@
 import BlogCard from "@/components/BlogCard/BlogCard";
 import BlogCommentSwiper from "@/components/BlogCard/BlogCommentSwiper";
 import useBlogList from "@/hooks/useBlogList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { searchBlog } from "@/services/blogService";
 
 const Blog = () => {
   const [step, setStep] = useState(1);
+  const [blogList, setBlogList] = useState([]);
+  const { isLoading, mutateAsync: searchBlogFunc } = useMutation({
+    mutationFn: searchBlog,
+  });
 
   const { data } = useBlogList({ documentGroupId: 3, step, pageSize: 20 });
+
+  useEffect(() => {
+    if (data) {
+      setBlogList(data?.documentsList);
+    }
+  }, [data]);
+
+  const searchHandler = async (e) => {
+    const { data } = await searchBlogFunc({
+      documentGroupId: 3,
+      step,
+      pageSize: 20,
+      keyWord: e.target.value,
+    });
+    setBlogList(data?.documentsList);
+  };
+
+  console.log(blogList);
 
   return (
     <div className="blog-bg">
@@ -63,7 +87,11 @@ const Blog = () => {
             <span className="absolute -top-2 right-4 bg-white text-xs inline-block px-2 py-0.5">
               جستجو در بلاگ
             </span>
-            <input type="text" className="bg-transparent flex-1 px-2" />
+            <input
+              type="search"
+              onChange={searchHandler}
+              className="bg-transparent flex-1 px-2"
+            />
             <span className="flex w-10 justify-center items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +112,7 @@ const Blog = () => {
           </form>
         </div>
         <div className="py-20 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-14 px-5">
-          {data?.documentsList?.map((blog) => (
+          {blogList?.map((blog) => (
             <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>

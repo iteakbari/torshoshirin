@@ -22,6 +22,7 @@ const ConfrimLogin = ({
         numInputs={5}
         containerStyle="flex justify-between ltr"
         inputStyle="input"
+        inputType="tell"
         shouldAutoFocus={true}
         renderInput={(props) => <input {...props} />}
       />

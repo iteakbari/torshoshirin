@@ -23,6 +23,7 @@ const IntroSwiper = () => {
         },
       }}
       modules={[Autoplay]}
+      className="w-full"
     >
       <SwiperSlide>
         <div className="grid justify-center">

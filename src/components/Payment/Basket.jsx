@@ -74,7 +74,15 @@ const Basket = ({ setActiveTab }) => {
               className="w-14 h-14 rounded-md"
             />
             <p className="font-bold">{item.name}</p>
-            <span>
+            <span className="sm:pr-5 hidden md:inline-block">
+              <NumericFormat
+                value={item.price}
+                displayType="text"
+                thousandSeparator=","
+              />
+              <small className="text-sm pr-2">ریال</small>
+            </span>
+            <span className="sm:p-3 md:hidden">
               <NumericFormat
                 value={item.totalPrice}
                 displayType="text"
@@ -84,7 +92,7 @@ const Basket = ({ setActiveTab }) => {
               <small className="text-sm pr-2">ریال</small>
             </span>
           </div>
-          <div className="pt-4 flex items-end sm:gap-10">
+          <div className="pt-4 flex justify-center md:justify-start items-end sm:gap-10">
             {item.UCI === 2 ? (
               <div className="w-72">
                 <GramsCounter weight={item.weight} product={item} />
@@ -99,6 +107,15 @@ const Basket = ({ setActiveTab }) => {
                 />
               </div>
             )}
+            <span className="sm:p-3 hidden md:inline-block">
+              <NumericFormat
+                value={item.totalPrice}
+                displayType="text"
+                className="font-bold"
+                thousandSeparator=","
+              />
+              <small className="text-sm pr-2">ریال</small>
+            </span>
             <button
               type="button"
               className="hidden sm:flex items-center mb-2 gap-1 text-orange"
