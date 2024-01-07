@@ -43,7 +43,12 @@ export default function Home() {
 
           <CategoriesList />
 
-          <div className="my-20 w-4/5 md:w-3/4 mx-auto pt-32">
+          <Link
+            passHref={true}
+            target="_blanck"
+            href="https://www.instagram.com/torsh_shirin_sari70/"
+            className="my-20 w-4/5 md:w-3/4 mx-auto pt-32 block"
+          >
             <Image
               src="https://admin.torshoshirin.com/files/react-img/banner.png"
               width={400}
@@ -58,7 +63,7 @@ export default function Home() {
               alt="instagram banner"
               className="w-full md:hidden"
             />
-          </div>
+          </Link>
         </div>
       </main>
     </div>

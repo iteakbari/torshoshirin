@@ -33,36 +33,42 @@ const Product = (product) => {
       const data = await likedProduct({ productId, token });
       setFavorite(!favorite);
       favorite
-        ? toast.custom((t) => (
-            <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-              {productName} از لیست علاقمندی‌های شما حذف شد.
-            </div>
-          ))
-        : toast.custom((t) => (
-            <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-              <div className="flex items-center gap-5">
-                <svg
-                  width="35"
-                  height="32"
-                  viewBox="0 0 35 32"
-                  fill="#DB7267"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.7077 5.19672C17.6042 5.33246 17.3961 5.33246 17.2927 5.19672C13.6238 0.382228 7.84966 -0.139009 4.26259 3.63301C0.607133 7.47693 0.607132 13.7092 4.26259 17.5531L15.5145 29.3852C16.6112 30.5384 18.3892 30.5384 19.4858 29.3852L30.7377 17.5531C34.3932 13.7092 34.3932 7.47693 30.7377 3.63301C27.1507 -0.139009 21.3766 0.382228 17.7077 5.19672Z"
-                    stroke="#DB7267"
-                    strokeWidth="2"
-                  />
-                </svg>
-                <p>{productName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
+        ? toast.custom(
+            (t) => (
+              <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+                {productName} از لیست علاقمندی‌های شما حذف شد.
               </div>
-              <div className="w-full flex justify-center pt-5">
-                <Link href="/dashboard/favorites">
-                  مشاهده‌ی لیست علاقه‌مندی‌ها
-                </Link>
+            ),
+            { duration: 2000 }
+          )
+        : toast.custom(
+            (t) => (
+              <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
+                <div className="flex items-center gap-5">
+                  <svg
+                    width="35"
+                    height="32"
+                    viewBox="0 0 35 32"
+                    fill="#DB7267"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17.7077 5.19672C17.6042 5.33246 17.3961 5.33246 17.2927 5.19672C13.6238 0.382228 7.84966 -0.139009 4.26259 3.63301C0.607133 7.47693 0.607132 13.7092 4.26259 17.5531L15.5145 29.3852C16.6112 30.5384 18.3892 30.5384 19.4858 29.3852L30.7377 17.5531C34.3932 13.7092 34.3932 7.47693 30.7377 3.63301C27.1507 -0.139009 21.3766 0.382228 17.7077 5.19672Z"
+                      stroke="#DB7267"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                  <p>{productName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
+                </div>
+                <div className="w-full flex justify-center pt-5">
+                  <Link href="/dashboard/favorites">
+                    مشاهده‌ی لیست علاقه‌مندی‌ها
+                  </Link>
+                </div>
               </div>
-            </div>
-          ));
+            ),
+            { duration: 2000 }
+          );
     } else {
       toast.custom((t) => (
         <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
@@ -115,7 +121,7 @@ const Product = (product) => {
       <div className="flex justify-between items-center">
         <Link
           href={`/category/${categoriId}/${productId}-${variantId}`}
-          className="inline-block w-48 sm:w-52"
+          className="inline-block w-52"
         >
           {productName}
         </Link>

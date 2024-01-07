@@ -148,7 +148,7 @@ const HorizontalCard = (product) => {
             </Swiper>
           </>
         ) : (
-          <div className="w-full h-full divider-color2  flex justify-center items-center border-l-4">
+          <div className="w-full h-full divider-color2  flex justify-center items-center  md:border-l-4">
             <Image alt={farsiName} width={300} height={300} src={mainImage} />
           </div>
         )}
@@ -165,7 +165,7 @@ const HorizontalCard = (product) => {
           />
           ریال
         </p>
-        <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-96">
+        <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-80">
           {unitCountingId === 1 ? (
             <Counter step={1} label="عدد" />
           ) : unitCountingId === 2 ? (

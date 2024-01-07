@@ -56,6 +56,16 @@
     box-shadow: 0px 15px25px 15px rgba(0, 0, 0, 0.1);
     margin-left: -450px;
     border-radius: 20px;
+    height: max-content;
+}
+
+@media (max-width:991px) {
+    .offcanvas-center {
+        width: 100%;
+        left: 0%;
+        margin-left: 0;
+        border-radius: 20px;
+    }
 }
 
 .offcanvas-left {

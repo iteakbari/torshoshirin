@@ -11,8 +11,8 @@ const OrderDetails = ({ params }) => {
   console.log(data?.data);
 
   return (
-    <div className="flex gap-12">
-      <div className="w-3/6">
+    <div className="flex flex-wrap gap-12">
+      <div className="xl:w-3/6">
         <div className="border-4 border-light rounded-lg p-3 my-5">
           <p className="font-bold mb-3">وضعیت سفارش:</p>
           <p>
@@ -35,7 +35,7 @@ const OrderDetails = ({ params }) => {
           </p>
         </div>
       </div>
-      <div className="w-2/6">
+      <div className="xl:w-5/12 2xl:2/6">
         <p className="mb-5">سبد خرید</p>
         <div className="border-4 border-light-green rounded-lg h-80">
           <div className="p-7 overflow-auto h-64 no-scroll">

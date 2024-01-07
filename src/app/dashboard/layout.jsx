@@ -9,7 +9,7 @@ const DashboardLayout = ({ children }) => {
           <div className="hidden lg:block md:col-span-2">
             <SideBar />
           </div>
-          <div className="lg:col-span-6 p-10 rounded-2xl bg-white shadow-md">
+          <div className="lg:col-span-6 p-5 sm:p-10 rounded-2xl bg-white shadow-md">
             {children}
           </div>
         </div>

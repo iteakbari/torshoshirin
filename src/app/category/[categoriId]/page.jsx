@@ -11,8 +11,9 @@ import useInfiniteProducts from "@/hooks/useInfiniteProducts";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
-  const [sortBy, setSortBy] = useState("cheapest");
+  const [sortBy, setSortBy] = useState(0);
   const [productsList, setProductsList] = useState([]);
+  const [clearList, setClearList] = useState(false);
 
   const categoryName = decodeURI(params?.categoriId);
   const regex = /([^\/]+)-(\d+)/;
@@ -28,19 +29,20 @@ const CategoryPage = ({ params }) => {
     step,
     pageSize,
     token,
+    sortTypeId: sortBy,
   });
 
   const productsCount = data?.totalCount;
 
   useEffect(() => {
     if (data) {
-      const ppp = data?.productlist;
+      const tempList = data?.productlist;
 
-      setProductsList((prevProducts) => [...prevProducts, ppp]);
+      setProductsList((prevProducts) => [...prevProducts, tempList]);
     }
   }, [data]);
 
-  const newProductsList = productsList.flatMap((p) => p);
+  const newProductsList = productsList?.flatMap((p) => p);
 
   useEffect(() => {
     if (step <= pageEnd && inView) {
@@ -51,19 +53,35 @@ const CategoryPage = ({ params }) => {
   const pageEnd = Math.floor(productsCount / pageSize);
 
   const sortProductHandler = (e) => {
-    setSortBy(e.target.value);
+    if (e.target.value !== sortBy) {
+      setSortBy(e.target.value);
+      // ابتدا مقدار step را بازنشانی کنید
+      setStep(1);
+      // سپس لیست کنونی را پاک کنید
+      setProductsList([]);
+    }
   };
+
+  useEffect(() => {
+    if (clearList) {
+      setProductsList([]);
+      setClearList(false);
+    }
+  }, [clearList]);
 
   // let sortedProductList = [];
 
   // if (newProductsList) {
-  //   sortedProductList = Object.values(productsList);
-  //   console.log(sortedProductList);
+  //   sortedProductList = newProductsList;
+  //   console.log(typeof sortBy);
 
-  //   if (sortBy === "cheapest")
+  //   if (sortBy === "1") {
   //     sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
-  //   if (sortBy === "expensive")
+  //   }
+
+  //   if (sortBy === "2") {
   //     sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
+  //   }
   // }
 
   return (
@@ -120,14 +138,14 @@ const CategoryPage = ({ params }) => {
                 <input
                   type="radio"
                   name="sort"
-                  id="cheapest"
+                  id="1"
                   className="hidden"
-                  value="cheapest"
-                  // onChange={sortProductHandler}
+                  value="1"
+                  onChange={(e) => sortProductHandler(e)}
                 />
                 <label
                   className="text-base md:text-xl cursor-pointer"
-                  htmlFor="cheapest"
+                  htmlFor="1"
                 >
                   ارزان‌ترین
                 </label>
@@ -136,13 +154,13 @@ const CategoryPage = ({ params }) => {
                 <input
                   type="radio"
                   name="sort"
-                  id="expensive"
+                  id="2"
                   className="hidden"
-                  value="expensive"
-                  // onChange={sortProductHandler}
+                  value="2"
+                  onChange={(e) => sortProductHandler(e)}
                 />
                 <label
-                  htmlFor="expensive"
+                  htmlFor="2"
                   className="text-base md:text-xl cursor-pointer"
                 >
                   گران‌ترین

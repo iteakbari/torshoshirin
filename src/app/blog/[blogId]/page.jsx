@@ -44,7 +44,7 @@ const BlogDetails = ({ params }) => {
                     ? data?.authorName
                     : "توسط ادمین ترش‌وشیرین "}
                 </span>
-                <span className="text-light">آبان ۱۴۰۲</span>
+                <span className="text-light">{data?.date}</span>
               </div>
 
               <div

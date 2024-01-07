@@ -18,7 +18,7 @@ const Orders = () => {
       ) : data && data.length > 0 ? (
         data.map((item) => (
           <div key={item.id} className=" py-7 border-b last:border-0">
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap gap-3 justify-between">
               <p>
                 وضعیت سفارش :‌{" "}
                 {item.orderStatusId === 1 ? (
@@ -48,7 +48,7 @@ const Orders = () => {
               <p>
                 کد سفارش: <span>{item.id}</span>
               </p>
-              <p className="flex w-full mt-3 flex-wrap items-center">
+              <p className="flex w-full mt-3 gap-3 flex-wrap items-center">
                 <span className="w-56 inline-block">ارسال به آدرس : </span>
                 <span className="inline-block truncate">
                   {item.customerAddress}

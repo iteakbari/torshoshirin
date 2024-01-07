@@ -41,7 +41,7 @@ const BlogComment = ({ documentId }) => {
     data &&
       setFormValues({
         fullName: data.data.firstName
-          ? data.data.firstName + data.data.lastName
+          ? data.data.firstName + " " + data.data.lastName
           : "",
         userName: data.data.phoneNumber ? data.data.phoneNumber : "",
       });

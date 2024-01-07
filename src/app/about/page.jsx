@@ -49,7 +49,7 @@ const About = () => {
             </Swiper>
           </div>
           <div className="my-12 py-10">
-            <p className="text-3xl leading-loose">
+            <p className="text-xl text-justify md:text-3xl leading-loose">
               وبسایت ترش‌وشیرین، از سال ۱۳۹۹ فعالیت خود را آغاز کرده است. <br />{" "}
               در ترش‌وشیرین، ما به ارائه بهترین محصولات با کیفیت بالا و قیمت‌های
               منصفانه متعهد هستیم. تمام میوه‌ها با کنترل کیفیت دقیق جمع‌آوری
