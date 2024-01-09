@@ -2,13 +2,16 @@ import http from "./httpService";
 import axios from "axios";
 
 export function getProductsList({ queryKey }) {
-  const { categoryId, pageSize, step, sortTypeId, token } = queryKey[1];
+  const { categoryId, pageSize, step, sortTypeId, keyWord, token } =
+    queryKey[1];
   return http
-    .post(
-      `/ProductApi/SearchProduct`,
-      { categoryId, pageSize, step, sortTypeId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
+    .post(`/ProductApi/SearchProduct`, {
+      categoryId,
+      pageSize,
+      step,
+      sortTypeId,
+      keyWord,
+    })
     .then(({ data }) => data.data.data);
 }
 

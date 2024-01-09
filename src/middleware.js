@@ -5,10 +5,13 @@ export async function middleware(req) {
   const pathname = req.nextUrl.pathname;
   const token = req.cookies.get("token");
   if (!token || token === undefined) {
+    console.log("token is not exist");
     if (
       pathname?.startsWith("/dashboard") ||
       pathname?.startsWith("/purchase")
     ) {
+      console.log("redirect not working");
+
       return NextResponse.redirect(new URL("/sign", url));
       // try {
       //   const res = await fetch(

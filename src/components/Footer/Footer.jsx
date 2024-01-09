@@ -7,7 +7,7 @@ const Footer = () => {
   const { data } = useFooter();
 
   return (
-    <footer className="px-20 md:px-0 pt-5">
+    <footer className="px-16 md:px-0 pt-5">
       <div className="container mx-auto">
         <ul className="border-t-4 border-b-4 divider-color grid justify-center md:flex md:justify-around xl:px-20 py-4">
           <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
@@ -43,7 +43,7 @@ const Footer = () => {
           </li>
         </ul>
         <div className="py-10 border-b-4 divider-color flex flex-wrap">
-          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
+          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200 mb-3">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
               <Link
@@ -57,9 +57,9 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200">
+          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200 mb-3">
             <div className="grid place-content-center gap-3 text-center">
-              <h5 className="text-xl">تماس با ما</h5>
+              <h5 className="text-xl">درباره ما</h5>
               <address className="text-color-light">{data?.address}</address>
               {/* <Link href="tel:09397777258" className="text-color-light">
                 {data?.contactUsMobileNumber}
@@ -77,7 +77,7 @@ const Footer = () => {
                   href={data?.instagramName || "#"}
                   passHref={true}
                   target="_blanck"
-                  className="flex justify-center"
+                  className="flex justify-center w-12 h-12"
                 >
                   <Image
                     src="https://admin.torshoshirin.com/files/react-img/insta.png"
@@ -93,7 +93,7 @@ const Footer = () => {
                   }
                   passHref={true}
                   target="_blanck"
-                  className="flex justify-center"
+                  className="flex justify-center w-12 h-12"
                 >
                   <Image
                     src="https://admin.torshoshirin.com/files/react-img/telegram.png"

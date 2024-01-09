@@ -31,6 +31,7 @@ function Navbar() {
     const getToken = Cookies.get("token") ? Cookies.get("token") : null;
     setToken(getToken);
   }, []);
+
   const { data } = useGetProfile(token);
 
   const router = useRouter();
@@ -46,6 +47,8 @@ function Navbar() {
   const showCartHandler = () => {
     setCloseCart(true);
   };
+
+  console.log(cartItems);
 
   return (
     <header className="top-0 lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 fixed right-0 left-0 bg-blured">
@@ -155,7 +158,7 @@ function Navbar() {
               </li>
             )}
           </ul>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-5 lg:gap-3 items-center">
             <div className="relative hidden lg:block cartIcon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -391,23 +394,6 @@ function Navbar() {
             <div className="hidden lg:block">
               <SearchBar />
             </div>
-
-            {/* <button className="lg:hidden">
-              <svg
-                width="33"
-                height="33"
-                viewBox="0 0 33 33"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M24.75 21.6783L26.8638 23.7922C27.7121 24.6404 27.7121 26.0156 26.8638 26.8638C26.0156 27.7121 24.6404 27.7121 23.7922 26.8638L21.6783 24.75M5.5 14.85C5.5 9.68614 9.68613 5.5 14.85 5.5C20.0138 5.5 24.2 9.68614 24.2 14.85C24.2 20.0139 20.0138 24.2 14.85 24.2C9.68613 24.2 5.5 20.0139 5.5 14.85Z"
-                  stroke="#1a3622"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button> */}
 
             <Link href="/search" className="lg:hidden">
               <svg

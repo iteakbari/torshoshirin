@@ -3,6 +3,7 @@ import Comment from "@/components/Comment/Comment";
 import HorizontalCard from "@/components/HorizontalCard/HorizontalCard";
 import HorizontalCardLoading from "@/components/HorizontalCard/HorizontalCardLoading";
 import NewProducts from "@/components/Product/NewProducts";
+import ProductCommentList from "@/components/Product/ProductCommentList";
 // import NewProductsLoading from "@/components/Product/NewProductsLoading";
 import RelatedProducts from "@/components/Product/RelatedProducts";
 import useProduct from "@/hooks/useProduct";
@@ -14,8 +15,6 @@ const ProductDetails = ({ params }) => {
   const { data, isLoading } = useProduct(para[0], para[1]);
   const product = data?.data;
   const token = Cookies.get("token");
-
-  // console.log(product);
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
@@ -41,8 +40,12 @@ const ProductDetails = ({ params }) => {
           <NewProducts />
         </div>
       </div>
-      <p className="text-xl">محصولات مرتبط</p>
-      <div className="mt-5 bg-white px-5">
+      <p className="text-xl">نظرات</p>
+      <div className="mt-5  px-5">
+        <ProductCommentList productId={product?.id} />
+      </div>
+      <p className="text-xl mt-10">محصولات مرتبط</p>
+      <div className="mt-5 bg-white rounded-2xl overflow-hidden py-30px px-3 lg:pr-5">
         <RelatedProducts categoryId={product?.categoryId} />
       </div>
 

@@ -82,7 +82,7 @@ const Product = (product) => {
   };
 
   return (
-    <div className="card bg-white relative">
+    <div className="card bg-white relative pt-8">
       <label>
         <input
           type="checkbox"
@@ -121,7 +121,7 @@ const Product = (product) => {
       <div className="flex justify-between items-center">
         <Link
           href={`/category/${categoriId}/${productId}-${variantId}`}
-          className="inline-block w-52"
+          className="inline-block w-48"
         >
           {productName}
         </Link>

@@ -16,7 +16,7 @@ const StateSelectBox = ({
     return states ? states.find((state) => state.value === value) : "";
   };
   return (
-    <div className={`select-box w-48`}>
+    <div className={`select-box w-half`}>
       <Select
         value={stateDefaultValue(states, value)}
         options={states}

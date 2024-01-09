@@ -241,21 +241,21 @@ const Profile = () => {
         <FormikTextInputField
           label="نام"
           name="firstName"
-          customClass="w-48"
+          customClass="w-half"
           formik={formik}
           forced={true}
         />
         <FormikTextInputField
           label="نام‌خانواگی"
           name="lastName"
-          customClass="w-48"
+          customClass="w-half"
           formik={formik}
           forced={true}
         />
         <FormikTextInputField
           label="شماره موبایل"
           name="phoneNumber"
-          customClass="w-48"
+          customClass="w-half"
           formik={formik}
           readOnly={true}
           forced={true}
@@ -263,13 +263,13 @@ const Profile = () => {
         <FormikTextInputField
           label="کدپستی(اختیاری)"
           name="codePost"
-          customClass="w-48"
+          customClass="w-half"
           formik={formik}
         />
         <FormikTextInputField
           label="شماره تلفن ثابت(اختیاری)"
           name="phonNumber2"
-          customClass="w-48"
+          customClass="w-half"
           formik={formik}
         />
         <p className="w-full mt-3">
@@ -292,7 +292,7 @@ const Profile = () => {
           forced={true}
         />
 
-        <div className="pt-4 w-48">
+        <div className="pt-4 w-half">
           <FormikTextInputField
             label="آدرس"
             name="address"
@@ -301,7 +301,7 @@ const Profile = () => {
             forced={true}
           />
         </div>
-        <div className="w-48">
+        <div className="w-half">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
 
           <div className="h-56">

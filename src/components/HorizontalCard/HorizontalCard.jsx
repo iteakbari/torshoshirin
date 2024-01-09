@@ -23,7 +23,7 @@ const HorizontalCard = (product) => {
     salePrice,
     isFavorite,
     unitCountingId,
-    id,
+    productId,
   } = product || "";
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [favorite, setFavorite] = useState(isFavorite);
@@ -35,7 +35,7 @@ const HorizontalCard = (product) => {
 
   const favoriteHandler = async () => {
     if (token != null && token != "null") {
-      const data = await likedProduct({ productId: id, token });
+      const data = await likedProduct({ productId, token });
       setFavorite(!favorite);
       favorite
         ? toast.custom((t) => (
@@ -82,7 +82,7 @@ const HorizontalCard = (product) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      <div className="relative h-full">
+      <div className="relative h-full pt-10 sm:pt-8">
         <label>
           <input
             type="checkbox"
@@ -106,7 +106,7 @@ const HorizontalCard = (product) => {
             />
           </svg>
         </label>
-        {moreImages.length > 0 ? (
+        {moreImages?.length > 0 ? (
           <>
             <Swiper
               spaceBetween={10}
@@ -156,7 +156,14 @@ const HorizontalCard = (product) => {
       <div className="py-10 px-7 mt-5 md:mt-0 flex flex-col justify-center items-center gap-5">
         <p className="text-xl">{farsiName}</p>
         <p className="text-orange text-xl">
-          کیلویی
+          <span>
+            هر{" "}
+            {unitCountingId === 1
+              ? "عدد"
+              : unitCountingId === 2
+              ? "کیلو"
+              : "بسته"}
+          </span>
           <NumericFormat
             thousandSeparator=","
             value={salePrice}

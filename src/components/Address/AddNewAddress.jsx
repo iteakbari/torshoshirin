@@ -14,7 +14,7 @@ import { addressFunc, editAddressFunc } from "@/services/addressService";
 import Address from "@/common/AddressMap";
 import MapComponent from "@/common/Map";
 
-const AddAddress = ({
+const AddNewAddress = ({
   selectedAddress,
   setIsOpen,
   refetch,
@@ -203,7 +203,10 @@ const AddAddress = ({
   }, [userAddress]);
 
   useEffect(() => {
-    !isOpen && setSelectedState([]);
+    if (!isOpen) {
+      setSelectedAddress(null);
+      setSelectedState([]);
+    }
   }, [isOpen]);
 
   return (
@@ -212,50 +215,6 @@ const AddAddress = ({
         onSubmit={formik.handleSubmit}
         className="flex flex-wrap gap-5 address-modal"
       >
-        <div className="flex gap-2 items-center w-full">
-          <Switch
-            reciver={reciver}
-            setReciver={setReciver}
-            checked={!reciver}
-          />
-          <span className={`${reciver ? "text-gray-500" : "text-gray-900"}`}>
-            گیرنده سفارش خودم هستم
-          </span>
-        </div>
-        {reciver && (
-          <>
-            <FormikTextInputField
-              label="نام گیرنده"
-              name="firstName"
-              customClass="w-half"
-              formik={formik}
-            />
-            <FormikTextInputField
-              label="نام‌خانوادگی گیرنده"
-              name="lastName"
-              customClass="w-half"
-              formik={formik}
-            />
-            <FormikTextInputField
-              label="شماره موبایل گیرنده"
-              name="phoneNumber"
-              customClass="w-half"
-              formik={formik}
-            />
-            <FormikTextInputField
-              label="کدپستی(اختیاری) گیرنده"
-              name="codePost"
-              customClass="w-half"
-              formik={formik}
-            />
-            <FormikTextInputField
-              label="شماره تلفن ثابت(اختیاری) گیرنده"
-              name="phonNumber2"
-              customClass="w-half"
-              formik={formik}
-            />
-          </>
-        )}
         <p className="w-full mt-3">
           *صرفاً استان‌ها و شهرهایی که در محدوده خدمات فروشگاه ما هستند، قابل
           انتخاب‌اند.
@@ -323,4 +282,4 @@ const AddAddress = ({
   );
 };
 
-export default AddAddress;
+export default AddNewAddress;

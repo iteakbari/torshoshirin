@@ -142,13 +142,13 @@ const Login = ({ context }) => {
           ) {
             router.push("/purchase");
           } else {
-            router.push("/");
+            router.back();
           }
           // console.log(typeof window);
 
           setTimeout(() => {
             if (typeof window !== "undefined") window.location.reload();
-          }, 500);
+          }, 1000);
         }
 
         // setToken(data.data.jwToken);
@@ -193,7 +193,7 @@ const Login = ({ context }) => {
 
           setTimeout(() => {
             if (typeof window !== "undefined") window.location.reload();
-          }, 500);
+          }, 800);
         }
 
         // setToken(data.data.jwToken);

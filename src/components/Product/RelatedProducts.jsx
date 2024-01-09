@@ -8,6 +8,7 @@ import useRelatedProducts from "@/hooks/useRelatedProducts";
 import Product from "./Product";
 
 const RelatedProducts = ({ categoryId }) => {
+  console.log(categoryId);
   const { data } = useRelatedProducts(categoryId);
 
   return (
@@ -63,7 +64,7 @@ const RelatedProducts = ({ categoryId }) => {
         },
       }}
       spaceBetween={30}
-      className="w-full"
+      className="w-full "
     >
       {data?.data?.productlist?.map((item) => (
         <SwiperSlide key={item.productId}>

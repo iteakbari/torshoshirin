@@ -8,12 +8,12 @@ import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 import { useInView } from "react-intersection-observer";
 import useInfiniteProducts from "@/hooks/useInfiniteProducts";
+import { useRouter } from "next/navigation";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState(0);
   const [productsList, setProductsList] = useState([]);
-  const [clearList, setClearList] = useState(false);
 
   const categoryName = decodeURI(params?.categoriId);
   const regex = /([^\/]+)-(\d+)/;
@@ -23,34 +23,53 @@ const CategoryPage = ({ params }) => {
   const pageSize = 20;
   const token = Cookies.get("token");
   const { ref, inView } = useInView();
+  const router = useRouter();
 
-  const { data, isLoading } = useProducts({
+  const { data, isLoading, isFetching } = useProducts({
     categoryId: +categoryId,
     step,
     pageSize,
-    token,
+    keyWord: "",
     sortTypeId: sortBy,
   });
 
   const productsCount = data?.totalCount;
 
   useEffect(() => {
-    if (data) {
-      const tempList = data?.productlist;
-
-      setProductsList((prevProducts) => [...prevProducts, tempList]);
+    if (data?.productlist) {
+      // از spread operator برای خارج کردن اشیاء از آرایه‌ها استفاده می‌کنیم
+      const newProducts = data.productlist.reduce((unique, product) => {
+        if (!unique.some((obj) => obj.productId === product.productId)) {
+          unique.push(product);
+        }
+        return unique;
+      }, []);
+      // حالا با استفاده از کد زیر، محصولات جدید را به لیست قبلی اضافه کنید
+      setProductsList((prevProducts) => [
+        // ابتدا محصولات جدید را اضافه کنید
+        // سپس محصولات قبلی را اضافه کنید، بدون اینکه محصولاتی که در newProducts هستند مجدداً اضافه شوند
+        ...prevProducts.filter(
+          (product) =>
+            !newProducts.some(
+              (newProduct) => newProduct.productId === product.productId
+            )
+        ),
+        ...newProducts,
+      ]);
     }
   }, [data]);
 
   const newProductsList = productsList?.flatMap((p) => p);
+  const pageEnd = Math.floor(productsCount / pageSize);
 
   useEffect(() => {
-    if (step <= pageEnd && inView) {
-      setStep(step + 1);
+    if (inView) {
+      const nextPage = step + 1;
+      if (nextPage <= pageEnd) {
+        setStep(nextPage);
+      }
     }
-  }, [inView]);
-
-  const pageEnd = Math.floor(productsCount / pageSize);
+  }, [inView, step, pageEnd]);
 
   const sortProductHandler = (e) => {
     if (e.target.value !== sortBy) {
@@ -61,13 +80,6 @@ const CategoryPage = ({ params }) => {
       setProductsList([]);
     }
   };
-
-  useEffect(() => {
-    if (clearList) {
-      setProductsList([]);
-      setClearList(false);
-    }
-  }, [clearList]);
 
   // let sortedProductList = [];
 
@@ -176,7 +188,7 @@ const CategoryPage = ({ params }) => {
             </div>
           ) : newProductsList.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
                 {newProductsList.map((product) => (
                   <Product
                     key={product.productId}
@@ -187,7 +199,9 @@ const CategoryPage = ({ params }) => {
               </div>
 
               <div className="flex justify-center items-center mt-10 gap-1">
-                <span ref={ref}></span>
+                <span ref={ref}>
+                  {step < pageEnd ? <p>در حال بارگزاری...</p> : null}
+                </span>
               </div>
             </>
           ) : (

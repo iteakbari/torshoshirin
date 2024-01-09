@@ -52,13 +52,17 @@ const PaymentSuccess = ({ paymentResult }) => {
           </p>
         </div>
       </div>
-      <div className="md:w-3/6 lg:w-2/6">
+      <div className="w-full md:w-3/6 lg:w-2/6">
         <p className="mb-5">سبد خرید</p>
 
         <div className="border-4 border-light-green rounded-lg h-80">
           <div className="p-7 overflow-auto h-64 no-scroll">
             {paymentResult?.productsList?.map((item) => (
-              <div key={item.productId} className="text-light mb-5 ">
+              <Link
+                href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                key={item.productId}
+                className="text-light mb-5 "
+              >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <Image src={item.pathImage} width={56} height={56} alt="" />
@@ -83,7 +87,7 @@ const PaymentSuccess = ({ paymentResult }) => {
                       : "بسته"}
                   </span>
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="flex justify-between py-3 px-7 border-t-2 border-green-light">

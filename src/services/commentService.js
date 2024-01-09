@@ -51,3 +51,25 @@ export function suggestion({ flName, mobileNumber, description }) {
     })
     .then(({ data }) => data);
 }
+
+export function getProductComments({ queryKey }) {
+  const { productId, step, pageSize } = queryKey[1];
+  return http
+    .post("/ProductApi/ProductCommentList", {
+      productId,
+      step,
+      pageSize,
+    })
+    .then(({ data }) => data.data.data);
+}
+
+export function getBlogComments({ queryKey }) {
+  const { blogId, step, pageSize } = queryKey[1];
+  return http
+    .post("/ProductApi/ProductCommentList", {
+      blogId,
+      step,
+      pageSize,
+    })
+    .then(({ data }) => data.data.data);
+}

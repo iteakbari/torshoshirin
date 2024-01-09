@@ -3,7 +3,7 @@ import Logout from "../Logout/Logout";
 
 const MobileMenu = ({ setIsOpen, token }) => {
   return (
-    <div className="w-full h-full bg-green text-white py-20">
+    <div className="w-full h-full bg-green text-white py-20 overflow-auto no-scroll">
       <ul className="grid gap-10 px-10">
         <li>
           <Link href="/" onClick={() => setIsOpen(false)}>

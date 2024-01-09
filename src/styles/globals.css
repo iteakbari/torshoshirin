@@ -442,18 +442,18 @@ input:-internal-autofill-selected {
   border-color: var(--border-color) !important;
 }
 
-.w-48 {
+.w-half {
   width: 48% !important;
 }
 
 @media (max-width:1535px) {
-  .w-48 {
+  .w-half {
     width: 46% !important;
   }
 }
 
 @media (max-width:650px) {
-  .w-48 {
+  .w-half {
     width: 100% !important;
   }
 }
@@ -857,4 +857,35 @@ button {
 
 .rounded-30px {
   border-radius: 30px;
+}
+
+.py-30px {
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+.left-shadow {
+  position: relative;
+}
+
+.left-shadow::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(to right, #cfcfcf, transparent);
+  z-index: 9;
+}
+
+.address-modal {
+  height: 500px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.address-modal::-webkit-scrollbar {
+  width: 5px;
+  background-color: #eee;
 }

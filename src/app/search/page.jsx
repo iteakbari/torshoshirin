@@ -3,60 +3,69 @@ import Product from "@/components/Product/Product";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 // import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 import { searchProduct } from "@/services/productService";
 import { useMutation } from "@tanstack/react-query";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { useInView } from "react-intersection-observer";
 
 const SearchProducts = ({ searchParams }) => {
   const [step, setStep] = useState(1);
-  const [sortBy, setSortBy] = useState("cheapest");
-  const { isLoading, mutateAsync: searchProductFunc } = useMutation({
-    mutationFn: searchProduct,
-  });
+  const [sortBy, setSortBy] = useState(0);
+  const [productCount, setProductCount] = useState(0);
+
   const [searchList, setSearchList] = useState();
+  const [newList, setNewList] = useState([]);
+  const { ref, inView } = useInView();
 
   const para = searchParams.keyword;
-
-  const searchProductHandler = async (para) => {
-    const { data } = await searchProductFunc({
-      categoryId: null,
-      brandId: null,
-      barcode: "",
-      keyWord: para,
-      step: 1,
-      pageSize: 20,
-      totalCount: 0,
-    });
-    // console.log(data);
-    setSearchList(data?.productlist);
-  };
+  const pageSize = 30;
+  const { data, isLoading, refetch } = useProducts({
+    // categoryId: 0,
+    step,
+    pageSize,
+    keyWord: para,
+    sortTypeId: sortBy,
+  });
 
   useEffect(() => {
-    searchProductHandler(para);
+    if (data) {
+      setSearchList(data.productlist);
+      setProductCount(data.totalCount);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setNewList([]);
   }, [para]);
 
-  //   const productsList = data?.productlist;
-  //   const productsCount = data?.totalCount;
+  useEffect(() => {
+    if (searchList) {
+      setNewList((prevProducts) => [...prevProducts, searchList]);
+    }
+  }, [searchList]);
 
-  //   const pageEnd = Math.floor(productsCount / 2);
+  const newProductsList = newList?.flatMap((p) => p);
+  const pageEnd = Math.floor(productCount / pageSize);
+  console.log(pageEnd);
 
-  //   const sortProductHandler = (e) => {
-  //     setSortBy(e.target.value);
-  //   };
+  useEffect(() => {
+    if (step <= pageEnd && inView) {
+      setStep(step + 1);
+    }
+  }, [inView]);
 
-  //   let sortedProductList = [];
+  console.log(step);
 
-  //   if (productsList) {
-  //     sortedProductList = Object.values(productsList);
-
-  //     if (sortBy === "cheapest")
-  //       sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
-  //     if (sortBy === "expensive")
-  //       sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
-  //   }
+  const sortProductHandler = (e) => {
+    if (e.target.value !== sortBy) {
+      setSortBy(e.target.value);
+      setStep(1);
+      setNewList([]);
+    }
+  };
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
@@ -117,14 +126,14 @@ const SearchProducts = ({ searchParams }) => {
                 <input
                   type="radio"
                   name="sort"
-                  id="cheapest"
+                  id="1"
                   className="hidden"
-                  value="cheapest"
-                  //   onChange={sortProductHandler}
+                  value="1"
+                  onChange={(e) => sortProductHandler(e)}
                 />
                 <label
                   className="text-base md:text-xl cursor-pointer"
-                  htmlFor="cheapest"
+                  htmlFor="1"
                 >
                   ارزان‌ترین
                 </label>
@@ -133,13 +142,13 @@ const SearchProducts = ({ searchParams }) => {
                 <input
                   type="radio"
                   name="sort"
-                  id="expensive"
+                  id="2"
                   className="hidden"
-                  value="expensive"
-                  //   onChange={sortProductHandler}
+                  value="2"
+                  onChange={(e) => sortProductHandler(e)}
                 />
                 <label
-                  htmlFor="expensive"
+                  htmlFor="2"
                   className="text-base md:text-xl cursor-pointer"
                 >
                   گران‌ترین
@@ -148,73 +157,26 @@ const SearchProducts = ({ searchParams }) => {
             </div>
           </div>
         </div>
-        <div className="bg-white p-10 rounded-xl shadow mt-10 ">
+        <div className="bg-white p-3 sm:p-10 rounded-xl shadow mt-10 ">
           {isLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-full">
               <ProductLoading />
             </div>
-          ) : searchList?.length > 0 ? (
+          ) : newProductsList?.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 h-full">
-                {searchList.map((product) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
+                {newProductsList.map((product) => (
                   <Product
-                    key={product.productId}
+                    key={product.variantId}
                     {...product}
                     categoriId={product.categoryId}
                   />
                 ))}
               </div>
 
-              {/* <div className="flex justify-center items-center mt-10 gap-1">
-                <button
-                  className={`border py-2 px-5 ${
-                    step === 1 && "pointer-events-none text-light"
-                  }`}
-                  onClick={() => setStep((step) => step - 1)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      stroke={`${step === 1 ? "#e5eec3" : "#1a3622"}`}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeMiterlimit="10"
-                      strokeWidth="1.5"
-                      d="M14.43 5.93L20.5 12l-6.07 6.07M3.5 12h16.83"
-                    ></path>
-                  </svg>
-                </button>
-                <span className="inline-block p-2 border">{step}</span>
-                <button
-                  className={`border py-2 px-5 ${
-                    step === pageEnd + 1 && "pointer-events-none text-light"
-                  }`}
-                  onClick={() => setStep((step) => step + 1)}
-                  disabled={step === 10}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      stroke={`${step === pageEnd + 1 ? "#e5eec3" : "#1a3622"}`}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeMiterlimit="10"
-                      strokeWidth="1.5"
-                      d="M9.57 5.93L3.5 12l6.07 6.07M20.5 12H3.67"
-                    ></path>
-                  </svg>
-                </button>
-              </div> */}
+              <div className="flex justify-center items-center mt-10 gap-1">
+                <span ref={ref}></span>
+              </div>
             </>
           ) : (
             <div className="w-full h-full flex justify-center items-center flex-col min-h-700">

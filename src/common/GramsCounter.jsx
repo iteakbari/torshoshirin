@@ -21,6 +21,8 @@ const GramsCounter = ({ product, weight }) => {
     categoryId,
   } = product || "";
 
+  console.log(unitCountingId);
+
   const s = step || 250;
   const [kilo, setKilo] = useState(0);
   const [grams, setGrams] = useState(0);
@@ -124,7 +126,7 @@ const GramsCounter = ({ product, weight }) => {
     <>
       <div className="flex justify-between items-center gap-2 flex-1">
         <div className={`${kilo === 0 && grams === 0 && "w-full"}`}>
-          {w > 0 && <p className="text-sm text-center">کیلو</p>}
+          {w > 0 && <p className="text-sm text-center">کیلوگرم</p>}
           <div className="flex justify-between items-center gap-2">
             <button
               type="button"
@@ -333,7 +335,7 @@ const GramsCounter = ({ product, weight }) => {
             value={
               salePrice
                 ? Math.round((kilo + grams * 0.001) * salePrice)
-                : Math.round((kilo + grams * 0.001) * product.price)
+                : Math.round((kilo + grams * 0.001) * product?.price)
             }
             displayType="text"
           />

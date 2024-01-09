@@ -16,7 +16,7 @@ const Favorites = () => {
 
       <div>
         {isLoading ? (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-2 2xl:grid-cols-3 gap-3">
             <ProductLoading />
           </div>
         ) : data ? (

@@ -1,7 +1,9 @@
 "use client";
 import NewBlog from "@/components/BlogCard/NewBlog";
 import BlogComment from "@/components/Comment/BlogComment";
+
 import Comment from "@/components/Comment/Comment";
+import BlogCommentList from "@/components/Product/BlogCommentList";
 import useBlog from "@/hooks/useBlog";
 import DOMPurify from "isomorphic-dompurify";
 import Cookies from "js-cookie";
@@ -62,6 +64,11 @@ const BlogDetails = ({ params }) => {
               <NewBlog />
             </div>
           </div>
+        </div>
+
+        <p className="text-xl">نظرات</p>
+        <div className="mt-5  px-5">
+          <BlogCommentList blogId={params?.blogId} />
         </div>
 
         <div className="flex flex-col items-center mt-16">

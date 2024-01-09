@@ -4,7 +4,7 @@ import TextareaFieldInput from "@/common/TextareaFieldInput";
 const Address = ({ address, addressHandler, selectedAddress }) => {
   return (
     <>
-      <div className="pt-4 w-48">
+      <div className="pt-4 w-half">
         <TextareaFieldInput
           label="آدرس"
           name="address"
@@ -13,7 +13,7 @@ const Address = ({ address, addressHandler, selectedAddress }) => {
           onChange={addressHandler}
         />
       </div>
-      <div className="w-48">
+      <div className="w-half">
         <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
         <div className="h-56">
           {/* <MapComponent

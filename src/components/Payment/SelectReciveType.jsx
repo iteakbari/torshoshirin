@@ -88,7 +88,7 @@ const SelectReciveType = ({
       });
       setActiveTab(3);
     } else if (reciveType === "2") {
-      if (selectedAddressId) {
+      if (selectedAddressId && selectedAddressId !== 2) {
         const data = await setAddressOrderfunc({
           receiverOrderId: reciveType,
           customerAddressId: selectedAddressId,

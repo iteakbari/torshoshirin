@@ -28,7 +28,7 @@ const CitiesSelectBox = ({
   };
 
   return (
-    <div className={`select-box w-48 ${customClass}`}>
+    <div className={`select-box w-half ${customClass}`}>
       <Select
         value={cityDefaultValue(cities, value)}
         options={cities}

@@ -46,9 +46,9 @@ const Counter = ({ step, label, product, countItem }) => {
   const incrementHandler = () => {
     dispatch({ type: "increment", payload: step });
     addToCart({
-      productId: productId ? productId : product.id,
+      productId: productId ? productId : product?.id,
       pathImage,
-      salePrice: salePrice ? salePrice : product.price,
+      salePrice: salePrice ? salePrice : product?.price,
       productName,
       unitCountingId,
       variantId,
@@ -184,7 +184,7 @@ const Counter = ({ step, label, product, countItem }) => {
             value={
               salePrice
                 ? Math.round(count * salePrice)
-                : Math.round(count * product.price)
+                : Math.round(count * product?.price)
             }
             displayType="text"
           />

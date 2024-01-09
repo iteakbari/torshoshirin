@@ -35,12 +35,16 @@ const OrderDetails = ({ params }) => {
           </p>
         </div>
       </div>
-      <div className="xl:w-5/12 2xl:2/6">
+      <div className="w-full sm:w-8/12 xl:w-5/12 2xl:2/6">
         <p className="mb-5">سبد خرید</p>
         <div className="border-4 border-light-green rounded-lg h-80">
           <div className="p-7 overflow-auto h-64 no-scroll">
             {data?.data?.productsList?.map((item) => (
-              <div key={item.index} className="text-light mb-5 ">
+              <Link
+                href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                key={item.index}
+                className="text-light mb-5 "
+              >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <Image src={item.pathImage} width={56} height={56} alt="" />
@@ -65,7 +69,7 @@ const OrderDetails = ({ params }) => {
                       : "بسته"}
                   </span>
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="flex justify-between py-3 px-7 border-t-2 border-green-light">

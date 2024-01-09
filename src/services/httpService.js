@@ -1,5 +1,3 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-//process.env.Access_Control_Allow_Origin = "http://localhost:3000";
 import logout from "@/functions/logout";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,8 +14,16 @@ const app = axios.create({
 });
 
 app.interceptors.request.use(
-  (res) => res,
-  (err) => Promise.reject(err)
+  (config) => {
+    const token = Cookies.get("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
 );
 
 app.interceptors.response.use(
