@@ -1,10 +1,11 @@
 import { getBlogComments } from "@/services/commentService";
 import { useQuery } from "@tanstack/react-query";
 
-const useBlogComment = ({ blogId, step, pageSize }) => {
+const useBlogComment = ({ documentId, step, pageSize }) => {
   return useQuery({
-    queryKey: ["blogComment", { blogId, step, pageSize }],
+    queryKey: ["blogComment", { documentId, step, pageSize }],
     queryFn: getBlogComments,
+    keepPreviousData: true,
   });
 };
 

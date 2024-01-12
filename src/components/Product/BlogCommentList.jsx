@@ -3,14 +3,40 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import useProductComments from "@/hooks/useProductComments";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useBlogComment from "@/hooks/useBlogComment";
 
-const BlogCommentList = ({ productId }) => {
+const BlogCommentList = ({ blogId }) => {
   const [step, setStep] = useState(1);
-  const { data } = useBlogComment({ productId, step, pageSize: 10 });
+  const pageSize = 5;
+  const { data } = useBlogComment({
+    documentId: blogId,
+    step,
+    pageSize,
+  });
+  const [commentList, setCommentList] = useState([]);
+  const commentCount = data?.totalCount;
 
-  return data?.data ? (
+  useEffect(() => {
+    if (data) {
+      const newComments = data?.data;
+      // console.log(newComments);
+
+      setCommentList((prevComments) => [...prevComments, ...newComments]);
+    }
+  }, [data]);
+
+  const newCommentList = commentList?.flatMap((p) => p);
+  const pageEnd = Math.floor(commentCount / pageSize);
+
+  const loadMoreComment = () => {
+    const nextPage = step + 1;
+    if (nextPage <= pageEnd + 1) {
+      setStep(nextPage);
+    }
+  };
+
+  return data?.data.length > 0 ? (
     <Swiper
       breakpoints={{
         320: {
@@ -58,15 +84,15 @@ const BlogCommentList = ({ productId }) => {
           spaceBetween: 10,
         },
         1536: {
-          slidesPerView: 4,
+          slidesPerView: 4.1,
           spaceBetween: 10,
         },
       }}
       spaceBetween={30}
       className="w-full"
     >
-      {data?.map((comment) => (
-        <SwiperSlide key={comment.index}>
+      {newCommentList?.map((comment) => (
+        <SwiperSlide key={comment.id}>
           <div className="card p-5 rounded-2xl bg-white h-40">
             <div className="grid grid-cols-10 mb-3">
               <div className="col-span-2">
@@ -80,9 +106,9 @@ const BlogCommentList = ({ productId }) => {
                   <path
                     d="M21.08 8.58v6.84c0 1.12-.6 2.16-1.57 2.73l-5.94 3.43c-.97.56-2.17.56-3.15 0l-5.94-3.43a3.15 3.15 0 0 1-1.57-2.73V8.58c0-1.12.6-2.16 1.57-2.73l5.94-3.43c.97-.56 2.17-.56 3.15 0l5.94 3.43c.97.57 1.57 1.6 1.57 2.73Z"
                     stroke="#d9d9d9"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></path>
                   <path
                     d="M12 11a2.33 2.33 0 1 0 0-4.66A2.33 2.33 0 0 0 12 11ZM16 16.66c0-1.8-1.79-3.26-4-3.26s-4 1.46-4 3.26"
@@ -106,7 +132,12 @@ const BlogCommentList = ({ productId }) => {
         </SwiperSlide>
       ))}
       <SwiperSlide>
-        <div className="card cursor-pointer p-5 flex justify-center items-center gap-2 rounded-2xl bg-white h-40">
+        <div
+          className={`card cursor-pointer p-5 flex justify-center items-center gap-2 rounded-2xl bg-white h-40 ${
+            step === pageEnd + 1 && "pointer-events-none"
+          }`}
+          onClick={() => loadMoreComment()}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="40"

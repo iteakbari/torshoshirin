@@ -6,10 +6,7 @@ const useGetProfile = (token) => {
     queryKey: ["get-profile", token],
     enabled: !!token,
     queryFn: getUserProfile,
-    refetchIntervalInBackground: false,
-    refetchInterval: false,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnWindowFocus: true,
   });
 };
 

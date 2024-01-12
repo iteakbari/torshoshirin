@@ -8,7 +8,7 @@ import Link from "next/link";
 const OrderDetails = ({ params }) => {
   const token = Cookies.get("token");
   const { data } = useOrderDetails(params.orderId, token);
-  console.log(data?.data);
+  // console.log(data?.data);
 
   return (
     <div className="flex flex-wrap gap-12">

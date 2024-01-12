@@ -18,13 +18,15 @@ import { likeProduct } from "@/services/likeProduct";
 const HorizontalCard = (product) => {
   const {
     farsiName,
-    mainImage,
+    pathImage,
     moreImages,
     salePrice,
     isFavorite,
     unitCountingId,
     productId,
   } = product || "";
+
+  // console.log(product);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
@@ -149,7 +151,7 @@ const HorizontalCard = (product) => {
           </>
         ) : (
           <div className="w-full h-full divider-color2  flex justify-center items-center  md:border-l-4">
-            <Image alt={farsiName} width={300} height={300} src={mainImage} />
+            <Image alt={farsiName} width={300} height={300} src={pathImage} />
           </div>
         )}
       </div>
@@ -174,11 +176,11 @@ const HorizontalCard = (product) => {
         </p>
         <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-80">
           {unitCountingId === 1 ? (
-            <Counter step={1} label="عدد" />
+            <Counter step={1} label="عدد" product={product} />
           ) : unitCountingId === 2 ? (
             <GramsCounter product={product} />
           ) : (
-            <Counter step={1} label="بسته" />
+            <Counter step={1} label="بسته" product={product} />
           )}
         </div>
       </div>

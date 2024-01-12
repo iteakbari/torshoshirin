@@ -37,6 +37,10 @@ export default function SearchBar() {
     setSearchValue("");
   };
 
+  const clearSerachList = () => {
+    setSearchValue("");
+  };
+
   return (
     <>
       <div></div>
@@ -79,6 +83,7 @@ export default function SearchBar() {
               <Link
                 href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
                 key={item.productId}
+                onClick={() => clearSerachList()}
                 className="flex py-4 border-b last:border-b-0"
               >
                 <div className="w-2/5 flex justify-center items-center">

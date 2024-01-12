@@ -100,7 +100,7 @@ const Profile = () => {
         userName,
         token,
       });
-      console.log(data);
+      // console.log(data);
       data?.success &&
         toast.custom((t) => (
           <div className="bg-green-700 p-7 rounded-3xl shadow-lg md:w-96 mt-10">
@@ -160,7 +160,7 @@ const Profile = () => {
     );
 
     setSelectedState(stateSelected);
-    console.log("state", getSatatesList);
+    // console.log("state", getSatatesList);
     setShowCities(
       stateSelected &&
         getSatatesList?.data?.citiesList?.filter(
@@ -179,7 +179,7 @@ const Profile = () => {
   }, [selectedState, getSatatesList?.data?.citiesList]);
 
   useEffect(() => {
-    console.log(formik.values.cityName);
+    // console.log(formik.values.cityName);
     formik.values.cityName
       ? setSelectedCity(
           showCities &&

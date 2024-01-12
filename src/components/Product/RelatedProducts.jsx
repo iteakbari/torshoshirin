@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -8,8 +8,12 @@ import useRelatedProducts from "@/hooks/useRelatedProducts";
 import Product from "./Product";
 
 const RelatedProducts = ({ categoryId }) => {
-  console.log(categoryId);
-  const { data } = useRelatedProducts(categoryId);
+  const [id, setId] = useState(null);
+  useEffect(() => {
+    setId(categoryId);
+  }, [categoryId]);
+  const { data } = useRelatedProducts(id);
+  console.log(data?.data?.productlist);
 
   return (
     <Swiper
@@ -68,7 +72,7 @@ const RelatedProducts = ({ categoryId }) => {
     >
       {data?.data?.productlist?.map((item) => (
         <SwiperSlide key={item.productId}>
-          <Product {...item} />
+          <Product product={item} />
         </SwiperSlide>
       ))}
     </Swiper>

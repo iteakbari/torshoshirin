@@ -44,11 +44,11 @@ const Basket = ({ setActiveTab }) => {
   return (
     <div>
       {cartItems?.map((item) => (
-        <div key={item.id} className="border-b-2 pt-5 pb-2 relative">
+        <div key={item.productId} className="border-b-2 pt-5 pb-2 relative">
           <button
             type="button"
             className="flex items-center sm:hidden mb-2 gap-1 text-orange absolute left-5"
-            onClick={() => removeFromCart(item.id)}
+            onClick={() => removeFromCart(item.productId)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,16 +67,16 @@ const Basket = ({ setActiveTab }) => {
           </button>
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <Image
-              src={item.img}
+              src={item.pathImage}
               width={56}
               height={56}
-              alt=""
+              alt={item.productName}
               className="w-14 h-14 rounded-md"
             />
-            <p className="font-bold">{item.name}</p>
+            <p className="font-bold">{item.productName}</p>
             <span className="sm:pr-5 hidden md:inline-block">
               <NumericFormat
-                value={item.price}
+                value={item.salePrice}
                 displayType="text"
                 thousandSeparator=","
               />
@@ -93,17 +93,22 @@ const Basket = ({ setActiveTab }) => {
             </span>
           </div>
           <div className="pt-4 flex justify-center md:justify-start items-end sm:gap-10">
-            {item.UCI === 2 ? (
+            {item.unitCountingId === 2 ? (
               <div className="w-72">
-                <GramsCounter weight={item.weight} product={item} />
+                <GramsCounter
+                  weight={item.weight}
+                  product={item}
+                  inBasket={true}
+                />
               </div>
             ) : (
               <div className="w-72">
                 <Counter
                   countItem={item.count}
                   step={1}
-                  label={item.UCI === 1 ? "عدد" : "بسته"}
+                  label={item.unitCountingId === 1 ? "عدد" : "بسته"}
                   product={item}
+                  inBasket={true}
                 />
               </div>
             )}
@@ -119,7 +124,7 @@ const Basket = ({ setActiveTab }) => {
             <button
               type="button"
               className="hidden sm:flex items-center mb-2 gap-1 text-orange"
-              onClick={() => removeFromCart(item.id)}
+              onClick={() => removeFromCart(item.productId)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

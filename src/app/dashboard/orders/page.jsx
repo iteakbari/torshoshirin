@@ -49,7 +49,7 @@ const Orders = () => {
                 کد سفارش: <span>{item.id}</span>
               </p>
               <p className="flex w-full mt-3 gap-3 flex-wrap items-center">
-                <span className="w-56 inline-block">ارسال به آدرس : </span>
+                <span className="w-max inline-block">ارسال به آدرس : </span>
                 <span className="inline-block truncate">
                   {item.customerAddress}
                 </span>

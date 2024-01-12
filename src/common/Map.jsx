@@ -10,6 +10,7 @@ const MapComponent = ({ lat, lng, setUserAddress }) => {
     lat: 35.6892, // عرض جغرافیایی استاندارد، مثلاً برای تهران
     lng: 51.389, // طول جغرافیایی استاندارد، مثلاً برای تهران
   });
+  console.log(lat, lng);
 
   useEffect(() => {
     if (lat && lng) {

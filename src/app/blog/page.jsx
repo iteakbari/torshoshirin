@@ -31,7 +31,7 @@ const Blog = () => {
     setBlogList(data?.documentsList);
   };
 
-  console.log(blogList);
+  // console.log(blogList);
 
   return (
     <div className="blog-bg">

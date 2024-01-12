@@ -69,7 +69,7 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="pb-5 md:pb-0 flex-1 flex flex-wrap min-w-200">
+          <div className="pb-5 md:pb-0 flex-1 flex flex-wrap justify-center  min-w-200">
             <div className="grid place-content-center gap-5 text-center flex-1">
               {/* <h5 className="text-xl">شبکه‌های اجتماعی</h5> */}
               <div className="flex gap-5 md:grid justify-center">

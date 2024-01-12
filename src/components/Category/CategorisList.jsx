@@ -7,7 +7,7 @@ const CategoriesList = () => {
   const { data, isLoading } = useCategories();
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:gap-10 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 px-3 sm:px-0 md:gap-10 md:grid-cols-3 lg:grid-cols-4">
       {isLoading ? (
         <CategoriesListLoading />
       ) : (

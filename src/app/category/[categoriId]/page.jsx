@@ -3,17 +3,19 @@ import Product from "@/components/Product/Product";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 import { useInView } from "react-intersection-observer";
 import useInfiniteProducts from "@/hooks/useInfiniteProducts";
 import { useRouter } from "next/navigation";
+import { ShopContext } from "@/context/shopContext";
 
 const CategoryPage = ({ params }) => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState(0);
   const [productsList, setProductsList] = useState([]);
+  const [cartList, setCartList] = useState(null);
 
   const categoryName = decodeURI(params?.categoriId);
   const regex = /([^\/]+)-(\d+)/;
@@ -24,6 +26,14 @@ const CategoryPage = ({ params }) => {
   const token = Cookies.get("token");
   const { ref, inView } = useInView();
   const router = useRouter();
+
+  const { cartItems } = useContext(ShopContext);
+
+  useEffect(() => {
+    setCartList(cartItems);
+  }, [cartItems]);
+
+  // console.log(cartList);
 
   const { data, isLoading, isFetching } = useProducts({
     categoryId: +categoryId,
@@ -80,21 +90,6 @@ const CategoryPage = ({ params }) => {
       setProductsList([]);
     }
   };
-
-  // let sortedProductList = [];
-
-  // if (newProductsList) {
-  //   sortedProductList = newProductsList;
-  //   console.log(typeof sortBy);
-
-  //   if (sortBy === "1") {
-  //     sortedProductList.sort((a, b) => a.salePrice - b.salePrice);
-  //   }
-
-  //   if (sortBy === "2") {
-  //     sortedProductList.sort((a, b) => b.salePrice - a.salePrice);
-  //   }
-  // }
 
   return (
     <div className="container lg:px-10 2xl:px-0 mx-auto pt-24">
@@ -189,13 +184,26 @@ const CategoryPage = ({ params }) => {
           ) : newProductsList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
-                {newProductsList.map((product) => (
-                  <Product
-                    key={product.productId}
-                    {...product}
-                    categoriId={categoryId}
-                  />
-                ))}
+                {newProductsList.map((product) => {
+                  const item = cartList?.find(
+                    (item) => item.productId === product.productId
+                  );
+
+                  return (
+                    <Product
+                      key={product.productId}
+                      product={product}
+                      categoriId={categoryId}
+                      countItem={
+                        item?.productId === product.productId && item.count
+                      }
+                      weight={
+                        item?.productId === product.productId && item.weight
+                      }
+                      inBasket={false}
+                    />
+                  );
+                })}
               </div>
 
               <div className="flex justify-center items-center mt-10 gap-1">

@@ -603,6 +603,12 @@ input:-internal-autofill-selected {
   height: 500px;
 }
 
+@media (max-width:575px) {
+  .aboutSwiper {
+    height: 380px;
+  }
+}
+
 .aboutSwiper .swiper-button-next::after,
 .aboutSwiper .swiper-button-prev::after {
   font-size: 35px !important;
@@ -883,6 +889,14 @@ button {
   height: 500px;
   overflow: hidden;
   overflow-y: auto;
+}
+
+@media (max-width:1450px) {
+  .address-modal {
+    height: calc(100vh - 160px);
+    overflow: hidden;
+    overflow-y: auto;
+  }
 }
 
 .address-modal::-webkit-scrollbar {

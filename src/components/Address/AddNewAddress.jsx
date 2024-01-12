@@ -27,8 +27,8 @@ const AddNewAddress = ({
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [reciver, setReciver] = useState(false);
-  const [lat, setLat] = useState(selectedAddress?.longY);
-  const [lng, setLng] = useState(selectedAddress?.latX);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [formValues, setFormValues] = useState({
     id: 0,
     cityId: null,
@@ -78,7 +78,7 @@ const AddNewAddress = ({
   };
 
   useEffect(() => {
-    selectedAddress &&
+    if (selectedAddress) {
       setFormValues({
         id: selectedAddress.id,
         fname: selectedAddress.fname,
@@ -90,6 +90,7 @@ const AddNewAddress = ({
         cityName: selectedAddress.cityName,
         address: selectedAddress.address,
       });
+    }
   }, [selectedAddress]);
 
   const submitHandler = async (values) => {
@@ -203,9 +204,23 @@ const AddNewAddress = ({
   }, [userAddress]);
 
   useEffect(() => {
+    // console.log(selectedAddress);
     if (!isOpen) {
       setSelectedAddress(null);
       setSelectedState([]);
+      setFormValues({
+        id: 0,
+        fname: "",
+        lname: "",
+        mobileNumber: "",
+        codePost: "",
+        phonNumber: "",
+        stateName: "",
+        cityName: "",
+        address: "",
+      });
+      setLat(0);
+      setLng(0);
     }
   }, [isOpen]);
 
@@ -215,7 +230,7 @@ const AddNewAddress = ({
         onSubmit={formik.handleSubmit}
         className="flex flex-wrap gap-5 address-modal"
       >
-        <p className="w-full mt-3">
+        <p className="w-full">
           *صرفاً استان‌ها و شهرهایی که در محدوده خدمات فروشگاه ما هستند، قابل
           انتخاب‌اند.
         </p>
@@ -243,7 +258,7 @@ const AddNewAddress = ({
         </div>
         <div className="w-half">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
-          <div className="w-full h-56 rounded-lg border">
+          <div className="w-full h-48 xl:h-56 rounded-lg border">
             {/* <Map
               initialViewState={{
                 longitude: 51.375433528216654,
@@ -261,7 +276,11 @@ const AddNewAddress = ({
                 };
               }}
             /> */}
-            <MapComponent lat={lat} lng={lng} setUserAddress={setUserAddress} />
+            <MapComponent
+              lat={selectedAddress?.latX || lat}
+              lng={selectedAddress?.longY || lng}
+              setUserAddress={setUserAddress}
+            />
           </div>
         </div>
 

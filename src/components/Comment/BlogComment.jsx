@@ -10,7 +10,7 @@ import useGetProfile from "@/hooks/useGetProfile";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const BlogComment = ({ documentId }) => {
+const BlogComment = ({ blogId }) => {
   const token = Cookies.get("token");
   const { data } = useGetProfile(token);
   const [formValues, setFormValues] = useState({
@@ -77,7 +77,7 @@ const BlogComment = ({ documentId }) => {
       try {
         const result = await postComment({
           ...values,
-          documentId,
+          documentId: blogId,
           userName: values.userName,
           commentText: values.commentText,
           fullName: values.fullName,

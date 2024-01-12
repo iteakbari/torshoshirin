@@ -59,13 +59,19 @@
     height: max-content;
 }
 
+@media (max-width:1450px) {
+    .offcanvas-center {
+        top: 30px;
+    }
+}
+
 @media (max-width:991px) {
     .offcanvas-center {
         width: 100%;
         left: 0%;
         margin-left: 0;
         border-radius: 20px;
-        top: 50px;
+        top: 30px;
     }
 }
 

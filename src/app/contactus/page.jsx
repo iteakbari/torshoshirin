@@ -50,7 +50,7 @@ const ContactUs = () => {
                   target="_blanck"
                   className="w-36 h-9 flex justify-center items-center text-black font-bold rounded-lg bg-white shadow-sm"
                 >
-                  Fallow
+                  Follow
                 </Link>
               </div>
               <div className="h-60 col-span-2 order-1 md:order-2 flex justify-center items-center bg-pattern">

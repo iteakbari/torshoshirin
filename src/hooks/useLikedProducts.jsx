@@ -5,6 +5,7 @@ const useLikedProducts = (token) => {
   return useQuery({
     queryKey: ["get-likedProducts", token],
     queryFn: getLikedProducts,
+    cacheTime: 1000,
   });
 };
 

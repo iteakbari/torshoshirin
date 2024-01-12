@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { NumericFormat } from "react-number-format";
 
-const Product = (product) => {
+const Product = ({ product, refetch, countItem, weight }) => {
   const {
     productId,
     pathImage,
@@ -17,9 +17,9 @@ const Product = (product) => {
     productName,
     unitCountingId,
     isFavorite,
-    categoriId,
+    categoryId,
     variantId,
-  } = product;
+  } = product || "";
 
   const [favorite, setFavorite] = useState(isFavorite);
   const { data, mutateAsync: likedProduct } = useMutation({
@@ -69,6 +69,7 @@ const Product = (product) => {
             ),
             { duration: 2000 }
           );
+      refetch && refetch();
     } else {
       toast.custom((t) => (
         <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
@@ -107,7 +108,7 @@ const Product = (product) => {
         </svg>
       </label>
       <Link
-        href={`/category/${categoriId}/${productId}-${variantId}`}
+        href={`/category/${categoryId}/${productId}-${variantId}`}
         className="flex justify-center h-36"
       >
         <Image
@@ -120,7 +121,7 @@ const Product = (product) => {
       </Link>
       <div className="flex justify-between items-center">
         <Link
-          href={`/category/${categoriId}/${productId}-${variantId}`}
+          href={`/category/${categoryId}/${productId}-${variantId}`}
           className="inline-block w-48"
         >
           {productName}
@@ -146,13 +147,23 @@ const Product = (product) => {
         {unitCountingId === 1 ? (
           <>
             {/* <p className="pb-7 text-color-light">تعداد</p> */}
-            <Counter step={1} label="عدد" product={product} />
+            <Counter
+              step={1}
+              label="عدد"
+              product={product}
+              countItem={countItem}
+            />
           </>
         ) : unitCountingId === 2 ? (
-          <GramsCounter product={product} />
+          <GramsCounter product={product} weight={weight} />
         ) : (
           <>
-            <Counter step={1} label="بسته" product={product} />
+            <Counter
+              step={1}
+              label="بسته"
+              product={product}
+              countItem={countItem}
+            />
           </>
         )}
       </div>

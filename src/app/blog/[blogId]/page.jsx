@@ -12,8 +12,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const BlogDetails = ({ params }) => {
-  const { data, isLoading } = useBlog(params.blogId);
   const [token, setToken] = useState();
+  const blogId = params?.blogId;
+  const { data, isLoading } = useBlog(blogId);
+
+  // console.log(blogId);
 
   useEffect(() => {
     setToken(Cookies.get("token"));
@@ -68,7 +71,7 @@ const BlogDetails = ({ params }) => {
 
         <p className="text-xl">نظرات</p>
         <div className="mt-5  px-5">
-          <BlogCommentList blogId={params?.blogId} />
+          <BlogCommentList blogId={blogId} />
         </div>
 
         <div className="flex flex-col items-center mt-16">
@@ -86,7 +89,7 @@ const BlogDetails = ({ params }) => {
           <p className="text-center">
             نظرتون در مورد این محصول چیه؟ 🍊 با ما به اشتراک بگذارین!
           </p>
-          <BlogComment documentId={params.blogId} />
+          <BlogComment blogId={blogId} />
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ const countReducer = (state, { type, payload }) => {
   }
 };
 
-const Counter = ({ step, label, product, countItem }) => {
+const Counter = ({ step, label, product, countItem, inBasket }) => {
   const { cartItems, addToCart, reduceFromCart, removeFromCart } =
     useContext(ShopContext);
   const {
@@ -26,6 +26,7 @@ const Counter = ({ step, label, product, countItem }) => {
     salePrice,
     productName,
     unitCountingId,
+    categoryId,
     variantId,
     stock,
   } = product || "";
@@ -38,35 +39,42 @@ const Counter = ({ step, label, product, countItem }) => {
   const { data } = useGetProfile(token);
   const router = useRouter();
   const cartHandler = () => {
-    data?.success ? router.push("purchase") : router.push("sign");
+    data?.success ? router.push("/purchase") : router.push("/sign");
   };
 
-  const [count, dispatch] = useReducer(countReducer, countItem ? countItem : 0);
+  // const [count, dispatch] = useReducer(countReducer, countItem ? countItem : 0);
+  const [count, setCount] = useState(countItem || 0);
 
   const incrementHandler = () => {
-    dispatch({ type: "increment", payload: step });
+    // dispatch({ type: "increment", payload: step });
+    setCount((c) => c + 1);
     addToCart({
-      productId: productId ? productId : product?.id,
-      pathImage,
-      salePrice: salePrice ? salePrice : product?.price,
-      productName,
-      unitCountingId,
-      variantId,
+      productId: productId ? productId : product.productId,
+      categoryId: categoryId ? categoryId : product.categoryId,
+      pathImage: pathImage ? pathImage : product.pathImage,
+      salePrice: salePrice ? salePrice : product.salePrice,
+      productName: productName ? productName : product.productName,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
+      variantId: variantId ? variantId : product.variantId,
+      step: step ? step : product.step,
       totalValue: count + 1,
     });
   };
 
   const decrementHandler = () => {
-    dispatch({ type: "decrement", payload: step });
+    // dispatch({ type: "decrement", payload: step });
+    setCount((c) => c - 1);
 
     reduceFromCart({
-      productId: productId ? productId : product.id,
-      pathImage,
-      salePrice,
-      productName,
-      unitCountingId,
-      variantId,
-      totalValue: count + 1,
+      productId: productId ? productId : product.productId,
+      categoryId: categoryId ? categoryId : product.categoryId,
+      pathImage: pathImage ? pathImage : product.pathImage,
+      salePrice: salePrice ? salePrice : product.salePrice,
+      productName: productName ? productName : product.productName,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
+      variantId: variantId ? variantId : product.variantId,
+      step: step ? step : product.step,
+      totalValue: count - 1,
     });
 
     if (count - 1 < 1) {
@@ -74,17 +82,19 @@ const Counter = ({ step, label, product, countItem }) => {
     }
   };
 
+  useEffect(() => {
+    if (!countItem) setCount(0);
+  }, [countItem]);
+
   return (
     <>
       <div className="flex justify-between items-center gap-3 flex-1">
         <button
           type="button"
           onClick={() => incrementHandler()}
-          className={`${count === 0 && "w-full"} ${
-            count >= stock && "disable"
-          }`}
+          className={`${!countItem && "w-full"} ${count >= stock && "disable"}`}
         >
-          {count > 0 ? (
+          {countItem ? (
             <svg
               width="48"
               height="48"
@@ -117,7 +127,7 @@ const Counter = ({ step, label, product, countItem }) => {
           )}
         </button>
 
-        {count > 0 && (
+        {countItem && (
           <>
             <NumericFormat
               thousandSeparator=","
@@ -157,7 +167,7 @@ const Counter = ({ step, label, product, countItem }) => {
                 />
               </svg>
             </button>
-            {!countItem && (
+            {!inBasket && (
               <button
                 className="w-10 h-10 bg-orange text-white rounded-md flex justify-center items-center"
                 onClick={() => cartHandler()}
@@ -177,7 +187,7 @@ const Counter = ({ step, label, product, countItem }) => {
           </>
         )}
       </div>
-      {count && !countItem ? (
+      {!inBasket && count ? (
         <div className="border-t text-center text-sm mt-1 pt-3 w-full">
           <NumericFormat
             thousandSeparator=","

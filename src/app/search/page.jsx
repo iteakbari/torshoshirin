@@ -49,7 +49,7 @@ const SearchProducts = ({ searchParams }) => {
 
   const newProductsList = newList?.flatMap((p) => p);
   const pageEnd = Math.floor(productCount / pageSize);
-  console.log(pageEnd);
+  // console.log(pageEnd);
 
   useEffect(() => {
     if (step <= pageEnd && inView) {
@@ -57,7 +57,7 @@ const SearchProducts = ({ searchParams }) => {
     }
   }, [inView]);
 
-  console.log(step);
+  // console.log(step);
 
   const sortProductHandler = (e) => {
     if (e.target.value !== sortBy) {
@@ -168,7 +168,7 @@ const SearchProducts = ({ searchParams }) => {
                 {newProductsList.map((product) => (
                   <Product
                     key={product.variantId}
-                    {...product}
+                    product={product}
                     categoriId={product.categoryId}
                   />
                 ))}

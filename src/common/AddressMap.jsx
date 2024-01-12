@@ -20,6 +20,15 @@ const AddressMap = ({ lat, lng, onLocationChange }) => {
       latitude: lat,
       longitude: lng,
     });
+    setMarkerArray([
+      <Marker
+        key="unique-key" // توجه داشته باشید که کلید unique باشد
+        latitude={lat}
+        longitude={lng}
+        anchor="bottom"
+        Image={"/assets/img/marker.png"}
+      />,
+    ]);
   }, [lat, lng]);
 
   function reverseFunction(e) {
@@ -37,7 +46,7 @@ const AddressMap = ({ lat, lng, onLocationChange }) => {
           address: data.postal_address,
           position: e.lngLat,
         });
-        console.log(data);
+        // console.log(data);
       });
 
     setMarkerArray([

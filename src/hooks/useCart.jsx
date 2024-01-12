@@ -31,36 +31,40 @@ const useCart = () => {
     variantId,
     step,
   }) => {
-    if (!cartItems?.find((item) => item.id === productId))
+    if (!cartItems?.find((item) => item.productId === productId))
       setCartItems([
         ...cartItems,
         {
-          id: productId,
-          name: productName,
-          img: pathImage,
-          price: salePrice,
+          productId,
+          productName,
+          pathImage,
+          salePrice,
           totalPrice: Math.round(salePrice * totalValue),
           count: unitCountingId === 2 ? 1 : totalValue ? totalValue : 1,
           weight: unitCountingId === 2 && totalValue,
-          UCI: unitCountingId,
-          variantId: variantId,
+          unitCountingId,
+          variantId,
           categoryId,
           step,
         },
       ]);
-    else
+    else {
       setCartItems(
         cartItems.map((item) => {
-          if (item.id === productId)
+          if (item.productId === productId)
             return {
               ...item,
-              totalPrice: Math.round(salePrice * totalValue),
+              totalPrice:
+                unitCountingId === 2
+                  ? Math.round(salePrice * totalValue)
+                  : Math.round(salePrice * totalValue),
               count: unitCountingId === 2 ? 1 : item.count + 1,
               weight: unitCountingId === 2 && totalValue,
             };
           else return item;
         })
       );
+    }
   };
 
   const reduceFromCart = ({
@@ -73,7 +77,7 @@ const useCart = () => {
   }) => {
     setCartItems(
       cartItems.map((item) => {
-        if (item.id === productId)
+        if (item.productId === productId)
           return {
             ...item,
             totalPrice: Math.round(salePrice * totalValue),
@@ -88,7 +92,10 @@ const useCart = () => {
   };
 
   const removeFromCart = (productId) => {
-    const filteredCart = cartItems.filter((item) => item.id !== productId);
+    const filteredCart = cartItems.filter(
+      (item) => item.productId !== productId
+    );
+    // const removedItem = cartItems.find(item => item.productId === productId);
     setCartItems(filteredCart);
   };
 

@@ -78,7 +78,9 @@ const AddAddress = ({
   };
 
   useEffect(() => {
-    selectedAddress &&
+    if (selectedAddress) {
+      setLat(selectedAddress.latX);
+      setLng(selectedAddress.longY);
       setFormValues({
         id: selectedAddress.id,
         fname: selectedAddress.fname,
@@ -90,6 +92,7 @@ const AddAddress = ({
         cityName: selectedAddress.cityName,
         address: selectedAddress.address,
       });
+    }
   }, [selectedAddress]);
 
   const submitHandler = async (values) => {
@@ -203,7 +206,23 @@ const AddAddress = ({
   }, [userAddress]);
 
   useEffect(() => {
-    !isOpen && setSelectedState([]);
+    if (!isOpen) {
+      setSelectedState([]);
+      setFormValues({
+        id: 0,
+        cityId: null,
+        stateId: null,
+        receiverMyself: true,
+        longY: 0,
+        latX: 0,
+        address: "",
+        codePost: "",
+        phoneNumber: "",
+        mobileNumber: "",
+        fname: "",
+        lname: "",
+      });
+    }
   }, [isOpen]);
 
   return (

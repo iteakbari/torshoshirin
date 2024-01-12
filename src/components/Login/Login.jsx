@@ -138,7 +138,7 @@ const Login = ({ context }) => {
             router.push("/dashboard/profile");
           } else if (
             data.data.firstName &&
-            window.location.search.split("?")[1] === "purchase"
+            window.location.search.includes("purchase")
           ) {
             router.push("/purchase");
           } else {

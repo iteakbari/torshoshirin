@@ -13,7 +13,7 @@ import Link from "next/link";
 const ProductDetails = ({ params }) => {
   const para = params.productId.split("-");
   const { data, isLoading } = useProduct(para[0], para[1]);
-  const product = data?.data;
+  const product = data?.data || "";
   const token = Cookies.get("token");
 
   return (
@@ -28,7 +28,7 @@ const ProductDetails = ({ params }) => {
 
           <div className="mt-16">
             {product?.specialFeatures?.map((f) => (
-              <div className="flex gap-5 mb-7" key={f.index}>
+              <div className="flex gap-5 mb-7" key={f.id}>
                 <span className="text-xl">{f.title}:</span>
                 <p>{f.value ? f.value : "-"}</p>
               </div>
@@ -42,11 +42,11 @@ const ProductDetails = ({ params }) => {
       </div>
       <p className="text-xl">نظرات</p>
       <div className="mt-5  px-5">
-        <ProductCommentList productId={product?.id} />
+        <ProductCommentList productId={para[0]} />
       </div>
       <p className="text-xl mt-10">محصولات مرتبط</p>
       <div className="mt-5 bg-white rounded-2xl overflow-hidden py-30px px-3 lg:pr-5">
-        <RelatedProducts categoryId={product?.categoryId} />
+        <RelatedProducts categoryId={data?.data.categoryId} />
       </div>
 
       <div className="mt-16 flex flex-col items-center">

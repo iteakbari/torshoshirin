@@ -4,11 +4,18 @@ import Image from "next/image";
 import useLikedProducts from "@/hooks/useLikedProducts";
 import ProductLoading from "@/components/Product/ProductLoading";
 import Product from "@/components/Product/Product";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "@/context/shopContext";
 
 const Favorites = () => {
   const token = Cookies.get("token");
   const { data, isLoading, refetch } = useLikedProducts(token);
-  // console.log(data?.data?.productlist);
+  const [cartList, setCartList] = useState(null);
+  const { cartItems } = useContext(ShopContext);
+
+  useEffect(() => {
+    setCartList(cartItems);
+  }, [cartItems]);
 
   return (
     <>
@@ -21,13 +28,24 @@ const Favorites = () => {
           </div>
         ) : data ? (
           <div className="grid sm:grid-cols-2 2xl:grid-cols-3 gap-3">
-            {data?.data?.productlist?.map((product) => (
-              <Product
-                key={product.id}
-                {...product}
-                refetch={() => refetch()}
-              />
-            ))}
+            {data?.data?.productlist?.map((product) => {
+              const item = cartList?.find(
+                (item) => item.productId === product.productId
+              );
+
+              return (
+                <Product
+                  key={product.productId}
+                  product={product}
+                  countItem={
+                    item?.productId === product.productId && item.count
+                  }
+                  weight={item?.productId === product.productId && item.weight}
+                  inBasket={false}
+                  refetch={refetch}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="w-full h-full flex justify-start items-center flex-col">

@@ -32,18 +32,112 @@ const SelectReciveType = ({
   });
 
   const editAddressHandler = (id) => {
-    setSelectedAddress(data?.data.find((address) => address.id === id));
+    const editAddress = data?.data.find((address) => address.id === id);
+    setSelectedAddress(editAddress);
+    // console.log(editAddress);
     setIsOpen(true);
   };
 
-  const deleteAddressHandler = async (id) => {
+  const confirmDeleteHandler = async (toastId, id) => {
+    toast.dismiss(toastId);
+    const data = await deleteAddressfunc({ id, token });
+    // console.log(data);
+    data?.data?.data?.success
+      ? toast.custom((t) => (
+          <div className="bg-green-700 p-7 rounded-3xl shadow-lg md:w-96 mt-10">
+            <div className="flex items-center justify-center gap-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  opacity=".4"
+                  d="M16.82 1.91H7.18c-2.12 0-3.86 1.74-3.86 3.86v14.09c0 1.8 1.29 2.56 2.87 1.69l4.88-2.71c.52-.29 1.36-.29 1.87 0l4.88 2.71c1.58.88 2.87.12 2.87-1.69V5.77c-.01-2.12-1.74-3.86-3.87-3.86Z"
+                  fill="#fff"
+                ></path>
+                <path
+                  d="M11.09 13.251c-.19 0-.38-.07-.53-.22l-1.5-1.5a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l.97.97 3.47-3.47c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-4 4c-.15.15-.34.22-.53.22Z"
+                  fill="#fff"
+                ></path>
+              </svg>
+              <p className="text-white">{data?.data?.data?.messageList}</p>
+            </div>
+            {/* <div className="w-full flex justify-center pt-5"></div> */}
+          </div>
+        ))
+      : toast.custom((t) => (
+          <div className="bg-orange p-7 rounded-3xl shadow-lg md:w-96 mt-10">
+            <div className="flex items-center justify-center gap-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 7.75V13M21.08 8.58v6.84c0 1.12-.6 2.16-1.57 2.73l-5.94 3.43c-.97.56-2.17.56-3.15 0l-5.94-3.43a3.15 3.15 0 0 1-1.57-2.73V8.58c0-1.12.6-2.16 1.57-2.73l5.94-3.43c.97-.56 2.17-.56 3.15 0l5.94 3.43c.97.57 1.57 1.6 1.57 2.73Z"
+                  stroke="#fff"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  d="M12 16.2v.1"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <p className="text-white">{data?.data?.data?.messageList}</p>
+            </div>
+            {/* <div className="w-full flex justify-center pt-5"></div> */}
+          </div>
+        ));
+    refetch();
+  };
+
+  const deleteAddressHandler = (id) => {
     try {
-      const data = await deleteAddressfunc({ id, token });
-      refetch();
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex flex-col ring-1 ring-black ring-opacity-5`}
+        >
+          <p className="text-center py-8 ">آیا از حذف آدرس مطمئن هستید؟</p>
+          <div className="flex justify-center gap-5 pb-5">
+            <button
+              onClick={() => confirmDeleteHandler(t.id, id)}
+              className="w-28 border border-orange rounded-lg h-11 px-4 flex items-center justify-center text-sm font-medium "
+            >
+              بله مطمئنم!
+            </button>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="w-28 border border-transparent h-11 px-4  flex items-center justify-center text-sm font-medium "
+            >
+              خیر
+            </button>
+          </div>
+        </div>
+      ));
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      const defaultAddress = data.data.find((a) => a.defaultAddress);
+      setSelectedAddressId(defaultAddress.id);
+    }
+  }, [data]);
+
   const setAddresOrderHandler = async () => {
     if (!reciveType) {
       toast.custom((t) => (
@@ -82,13 +176,14 @@ const SelectReciveType = ({
       // console.log(reciveType);
       const data = await setAddressOrderfunc({
         receiverOrderId: reciveType,
-        customerAddressId: 0,
+        customerAddressId: null,
         paymentTypeId: 0,
         token,
       });
       setActiveTab(3);
     } else if (reciveType === "2") {
       if (selectedAddressId && selectedAddressId !== 2) {
+        // console.log(selectedAddressId);
         const data = await setAddressOrderfunc({
           receiverOrderId: reciveType,
           customerAddressId: selectedAddressId,
@@ -255,11 +350,11 @@ const SelectReciveType = ({
       </div>
       <div className="bg-light-gray p-5 w-96 mt-10 xl:mt-0 rounded-md order-1 md:order-2 mb-8 md:mb-0">
         {cartItems?.map((item) => (
-          <div key={item.id} className="text-light mb-5">
+          <div key={item.productId} className="text-light mb-5">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <Image src={item.img} width={56} height={56} alt="" />
-                <span>{item.name}</span>
+                <Image src={item.pathImage} width={56} height={56} alt="" />
+                <span>{item.productName}</span>
               </div>
               <span>
                 <NumericFormat
@@ -271,7 +366,7 @@ const SelectReciveType = ({
               </span>
             </div>
             <p className="text-sm">
-              {item.UCI === 2 ? item.weight : item.count}
+              {item.unitCountingId === 2 ? item.weight : item.count}
             </p>
           </div>
         ))}

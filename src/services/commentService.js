@@ -60,16 +60,22 @@ export function getProductComments({ queryKey }) {
       step,
       pageSize,
     })
-    .then(({ data }) => data.data.data);
+    .then(({ data }) => data.data);
 }
 
 export function getBlogComments({ queryKey }) {
-  const { blogId, step, pageSize } = queryKey[1];
+  const { documentId, step, pageSize } = queryKey[1];
   return http
-    .post("/ProductApi/ProductCommentList", {
-      blogId,
+    .post("/DocumentApi/DocumentCommentList", {
+      documentId,
       step,
       pageSize,
     })
-    .then(({ data }) => data.data.data);
+    .then(({ data }) => data.data);
+}
+
+export function selectedComments() {
+  return http
+    .get("/DocumentApi/SelectedComments")
+    .then(({ data }) => data.data);
 }

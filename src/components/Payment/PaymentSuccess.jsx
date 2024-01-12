@@ -98,7 +98,7 @@ const PaymentSuccess = ({ paymentResult }) => {
                 displayType="text"
                 value={paymentResult?.sumPaymentAmount}
               />
-              تومان
+              ریال
             </span>
           </div>
         </div>

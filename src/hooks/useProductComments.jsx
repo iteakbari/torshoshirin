@@ -5,6 +5,7 @@ const useProductComments = ({ productId, step, pageSize }) => {
   return useQuery({
     queryKey: ["productComment", { productId, step, pageSize }],
     queryFn: getProductComments,
+    keepPreviousData: true,
   });
 };
 

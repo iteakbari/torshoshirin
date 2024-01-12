@@ -33,6 +33,9 @@ function Navbar() {
   }, []);
 
   const { data } = useGetProfile(token);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") window.location.reload();
+  // }, [data]);
 
   const router = useRouter();
 
@@ -47,8 +50,6 @@ function Navbar() {
   const showCartHandler = () => {
     setCloseCart(true);
   };
-
-  console.log(cartItems);
 
   return (
     <header className="top-0 lg:rounded-br-2xl lg:rounded-bl-2xl p-2 lg:py-3 shadow-md z-40 fixed right-0 left-0 bg-blured">
@@ -90,7 +91,12 @@ function Navbar() {
                 <ul className="dropdown-menu">
                   {menuList?.data?.map((m) => (
                     <li key={m.id}>
-                      <Link href={`/category/${m.name}-${m.id}`}>{m.name}</Link>
+                      <Link
+                        href={`/category/${m.name}-${m.id}`}
+                        className="text-sm xl:text-xl"
+                      >
+                        {m.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -183,14 +189,10 @@ function Navbar() {
                   <div className="grid gap-3">
                     <div className="basket-item-wrapper no-scroll">
                       {cartItems.map((item) => (
-                        <Link
-                          key={item.id}
-                          className="flex justify-between relative"
-                          href={`/category/${item.categoryId}/${item.id}-${item.variantId}`}
-                        >
+                        <div className="relative" key={item.productId}>
                           <span
                             className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => removeFromCart(item.productId)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -207,28 +209,43 @@ function Navbar() {
                               />
                             </svg>
                           </span>
-                          <div>
-                            <p>{item.name}</p>
-                            <p>
-                              <NumericFormat
-                                thousandSeparator=","
-                                displayType="text"
-                                value={item.totalPrice}
+                          <Link
+                            className="flex justify-between "
+                            href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                            onClick={() => hideCartHandler()}
+                          >
+                            <div>
+                              <p>{item.productName}</p>
+                              <p>
+                                <NumericFormat
+                                  thousandSeparator=","
+                                  displayType="text"
+                                  value={item.totalPrice}
+                                />
+                                ریال
+                              </p>
+                              <p>
+                                {item.weight ? item.weight : item.count}
+                                <span className="text-light text-sm">
+                                  {item.unitCountingId === 1
+                                    ? " عدد"
+                                    : item.unitCountingId === 2
+                                    ? " کیلوگرم"
+                                    : " بسته"}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
+                              <Image
+                                src={item.pathImage}
+                                alt={item.productName}
+                                width={100}
+                                height={100}
+                                className="w-16 h-16 xl:w-full xl:h-full object-cover"
                               />
-                              ریال
-                            </p>
-                            <p>{item.weight ? item.weight : item.count}</p>
-                          </div>
-                          <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
-                            <Image
-                              src={item.img}
-                              alt={item.name}
-                              width={100}
-                              height={100}
-                              className="w-16 h-16 xl:w-full xl:h-full object-cover"
-                            />
-                          </div>
-                        </Link>
+                            </div>
+                          </Link>
+                        </div>
                       ))}
                     </div>
 
@@ -299,15 +316,10 @@ function Navbar() {
                   <div className="grid gap-3">
                     <div className="basket-item-wrapper no-scroll">
                       {cartItems.map((item) => (
-                        <Link
-                          key={item.id}
-                          className="flex justify-between relative"
-                          href={`/category/${item.categoryId}/${item.id}-${item.variantId}`}
-                          onClick={() => hideCartHandler()}
-                        >
+                        <div className="relative" key={item.productId}>
                           <span
                             className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => removeFromCart(item.productId)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -324,28 +336,34 @@ function Navbar() {
                               />
                             </svg>
                           </span>
-                          <div>
-                            <p>{item.name}</p>
-                            <p>
-                              <NumericFormat
-                                thousandSeparator=","
-                                displayType="text"
-                                value={item.totalPrice}
+                          <Link
+                            className="flex justify-between "
+                            href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                            onClick={() => hideCartHandler()}
+                          >
+                            <div>
+                              <p>{item.productName}</p>
+                              <p>
+                                <NumericFormat
+                                  thousandSeparator=","
+                                  displayType="text"
+                                  value={item.totalPrice}
+                                />
+                                ریال
+                              </p>
+                              <p>{item.weight ? item.weight : item.count}</p>
+                            </div>
+                            <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
+                              <Image
+                                src={item.pathImage}
+                                alt={item.productName}
+                                width={100}
+                                height={100}
+                                className="w-16 h-16 xl:w-full xl:h-full object-cover"
                               />
-                              ریال
-                            </p>
-                            <p>{item.weight ? item.weight : item.count}</p>
-                          </div>
-                          <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
-                            <Image
-                              src={item.img}
-                              alt={item.name}
-                              width={100}
-                              height={100}
-                              className="w-16 h-16 xl:w-full xl:h-full object-cover"
-                            />
-                          </div>
-                        </Link>
+                            </div>
+                          </Link>
+                        </div>
                       ))}
                     </div>
 

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
-const GramsCounter = ({ product, weight }) => {
+const GramsCounter = ({ product, weight, inBasket }) => {
   const { cartItems, addToCart, reduceFromCart, removeFromCart } =
     useContext(ShopContext);
   const {
@@ -21,7 +21,7 @@ const GramsCounter = ({ product, weight }) => {
     categoryId,
   } = product || "";
 
-  console.log(unitCountingId);
+  // console.log(unitCountingId);
 
   const s = step || 250;
   const [kilo, setKilo] = useState(0);
@@ -49,13 +49,13 @@ const GramsCounter = ({ product, weight }) => {
   const kiloIncrementHandler = () => {
     setKilo((k) => k + 1);
     addToCart({
-      productId: productId ? productId : product.id,
-      pathImage: pathImage ? pathImage : product.mainImage,
+      productId: productId ? productId : product.productId,
+      pathImage: pathImage ? pathImage : product.pathImage,
       categoryId: categoryId ? categoryId : productId.categoryId,
-      salePrice: salePrice ? +salePrice : product.price,
-      productName: productName ? productName : product.farsiName,
+      salePrice: salePrice ? +salePrice : product.salsePrice,
+      productName: productName ? productName : product.productName,
       variantId: variantId ? variantId : product.variantId,
-      unitCountingId: unitCountingId ? unitCountingId : product.UCI,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
       step: s,
       totalValue: kilo + 1 + grams / 1000,
     });
@@ -65,19 +65,19 @@ const GramsCounter = ({ product, weight }) => {
     kilo >= 0 && setKilo((k) => k - 1);
 
     reduceFromCart({
-      productId: productId ? productId : product.id,
-      pathImage: pathImage ? pathImage : product.mainImage,
+      productId: productId ? productId : product.productId,
+      pathImage: pathImage ? pathImage : product.pathImage,
       categoryId: categoryId ? categoryId : productId.categoryId,
-      salePrice: salePrice ? salePrice : product.price,
-      productName: productName ? productName : product.farsiName,
+      salePrice: salePrice ? salePrice : product.salePrice,
+      productName: productName ? productName : product.productName,
       variantId: variantId ? variantId : product.variantId,
-      unitCountingId: unitCountingId ? unitCountingId : product.UCI,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
       step: s,
       totalValue: kilo - 1 + grams / 1000,
     });
 
     if (kilo - 1 < 1 && grams === 0) {
-      removeFromCart(productId || product.id);
+      removeFromCart(productId || product.productId);
     }
   };
 
@@ -85,10 +85,13 @@ const GramsCounter = ({ product, weight }) => {
     setGrams((g) => g + s);
 
     addToCart({
-      productId: productId ? productId : product.id,
-      salePrice: salePrice ? salePrice : product.price,
-      unitCountingId: unitCountingId ? unitCountingId : product.UCI,
+      productId: productId ? productId : product.productId,
+      pathImage: pathImage ? pathImage : product.pathImage,
+      categoryId: categoryId ? categoryId : productId.categoryId,
+      salePrice: salePrice ? salePrice : product.salePrice,
+      productName: productName ? productName : product.productName,
       variantId: variantId ? variantId : product.variantId,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
       totalValue: (grams + s) / 1000 + kilo,
     });
   };
@@ -96,15 +99,15 @@ const GramsCounter = ({ product, weight }) => {
   const gramsDecrementHandler = () => {
     grams > 0 && setGrams((g) => g - s);
     reduceFromCart({
-      productId: productId ? productId : product.id,
-      salePrice: salePrice ? salePrice : product.price,
-      unitCountingId: unitCountingId ? unitCountingId : product.UCI,
+      productId: productId ? productId : product.productId,
+      salePrice: salePrice ? salePrice : product.salePrice,
+      unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
       variantId: variantId ? variantId : product.variantId,
       totalValue: (grams - s) / 1000 + kilo,
     });
 
     if (kilo === 0 && grams - s < s) {
-      removeFromCart(productId || product.id);
+      removeFromCart(productId || product.productId);
     }
   };
 
@@ -121,6 +124,13 @@ const GramsCounter = ({ product, weight }) => {
   const cartHandler = () => {
     data?.success ? router.push("/purchase") : router.push("/sign");
   };
+
+  useEffect(() => {
+    if (!weight) {
+      setKilo(0);
+      setGrams(0);
+    }
+  }, [weight]);
 
   return (
     <>
@@ -308,7 +318,7 @@ const GramsCounter = ({ product, weight }) => {
                 </button>
               </div>
             </div>
-            {showBtn && (
+            {!inBasket && (
               <button
                 className="w-10 h-10 mt-5 bg-orange text-white rounded-md hidden md:flex justify-center items-center"
                 onClick={() => cartHandler()}
@@ -328,7 +338,7 @@ const GramsCounter = ({ product, weight }) => {
           </>
         )}
       </div>
-      {w && showBtn ? (
+      {!inBasket && w ? (
         <div className="border-t text-center text-sm mt-1 pt-3 w-full">
           <NumericFormat
             thousandSeparator=","
