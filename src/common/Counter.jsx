@@ -3,7 +3,7 @@ import { ShopContext } from "@/context/shopContext";
 import useGetProfile from "@/hooks/useGetProfile";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useReducer, useState } from "react";
+import { use, useContext, useEffect, useReducer, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
 const countReducer = (state, { type, payload }) => {
@@ -28,8 +28,18 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
     unitCountingId,
     categoryId,
     variantId,
+    discountTypeId,
+    oldSalePrice,
+    discountValue,
+    discountTilte,
     stock,
   } = product || "";
+
+  useEffect(() => {
+    if (countItem) {
+      setCount(countItem);
+    }
+  }, [product]);
 
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -56,6 +66,10 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
       productName: productName ? productName : product.productName,
       unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
       variantId: variantId ? variantId : product.variantId,
+      discountTypeId: discountTypeId ? discountTypeId : product.discountTypeId,
+      oldSalePrice: oldSalePrice ? oldSalePrice : product.oldSalePrice,
+      discountValue: discountValue ? discountValue : product.discountValue,
+      discountTilte: discountTilte ? discountTilte : product.discountTilte,
       step: step ? step : product.step,
       totalValue: count + 1,
     });
@@ -96,8 +110,8 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
         >
           {countItem ? (
             <svg
-              width="48"
-              height="48"
+              width="40"
+              height="40"
               viewBox="0 0 42 42"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -142,8 +156,8 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
             </label>
             <button type="button" onClick={decrementHandler}>
               <svg
-                width="48"
-                height="48"
+                width="40"
+                height="40"
                 viewBox="0 0 42 42"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -156,6 +170,7 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
                   height="40"
                   rx="20"
                   stroke="#DB7267"
+                  strokeWidth="2"
                 />
                 <rect
                   x="15"

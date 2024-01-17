@@ -903,3 +903,116 @@ button {
   width: 5px;
   background-color: #eee;
 }
+
+.custome-border-top,
+.custome-border-bottom,
+.custome-border-left,
+.custome-border-right,
+.sm-custome-border-left {
+  position: relative;
+}
+
+.custome-border-top::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 15px;
+  content: "";
+  background-color: var(--diveder-color);
+  z-index: 1;
+}
+
+.custome-border-bottom::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 15px;
+  content: "";
+  background-color: var(--diveder-color);
+  z-index: 1;
+}
+
+.custome-border-left::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: 4px;
+  border-radius: 15px;
+  content: "";
+  background-color: var(--diveder-color);
+  z-index: 1;
+}
+
+.sm-custome-border-left::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: 4px;
+  border-radius: 15px;
+  content: "";
+  background-color: var(--diveder-color);
+  z-index: 1;
+}
+
+@media (max-width:767px) {
+  .custome-border-left::after {
+    bottom: 0;
+    left: 15%;
+    top: auto;
+    right: 15%;
+    width: 70%;
+    height: 4px;
+  }
+}
+
+@media (max-width:727px) {
+  .sm-custome-border-left::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    height: 4px;
+    border-radius: 15px;
+    content: "";
+    background-color: var(--diveder-color);
+    z-index: 1;
+  }
+}
+
+.off {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 61px;
+  height: 61px;
+  background: url('/assets/img/off.png') no-repeat;
+  background-size: cover;
+  color: var(--orange);
+  position: absolute;
+  top: 0;
+  right: 0.75rem;
+}
+
+.off2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 61px;
+  height: 61px;
+  background: url('/assets/img/off.png') no-repeat;
+  background-size: cover;
+  color: var(--orange);
+  position: absolute;
+  top: 0;
+  left: 0.75rem;
+}

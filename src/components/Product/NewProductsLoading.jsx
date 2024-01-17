@@ -5,7 +5,7 @@ const NewProductsLoading = () => {
   return (
     <ul>
       <li>
-        <div className="border-t border-r flex items-center p-3">
+        <div className="border-t flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
             <Skeleton width={100} height={100} />
           </div>
@@ -17,7 +17,7 @@ const NewProductsLoading = () => {
         </div>
       </li>
       <li>
-        <div className="border-t border-r flex items-center p-3">
+        <div className="border-t flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
             <Skeleton width={100} height={100} />
           </div>
@@ -29,7 +29,7 @@ const NewProductsLoading = () => {
         </div>
       </li>
       <li>
-        <div className="border-t border-r flex items-center p-3">
+        <div className="border-t flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
             <Skeleton width={100} height={100} />
           </div>
@@ -41,7 +41,7 @@ const NewProductsLoading = () => {
         </div>
       </li>
       <li>
-        <div className="border-t border-r flex items-center p-3">
+        <div className="border-t flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
             <Skeleton width={100} height={100} />
           </div>
@@ -53,7 +53,7 @@ const NewProductsLoading = () => {
         </div>
       </li>
       <li>
-        <div className="border-t border-r flex items-center p-3">
+        <div className="border-t flex items-center p-3">
           <div className="flex justify-center items-center w-1/2">
             <Skeleton width={100} height={100} />
           </div>

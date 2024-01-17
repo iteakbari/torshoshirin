@@ -27,8 +27,8 @@ const AddAddress = ({
   const [selectedState, setSelectedState] = useState([]);
   const [showCities, setShowCities] = useState([]);
   const [reciver, setReciver] = useState(false);
-  const [lat, setLat] = useState(selectedAddress?.longY);
-  const [lng, setLng] = useState(selectedAddress?.latX);
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
   const [formValues, setFormValues] = useState({
     id: 0,
     cityId: null,
@@ -79,6 +79,8 @@ const AddAddress = ({
 
   useEffect(() => {
     if (selectedAddress) {
+      console.log("sl", selectedAddress.latX, selectedAddress.longY);
+      console.log("ll", lat, lng);
       setLat(selectedAddress.latX);
       setLng(selectedAddress.longY);
       setFormValues({
@@ -108,6 +110,7 @@ const AddAddress = ({
     // const id = data?.data.id;
 
     if (selectedAddress) {
+      console.log("send", lat, lng);
       try {
         const data = await editAddressFunction({
           id: values.id,
@@ -132,6 +135,8 @@ const AddAddress = ({
         console.log(error);
       }
     } else {
+      console.log("send", lat, lng);
+
       try {
         const data = await addressFunction({
           id: 0,
@@ -304,24 +309,14 @@ const AddAddress = ({
         <div className="w-half">
           <p className="pb-2">موقعیت مکانی آدرستان را روی نقشه مشخص کنید.</p>
           <div className="w-full h-56 rounded-lg border">
-            {/* <Map
-              initialViewState={{
-                longitude: 51.375433528216654,
-                latitude: 35.73356434056531,
-                zoom: 11,
-              }}
-              style={{ height: 200 }}
-              transformRequest={(url) => {
-                return {
-                  url,
-                  headers: {
-                    "x-api-key": apiKey,
-                    "Mapir-SDK": "reactjs",
-                  },
-                };
-              }}
-            /> */}
-            <MapComponent lat={lat} lng={lng} setUserAddress={setUserAddress} />
+            <MapComponent
+              lat={lat}
+              lng={lng}
+              setLat={setLat}
+              setLng={setLng}
+              userAddress={userAddress}
+              setUserAddress={setUserAddress}
+            />
           </div>
         </div>
 

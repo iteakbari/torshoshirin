@@ -3,13 +3,14 @@ import Product from "@/components/Product/Product";
 import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 // import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
 import { searchProduct } from "@/services/productService";
 import { useMutation } from "@tanstack/react-query";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useInView } from "react-intersection-observer";
+import { ShopContext } from "@/context/shopContext";
 
 const SearchProducts = ({ searchParams }) => {
   const [step, setStep] = useState(1);
@@ -19,6 +20,12 @@ const SearchProducts = ({ searchParams }) => {
   const [searchList, setSearchList] = useState();
   const [newList, setNewList] = useState([]);
   const { ref, inView } = useInView();
+  const [cartList, setCartList] = useState(null);
+  const { cartItems } = useContext(ShopContext);
+
+  useEffect(() => {
+    setCartList(cartItems);
+  }, [cartItems]);
 
   const para = searchParams.keyword;
   const pageSize = 30;
@@ -165,13 +172,28 @@ const SearchProducts = ({ searchParams }) => {
           ) : newProductsList?.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 md:gap-8 lg:gap-10 2xl:gap-8 h-full">
-                {newProductsList.map((product) => (
-                  <Product
-                    key={product.variantId}
-                    product={product}
-                    categoriId={product.categoryId}
-                  />
-                ))}
+                {newProductsList.map((product) => {
+                  const item = cartList?.find(
+                    (item) => item.productId === product.productId
+                  );
+
+                  // console.log(item);
+
+                  return (
+                    <Product
+                      key={product.productId}
+                      product={product}
+                      // categoriId={categoryId}
+                      countItem={
+                        item?.productId === product.productId && item.count
+                      }
+                      weight={
+                        item?.productId === product.productId && item.weight
+                      }
+                      inBasket={false}
+                    />
+                  );
+                })}
               </div>
 
               <div className="flex justify-center items-center mt-10 gap-1">

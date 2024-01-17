@@ -37,7 +37,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="px-10 sm:py-10 intro-swiper rounded-full  md:flex justify-around mt-16 mb-24">
+          <div className="px-10 sm:py-5 intro-swiper rounded-3xl  md:flex justify-around mt-16 mb-24">
             <IntroSwiper />
           </div>
 

@@ -9,8 +9,8 @@ const Footer = () => {
   return (
     <footer className="px-16 md:px-0 pt-5">
       <div className="container mx-auto">
-        <ul className="border-t-4 border-b-4 divider-color grid justify-center md:flex md:justify-around xl:px-20 py-4">
-          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
+        <ul className="custome-border-top custome-border-bottom grid justify-center md:flex md:justify-around xl:px-20 py-4">
+          <li className="py-3 text-center flex-1 custome-border-left">
             <Link href="/about" className="xl:text-xl">
               درباره ما
             </Link>
@@ -21,17 +21,17 @@ const Footer = () => {
             variant="middle"
             flexItem
           /> */}
-          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
+          <li className="py-3 text-center flex-1 custome-border-left">
             <Link href="/faq" className="md:text-md xl:text-xl">
               پرسش‌های متداول
             </Link>
           </li>
-          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
+          <li className="py-3 text-center flex-1 custome-border-left">
             <Link href="/suggestion" className="xl:text-xl">
               انتقادات و پیشنهادات
             </Link>
           </li>
-          <li className="py-3 text-center flex-1 border-b-4 md:border-b-0 md:border-l-4">
+          <li className="py-3 text-center flex-1 custome-border-left">
             <Link href="/rules" className="xl:text-xl">
               قوانین خدمات
             </Link>
@@ -42,8 +42,8 @@ const Footer = () => {
             </Link>
           </li>
         </ul>
-        <div className="py-10 border-b-4 divider-color flex flex-wrap">
-          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200 mb-3">
+        <div className="py-10 custome-border-bottom divider-color flex flex-wrap">
+          <div className="sm-custome-border-left pb-5 md:pb-0 flex-1 min-w-200 mb-3">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">تماس با ما</h5>
               <Link
@@ -57,7 +57,7 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="border-dir pb-5 md:pb-0 flex-1 min-w-200 mb-3">
+          <div className="sm-custome-border-left pb-5 md:pb-0 flex-1 min-w-200 mb-3">
             <div className="grid place-content-center gap-3 text-center">
               <h5 className="text-xl">درباره ما</h5>
               <address className="text-color-light">{data?.address}</address>

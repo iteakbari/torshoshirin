@@ -19,9 +19,11 @@ const GramsCounter = ({ product, weight, inBasket }) => {
     stock,
     step,
     categoryId,
+    discountTypeId,
+    oldSalePrice,
+    discountValue,
+    discountTilte,
   } = product || "";
-
-  // console.log(unitCountingId);
 
   const s = step || 250;
   const [kilo, setKilo] = useState(0);
@@ -36,7 +38,9 @@ const GramsCounter = ({ product, weight, inBasket }) => {
   const { data } = useGetProfile(token);
 
   useEffect(() => {
-    if (weight) {
+    if (weight || product.weight) {
+      // console.log(weight, product.weight);
+
       const integerPart = Math.floor(weight);
       const decimalPart = (weight - integerPart).toFixed(2);
       // console.log(weight, integerPart, decimalPart);
@@ -44,7 +48,7 @@ const GramsCounter = ({ product, weight, inBasket }) => {
       setGrams(+decimalPart * 1000);
       setShowBtn(false);
     }
-  }, []);
+  }, [product]);
 
   const kiloIncrementHandler = () => {
     setKilo((k) => k + 1);
@@ -56,6 +60,10 @@ const GramsCounter = ({ product, weight, inBasket }) => {
       productName: productName ? productName : product.productName,
       variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
+      discountTypeId: discountTypeId ? discountTypeId : product.discountTypeId,
+      oldSalePrice: oldSalePrice ? oldSalePrice : product.oldSalePrice,
+      discountValue: discountValue ? discountValue : product.discountValue,
+      discountTilte: discountTilte ? discountTilte : product.discountTilte,
       step: s,
       totalValue: kilo + 1 + grams / 1000,
     });
@@ -92,6 +100,10 @@ const GramsCounter = ({ product, weight, inBasket }) => {
       productName: productName ? productName : product.productName,
       variantId: variantId ? variantId : product.variantId,
       unitCountingId: unitCountingId ? unitCountingId : product.unitCountingId,
+      discountTypeId: discountTypeId ? discountTypeId : product.discountTypeId,
+      oldSalePrice: oldSalePrice ? oldSalePrice : product.oldSalePrice,
+      discountValue: discountValue ? discountValue : product.discountValue,
+      discountTilte: discountTilte ? discountTilte : product.discountTilte,
       totalValue: (grams + s) / 1000 + kilo,
     });
   };

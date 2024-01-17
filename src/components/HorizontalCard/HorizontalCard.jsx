@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { likeProduct } from "@/services/likeProduct";
+import { ShopContext } from "@/context/shopContext";
 
 const HorizontalCard = (product) => {
   const {
@@ -24,14 +25,27 @@ const HorizontalCard = (product) => {
     isFavorite,
     unitCountingId,
     productId,
+    discountTypeId,
+    oldSalePrice,
+    discountValue,
+    discountTilte,
   } = product || "";
 
   // console.log(product);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [favorite, setFavorite] = useState(isFavorite);
+  const [item, setItem] = useState();
   const { data, mutateAsync: likedProduct } = useMutation({
     mutationFn: likeProduct,
   });
+  const { cartItems } = useContext(ShopContext);
+  useEffect(() => {
+    if (product) {
+      setItem(cartItems?.find((item) => item.productId === product.productId));
+    }
+  }, [cartItems, product]);
+
+  console.log(item);
 
   const token = Cookies.get("token");
 
@@ -85,6 +99,25 @@ const HorizontalCard = (product) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       <div className="relative h-full pt-10 sm:pt-8">
+        {discountTypeId > 0 &&
+          (discountTypeId === 2 ? (
+            <span className="text-orange absolute top-0 left-3 z-10">
+              <span className="block">
+                <NumericFormat
+                  displayType="text"
+                  thousandSeparator=","
+                  value={discountTilte}
+                />
+                <small className="pr-1">ریال</small>
+              </span>
+              <span className="text-lg">تخفیف</span>
+            </span>
+          ) : (
+            <span className="off2">
+              <span>{discountTilte}%</span>
+              <span className="text-lg">تخفیف</span>
+            </span>
+          ))}
         <label>
           <input
             type="checkbox"
@@ -176,11 +209,24 @@ const HorizontalCard = (product) => {
         </p>
         <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-80">
           {unitCountingId === 1 ? (
-            <Counter step={1} label="عدد" product={product} />
+            <Counter
+              step={1}
+              label="عدد"
+              product={item ? item : product}
+              countItem={item?.count}
+            />
           ) : unitCountingId === 2 ? (
-            <GramsCounter product={product} />
+            <GramsCounter
+              weight={item?.weight}
+              product={item ? item : product}
+            />
           ) : (
-            <Counter step={1} label="بسته" product={product} />
+            <Counter
+              step={1}
+              label="بسته"
+              countItem={item?.count}
+              product={item ? item : product}
+            />
           )}
         </div>
       </div>

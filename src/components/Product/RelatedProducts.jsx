@@ -13,7 +13,6 @@ const RelatedProducts = ({ categoryId }) => {
     setId(categoryId);
   }, [categoryId]);
   const { data } = useRelatedProducts(id);
-  console.log(data?.data?.productlist);
 
   return (
     <Swiper

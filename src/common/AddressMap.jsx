@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Map, Marker } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const AddressMap = ({ lat, lng, onLocationChange }) => {
+const AddressMap = ({ lat, lng, onLocationChange, setLng, setLat }) => {
   const [viewState, setViewState] = useState({
     latitude: lat,
     longitude: lng,
@@ -46,7 +46,8 @@ const AddressMap = ({ lat, lng, onLocationChange }) => {
           address: data.postal_address,
           position: e.lngLat,
         });
-        // console.log(data);
+        setLat(data.geom.coordinates[1]);
+        setLng(data.geom.coordinates[0]);
       });
 
     setMarkerArray([

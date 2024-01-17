@@ -30,7 +30,12 @@ const useCart = () => {
     totalValue,
     variantId,
     step,
+    discountTypeId,
+    oldSalePrice,
+    discountValue,
+    discountTilte,
   }) => {
+    console.log(productName);
     if (!cartItems?.find((item) => item.productId === productId))
       setCartItems([
         ...cartItems,
@@ -46,6 +51,10 @@ const useCart = () => {
           variantId,
           categoryId,
           step,
+          discountTypeId,
+          oldSalePrice,
+          discountValue,
+          discountTilte,
         },
       ]);
     else {

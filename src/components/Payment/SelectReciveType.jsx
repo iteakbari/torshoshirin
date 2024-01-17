@@ -365,8 +365,15 @@ const SelectReciveType = ({
                 <small className="text-xs pr-1">ریال</small>
               </span>
             </div>
-            <p className="text-sm">
+            <p className="text-sm pt-2">
               {item.unitCountingId === 2 ? item.weight : item.count}
+              <span className="pr-1">
+                {item.unitCountingId === 1
+                  ? "عدد"
+                  : item.unitCountingId === 2
+                  ? "کیلوگرم"
+                  : "بسته"}
+              </span>
             </p>
           </div>
         ))}

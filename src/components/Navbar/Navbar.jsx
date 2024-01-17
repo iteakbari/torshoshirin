@@ -13,6 +13,8 @@ import Logout from "../Logout/Logout";
 import useCategories from "@/hooks/useCategories";
 import OffCanvas from "@/common/OffCanvas";
 import MobileMenu from "../MobileMenu/MobileMenu";
+import Counter from "@/common/Counter";
+import GramsCounter from "@/common/GramsCounter";
 
 function Navbar() {
   const [token, setToken] = useState("");
@@ -23,9 +25,11 @@ function Navbar() {
   const { cartItems, resetCart, removeFromCart, totalPrice } =
     useContext(ShopContext);
 
-  const itemCount = cartItems?.reduce((prev, current) => {
-    return prev + current.count;
-  }, 0);
+  // const itemCount = cartItems?.reduce((prev, current) => {
+  //   return prev + current.count;
+  // }, 0);
+
+  const itemCount = cartItems?.length;
 
   useEffect(() => {
     const getToken = Cookies.get("token") ? Cookies.get("token") : null;
@@ -189,9 +193,12 @@ function Navbar() {
                   <div className="grid gap-3">
                     <div className="basket-item-wrapper no-scroll">
                       {cartItems.map((item) => (
-                        <div className="relative" key={item.productId}>
+                        <div
+                          className="relative py-8  border-b last:border-b-0 border-gray-300"
+                          key={item.productId}
+                        >
                           <span
-                            className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
+                            className="absolute top-5 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
                             onClick={() => removeFromCart(item.productId)}
                           >
                             <svg
@@ -209,22 +216,23 @@ function Navbar() {
                               />
                             </svg>
                           </span>
-                          <Link
-                            className="flex justify-between "
-                            href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
-                            onClick={() => hideCartHandler()}
-                          >
-                            <div>
-                              <p>{item.productName}</p>
-                              <p>
-                                <NumericFormat
-                                  thousandSeparator=","
-                                  displayType="text"
-                                  value={item.totalPrice}
-                                />
-                                ریال
-                              </p>
-                              <p>
+                          <div>
+                            <Link
+                              className="flex justify-between "
+                              href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                              onClick={() => hideCartHandler()}
+                            >
+                              <div>
+                                <p>{item.productName}</p>
+                                <p>
+                                  <NumericFormat
+                                    thousandSeparator=","
+                                    displayType="text"
+                                    value={item.totalPrice}
+                                  />
+                                  ریال
+                                </p>
+                                {/* <p>
                                 {item.weight ? item.weight : item.count}
                                 <span className="text-light text-sm">
                                   {item.unitCountingId === 1
@@ -233,18 +241,51 @@ function Navbar() {
                                     ? " کیلوگرم"
                                     : " بسته"}
                                 </span>
-                              </p>
+                              </p> */}
+                              </div>
+                              <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
+                                <Image
+                                  src={item.pathImage}
+                                  alt={item.productName}
+                                  width={100}
+                                  height={100}
+                                  className="w-16 h-16 xl:w-full xl:h-full object-cover"
+                                />
+                              </div>
+                            </Link>
+                            <div>
+                              {item.unitCountingId === 1 ? (
+                                <div className="w-48">
+                                  {/* <p className="pb-7 text-color-light">تعداد</p> */}
+                                  <Counter
+                                    step={1}
+                                    label="عدد"
+                                    product={item}
+                                    countItem={item.count}
+                                    inBasket={true}
+                                  />
+                                </div>
+                              ) : item.unitCountingId === 2 ? (
+                                <div className="w-48">
+                                  <GramsCounter
+                                    product={item}
+                                    inBasket={true}
+                                    weight={item.weight}
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-48">
+                                  <Counter
+                                    step={1}
+                                    label="بسته"
+                                    product={item}
+                                    inBasket={true}
+                                    countItem={item.count}
+                                  />
+                                </div>
+                              )}
                             </div>
-                            <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
-                              <Image
-                                src={item.pathImage}
-                                alt={item.productName}
-                                width={100}
-                                height={100}
-                                className="w-16 h-16 xl:w-full xl:h-full object-cover"
-                              />
-                            </div>
-                          </Link>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -316,9 +357,12 @@ function Navbar() {
                   <div className="grid gap-3">
                     <div className="basket-item-wrapper no-scroll">
                       {cartItems.map((item) => (
-                        <div className="relative" key={item.productId}>
+                        <div
+                          className="relative py-8 border-b last:border-b-0 border-gray-300"
+                          key={item.productId}
+                        >
                           <span
-                            className="absolute -top-1 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
+                            className="absolute top-5 -left-1 w-6 h-6 shadow-lg bg-white rounded-full flex justify-center items-center cursor-pointer"
                             onClick={() => removeFromCart(item.productId)}
                           >
                             <svg
@@ -336,33 +380,76 @@ function Navbar() {
                               />
                             </svg>
                           </span>
-                          <Link
-                            className="flex justify-between "
-                            href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
-                            onClick={() => hideCartHandler()}
-                          >
-                            <div>
-                              <p>{item.productName}</p>
-                              <p>
-                                <NumericFormat
-                                  thousandSeparator=","
-                                  displayType="text"
-                                  value={item.totalPrice}
+                          <div>
+                            <Link
+                              className="flex justify-between "
+                              href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
+                              onClick={() => hideCartHandler()}
+                            >
+                              <div>
+                                <p>{item.productName}</p>
+                                <p>
+                                  <NumericFormat
+                                    thousandSeparator=","
+                                    displayType="text"
+                                    value={item.totalPrice}
+                                  />
+                                  ریال
+                                </p>
+                                {/* <p>
+                                {item.weight ? item.weight : item.count}
+                                <span className="text-light text-sm">
+                                  {item.unitCountingId === 1
+                                    ? " عدد"
+                                    : item.unitCountingId === 2
+                                    ? " کیلوگرم"
+                                    : " بسته"}
+                                </span>
+                              </p> */}
+                              </div>
+                              <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
+                                <Image
+                                  src={item.pathImage}
+                                  alt={item.productName}
+                                  width={100}
+                                  height={100}
+                                  className="w-16 h-16 xl:w-full xl:h-full object-cover"
                                 />
-                                ریال
-                              </p>
-                              <p>{item.weight ? item.weight : item.count}</p>
+                              </div>
+                            </Link>
+                            <div>
+                              {item.unitCountingId === 1 ? (
+                                <div className="w-48">
+                                  {/* <p className="pb-7 text-color-light">تعداد</p> */}
+                                  <Counter
+                                    step={1}
+                                    label="عدد"
+                                    product={item}
+                                    countItem={item.count}
+                                    inBasket={true}
+                                  />
+                                </div>
+                              ) : item.unitCountingId === 2 ? (
+                                <div className="w-48">
+                                  <GramsCounter
+                                    product={item}
+                                    inBasket={true}
+                                    weight={item.weight}
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-48">
+                                  <Counter
+                                    step={1}
+                                    label="بسته"
+                                    product={item}
+                                    inBasket={true}
+                                    countItem={item.count}
+                                  />
+                                </div>
+                              )}
                             </div>
-                            <div className="w-20 h-20 xl:w-24 xl:h-24 rounded-lg overflow-hidden">
-                              <Image
-                                src={item.pathImage}
-                                alt={item.productName}
-                                width={100}
-                                height={100}
-                                className="w-16 h-16 xl:w-full xl:h-full object-cover"
-                              />
-                            </div>
-                          </Link>
+                          </div>
                         </div>
                       ))}
                     </div>

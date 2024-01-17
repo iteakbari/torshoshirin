@@ -19,6 +19,10 @@ const Product = ({ product, refetch, countItem, weight }) => {
     isFavorite,
     categoryId,
     variantId,
+    discountTypeId,
+    oldSalePrice,
+    discountValue,
+    discountTilte,
   } = product || "";
 
   const [favorite, setFavorite] = useState(isFavorite);
@@ -83,7 +87,26 @@ const Product = ({ product, refetch, countItem, weight }) => {
   };
 
   return (
-    <div className="card bg-white relative pt-8">
+    <div className="card bg-white relative pt-10">
+      {discountTypeId > 0 &&
+        (discountTypeId === 2 ? (
+          <span className="text-orange absolute top-0 right-3 z-10">
+            <span className="block">
+              <NumericFormat
+                displayType="text"
+                thousandSeparator=","
+                value={discountTilte}
+              />
+              <small className="pr-1">ریال</small>
+            </span>
+            <span className="text-lg">تخفیف</span>
+          </span>
+        ) : (
+          <span className="off">
+            <span>{discountTilte}%</span>
+            <span className="text-lg">تخفیف</span>
+          </span>
+        ))}
       <label>
         <input
           type="checkbox"
@@ -126,6 +149,9 @@ const Product = ({ product, refetch, countItem, weight }) => {
         >
           {productName}
         </Link>
+        {discountTypeId > 0 && (
+          <span className="text-gray-400 line-through">{oldSalePrice}</span>
+        )}
         <p className="price">
           <span>
             هر{" "}

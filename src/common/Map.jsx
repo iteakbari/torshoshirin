@@ -4,13 +4,12 @@ const AddressMapWithNoSSR = dynamic(() => import("./AddressMap"), {
   ssr: false,
 });
 
-const MapComponent = ({ lat, lng, setUserAddress }) => {
+const MapComponent = ({ lat, lng, setUserAddress, setLat, setLng }) => {
   const [userLocation, setUserLocation] = useState({
     // این مقادیر پیشفرض را می‌توانید تغییر دهید
     lat: 35.6892, // عرض جغرافیایی استاندارد، مثلاً برای تهران
     lng: 51.389, // طول جغرافیایی استاندارد، مثلاً برای تهران
   });
-  console.log(lat, lng);
 
   useEffect(() => {
     if (lat && lng) {
@@ -47,6 +46,8 @@ const MapComponent = ({ lat, lng, setUserAddress }) => {
       <AddressMapWithNoSSR
         lat={userLocation.lat}
         lng={userLocation.lng}
+        setLat={setLat}
+        setLng={setLng}
         onLocationChange={handleLocationChange}
       />
     </>

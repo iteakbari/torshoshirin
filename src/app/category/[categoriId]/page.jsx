@@ -192,7 +192,7 @@ const CategoryPage = ({ params }) => {
                   return (
                     <Product
                       key={product.productId}
-                      product={product}
+                      product={item ? item : product}
                       categoriId={categoryId}
                       countItem={
                         item?.productId === product.productId && item.count
