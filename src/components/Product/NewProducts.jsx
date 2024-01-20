@@ -4,9 +4,14 @@ import Image from "next/image";
 import { NumericFormat } from "react-number-format";
 import Link from "next/link";
 import NewProductsLoading from "./NewProductsLoading";
+import { useState } from "react";
 
 const NewProducts = () => {
   const { data, isLoading } = useNewProducts();
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
 
   return (
     <ul>
@@ -38,7 +43,7 @@ const NewProducts = () => {
                     value={item.salePrice}
                     thousandSeparator=","
                   />
-                  <span>ریال</span>
+                  <span>{curr}</span>
                 </p>
               </div>
             </Link>

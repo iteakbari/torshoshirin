@@ -45,6 +45,28 @@ export function searchProduct({
     .then(({ data }) => data.data);
 }
 
+export function discountedProduct({
+  categoryId,
+  brandId,
+  barcode,
+  keyWord,
+  step,
+  pageSize,
+  totalCount,
+}) {
+  return http
+    .post("/ProductApi/GetProductdiscounts", {
+      categoryId,
+      brandId,
+      barcode,
+      keyWord,
+      step,
+      pageSize,
+      totalCount,
+    })
+    .then(({ data }) => data.data);
+}
+
 export function newProducts() {
   return http.get("/ProductApi/CurrentProduct").then(({ data }) => data.data);
 }

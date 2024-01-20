@@ -20,6 +20,10 @@ const countReducer = (state, { type, payload }) => {
 const Counter = ({ step, label, product, countItem, inBasket }) => {
   const { cartItems, addToCart, reduceFromCart, removeFromCart } =
     useContext(ShopContext);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const {
     productId,
     pathImage,
@@ -213,7 +217,7 @@ const Counter = ({ step, label, product, countItem, inBasket }) => {
             }
             displayType="text"
           />
-          ریال
+          {curr}
         </div>
       ) : null}
     </>

@@ -1,9 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { NumericFormat } from "react-number-format";
+import { useState } from "react";
 
 const PaymentSuccess = ({ paymentResult }) => {
-  console.log(paymentResult);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   return (
     <div className="flex flex-wrap md:flex-nowrap gap-12">
       <div className="md:w-3/6">
@@ -74,7 +78,7 @@ const PaymentSuccess = ({ paymentResult }) => {
                       displayType="text"
                       value={item.unitPrice}
                     />
-                    <small className="text-xs pr-1">ریال</small>
+                    <small className="text-xs pr-1">{curr}</small>
                   </span>
                 </div>
                 <p className="text-sm">
@@ -98,7 +102,7 @@ const PaymentSuccess = ({ paymentResult }) => {
                 displayType="text"
                 value={paymentResult?.sumPaymentAmount}
               />
-              ریال
+              {curr}
             </span>
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 import { searchProduct } from "@/services/productService";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { NumericFormat } from "react-number-format";
@@ -10,6 +10,10 @@ import { useRouter } from "next/navigation";
 export default function SearchBar() {
   const [searchValue, setSearchValue] = useState("");
   const [searchList, setSearchList] = useState();
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const { mutateAsync: searchProductFunc } = useMutation({
     mutationKey: ["search"],
     mutationFn: searchProduct,
@@ -112,7 +116,7 @@ export default function SearchBar() {
                       value={item.salePrice}
                       thousandSeparator=","
                     />
-                    <span>ریال</span>
+                    <span>{curr}</span>
                   </p>
                 </div>
               </Link>

@@ -35,7 +35,6 @@ const useCart = () => {
     discountValue,
     discountTilte,
   }) => {
-    console.log(productName);
     if (!cartItems?.find((item) => item.productId === productId))
       setCartItems([
         ...cartItems,

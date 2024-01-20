@@ -6,6 +6,10 @@ import Link from "next/link";
 const Footer = () => {
   const { data } = useFooter();
 
+  if (data) {
+    localStorage.setItem("currency", data.currencyUnit.title);
+  }
+
   return (
     <footer className="px-16 md:px-0 pt-5">
       <div className="container mx-auto">

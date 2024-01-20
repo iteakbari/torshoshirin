@@ -11,6 +11,10 @@ import Cookies from "js-cookie";
 const Basket = ({ setActiveTab }) => {
   const [inputValue, setInputValue] = useState(0);
   const [basket, setBasket] = useState([]);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const { data, mutateAsync: mutateSendCart } = useMutation({
     mutationFn: sendCart,
   });
@@ -41,6 +45,8 @@ const Basket = ({ setActiveTab }) => {
     setActiveTab(2);
   };
 
+  console.log(cartItems);
+
   return (
     <div>
       {cartItems?.map((item) => (
@@ -66,13 +72,15 @@ const Basket = ({ setActiveTab }) => {
             </svg>
           </button>
           <div className="flex flex-col sm:flex-row items-center gap-3">
-            <Image
-              src={item.pathImage}
-              width={56}
-              height={56}
-              alt={item.productName}
-              className="w-14 h-14 rounded-md"
-            />
+            <div className="w-14 h-14">
+              <Image
+                src={item.pathImage}
+                width={56}
+                height={56}
+                alt={item.productName}
+                className="w-14 h-14 rounded-md"
+              />
+            </div>
             <p className="font-bold">{item.productName}</p>
             <span className="sm:pr-5 hidden md:inline-block">
               <NumericFormat
@@ -80,8 +88,13 @@ const Basket = ({ setActiveTab }) => {
                 displayType="text"
                 thousandSeparator=","
               />
-              <small className="text-sm pr-2">ریال</small>
+              <small className="text-sm pr-2">{curr}</small>
             </span>
+            {item.discountTypeId > 0 && (
+              <p className="text-gray-400 line-through hidden md:block">
+                {item.oldSalePrice} {curr}
+              </p>
+            )}
             <span className="sm:p-3 md:hidden">
               <NumericFormat
                 value={item.totalPrice}
@@ -89,7 +102,7 @@ const Basket = ({ setActiveTab }) => {
                 className="font-bold"
                 thousandSeparator=","
               />
-              <small className="text-sm pr-2">ریال</small>
+              <small className="text-sm pr-2">{curr}</small>
             </span>
           </div>
           <div className="pt-4 flex justify-center md:justify-start items-end sm:gap-10">
@@ -119,7 +132,7 @@ const Basket = ({ setActiveTab }) => {
                 className="font-bold"
                 thousandSeparator=","
               />
-              <small className="text-sm pr-2">ریال</small>
+              <small className="text-sm pr-2">{curr}</small>
             </span>
             <button
               type="button"
@@ -156,7 +169,7 @@ const Basket = ({ setActiveTab }) => {
             value={itemCount}
           />
         </span>
-        <small className="text-sm pr-2">ریال</small>
+        <small className="text-sm pr-2">{curr}</small>
       </p>
 
       <div className="flex justify-center pt-5">

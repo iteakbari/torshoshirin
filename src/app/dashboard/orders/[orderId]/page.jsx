@@ -4,11 +4,17 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { NumericFormat } from "react-number-format";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const OrderDetails = ({ params }) => {
+  const [curr, setCurr] = useState("");
   const token = Cookies.get("token");
   const { data } = useOrderDetails(params.orderId, token);
   // console.log(data?.data);
+
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
 
   return (
     <div className="flex flex-wrap gap-12">
@@ -42,7 +48,7 @@ const OrderDetails = ({ params }) => {
             {data?.data?.productsList?.map((item) => (
               <Link
                 href={`/category/${item.categoryId}/${item.productId}-${item.variantId}`}
-                key={item.index}
+                key={item.variantId}
                 className="text-light mb-5 "
               >
                 <div className="flex justify-between items-center">
@@ -56,7 +62,7 @@ const OrderDetails = ({ params }) => {
                       displayType="text"
                       value={item.unitPrice}
                     />
-                    <small className="text-xs pr-1">ریال</small>
+                    <small className="text-xs pr-1">{curr}</small>
                   </span>
                 </div>
                 <p className="text-sm">
@@ -80,7 +86,7 @@ const OrderDetails = ({ params }) => {
                 displayType="text"
                 value={data?.data?.sumPaymentAmount}
               />
-              تومان
+              {curr}
             </span>
           </div>
         </div>

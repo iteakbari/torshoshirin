@@ -17,6 +17,10 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
   const [paymentType, setPaymentType] = useState();
   const [discount, setDiscount] = useState("");
   const { resetCart } = useContext(ShopContext);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const { data: discountData, mutateAsync: getDiscountFunc } = useMutation({
     mutationFn: getDiscount,
   });
@@ -208,7 +212,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                   displayType="text"
                   value={Math.round(showCartItems?.data?.data?.cartTotal)}
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
           </div>
@@ -223,7 +227,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                     showCartItems?.data?.data?.cartShippingCostTotal
                   )}
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
           </div>
@@ -238,7 +242,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                     showCartItems?.data?.data?.cartDiscountTotal
                   )}
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
           </div>
@@ -251,23 +255,10 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                   displayType="text"
                   value="0"
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
           </div>
-          {/* <div className="py-5 border-b-4 border-light-green">
-            <div className="flex justify-between items-center">
-              <span>سود شما از خرید:</span>
-              <span>
-                <NumericFormat
-                  thousandSeparator=","
-                  displayType="text"
-                  value={45455211}
-                />
-                <small className="text-xs pr-1">ریال</small>
-              </span>
-            </div>
-          </div> */}
           <div className="py-5">
             <div className="flex justify-between items-center">
               <span>قابل پرداخت:</span>
@@ -281,7 +272,7 @@ const Payment = ({ setActiveTab, setPaymentResult }) => {
                       showCartItems?.data?.data?.cartDiscountTotal
                   )}
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
           </div>

@@ -18,7 +18,7 @@ import { ShopContext } from "@/context/shopContext";
 
 const HorizontalCard = (product) => {
   const {
-    farsiName,
+    productName,
     pathImage,
     moreImages,
     salePrice,
@@ -38,6 +38,10 @@ const HorizontalCard = (product) => {
   const { data, mutateAsync: likedProduct } = useMutation({
     mutationFn: likeProduct,
   });
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const { cartItems } = useContext(ShopContext);
   useEffect(() => {
     if (product) {
@@ -56,7 +60,7 @@ const HorizontalCard = (product) => {
       favorite
         ? toast.custom((t) => (
             <div className="bg-slate-50 p-7 rounded-3xl shadow-lg">
-              {farsiName} از لیست علاقمندی‌های شما حذف شد.
+              {productName} از لیست علاقمندی‌های شما حذف شد.
             </div>
           ))
         : toast.custom((t) => (
@@ -75,7 +79,7 @@ const HorizontalCard = (product) => {
                     strokeWidth="2"
                   />
                 </svg>
-                <p>{farsiName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
+                <p>{productName} به لیست عللاقه‌مندی‌های شما اضافه شد.</p>
               </div>
               <div className="w-full flex justify-center pt-5">
                 <Link href="/dashboard/favorites">
@@ -108,7 +112,7 @@ const HorizontalCard = (product) => {
                   thousandSeparator=","
                   value={discountTilte}
                 />
-                <small className="pr-1">ریال</small>
+                <small className="pr-1">{curr}</small>
               </span>
               <span className="text-lg">تخفیف</span>
             </span>
@@ -184,12 +188,12 @@ const HorizontalCard = (product) => {
           </>
         ) : (
           <div className="w-full h-full divider-color2  flex justify-center items-center  md:border-l-4">
-            <Image alt={farsiName} width={300} height={300} src={pathImage} />
+            <Image alt={productName} width={300} height={300} src={pathImage} />
           </div>
         )}
       </div>
       <div className="py-10 px-7 mt-5 md:mt-0 flex flex-col justify-center items-center gap-5">
-        <p className="text-xl">{farsiName}</p>
+        <p className="text-xl">{productName}</p>
         <p className="text-orange text-xl">
           <span>
             هر{" "}
@@ -205,8 +209,13 @@ const HorizontalCard = (product) => {
             displayType="text"
             className="px-1"
           />
-          ریال
+          {curr}
         </p>
+        {discountTypeId > 0 && (
+          <span className="text-gray-400 line-through">
+            {oldSalePrice} {curr}
+          </span>
+        )}
         <div className="flex gap-7 mt-8 justify-center flex-wrap w-full sm:w-80">
           {unitCountingId === 1 ? (
             <Counter

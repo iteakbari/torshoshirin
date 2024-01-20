@@ -4,21 +4,16 @@ import useProducts from "@/hooks/useProducts";
 import Image from "next/image";
 import Link from "next/link";
 import { use, useContext, useEffect, useState } from "react";
-// import Cookies from "js-cookie";
 import ProductLoading from "@/components/Product/ProductLoading";
-import { searchProduct } from "@/services/productService";
-import { useMutation } from "@tanstack/react-query";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { useInView } from "react-intersection-observer";
 import { ShopContext } from "@/context/shopContext";
+import useDiscounted from "@/hooks/useDiscounted";
 
-const SearchProducts = ({ searchParams }) => {
+const Discounted = () => {
   const [step, setStep] = useState(1);
   const [sortBy, setSortBy] = useState(0);
-  const [productCount, setProductCount] = useState(0);
-
-  const [searchList, setSearchList] = useState();
-  const [newList, setNewList] = useState([]);
+  const [productsList, setProductsList] = useState([]);
   const { ref, inView } = useInView();
   const [cartList, setCartList] = useState(null);
   const { cartItems } = useContext(ShopContext);
@@ -27,50 +22,52 @@ const SearchProducts = ({ searchParams }) => {
     setCartList(cartItems);
   }, [cartItems]);
 
-  const para = searchParams.keyword;
   const pageSize = 30;
-  const { data, isLoading, refetch } = useProducts({
-    // categoryId: 0,
+  const { data, isLoading, refetch } = useDiscounted({
     step,
     pageSize,
-    keyWord: para,
     sortTypeId: sortBy,
   });
 
+  const productsCount = data?.totalCount;
+
   useEffect(() => {
-    if (data) {
-      setSearchList(data.productlist);
-      setProductCount(data.totalCount);
+    if (data?.productlist) {
+      const newProducts = data.productlist.reduce((unique, product) => {
+        if (!unique.some((obj) => obj.productId === product.productId)) {
+          unique.push(product);
+        }
+        return unique;
+      }, []);
+      setProductsList((prevProducts) => [
+        ...prevProducts.filter(
+          (product) =>
+            !newProducts.some(
+              (newProduct) => newProduct.productId === product.productId
+            )
+        ),
+        ...newProducts,
+      ]);
     }
   }, [data]);
 
-  useEffect(() => {
-    setNewList([]);
-  }, [para]);
+  const newProductsList = productsList?.flatMap((p) => p);
+  const pageEnd = Math.floor(productsCount / pageSize);
 
   useEffect(() => {
-    if (searchList) {
-      setNewList((prevProducts) => [...prevProducts, searchList]);
+    if (inView) {
+      const nextPage = step + 1;
+      if (nextPage <= pageEnd) {
+        setStep(nextPage);
+      }
     }
-  }, [searchList]);
-
-  const newProductsList = newList?.flatMap((p) => p);
-  const pageEnd = Math.floor(productCount / pageSize);
-  // console.log(pageEnd);
-
-  useEffect(() => {
-    if (step <= pageEnd && inView) {
-      setStep(step + 1);
-    }
-  }, [inView]);
-
-  // console.log(step);
+  }, [inView, step, pageEnd]);
 
   const sortProductHandler = (e) => {
     if (e.target.value !== sortBy) {
       setSortBy(e.target.value);
       setStep(1);
-      setNewList([]);
+      setProductsList([]);
     }
   };
 
@@ -81,11 +78,9 @@ const SearchProducts = ({ searchParams }) => {
           <SearchBar />
         </div>
         <div className="sm:flex justify-between px-3 mt-5 lg:mt-0">
-          {para && (
-            <h1 className="text-xl sm:text-2xl lg:text-3xl  sm:text-right flex-1 mb-5 sm:mb-0">
-              جستجو برای <span className="text-orange">{para}</span>
-            </h1>
-          )}
+          <h1 className="text-xl sm:text-2xl lg:text-3xl  sm:text-right flex-1 mb-5 sm:mb-0">
+            <span className="text-orange">تخفیف‌دارها</span>
+          </h1>
           <div className="flex items-center md:items-end gap-5">
             <p className="flex items-end gap-3">
               <svg
@@ -219,4 +214,4 @@ const SearchProducts = ({ searchParams }) => {
   );
 };
 
-export default SearchProducts;
+export default Discounted;

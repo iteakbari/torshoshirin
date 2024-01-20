@@ -21,6 +21,10 @@ function Navbar() {
   const { data: menuList } = useCategories();
   const [isOpen, setIsOpen] = useState(false);
   const [closeCart, setCloseCart] = useState(true);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
 
   const { cartItems, resetCart, removeFromCart, totalPrice } =
     useContext(ShopContext);
@@ -230,7 +234,13 @@ function Navbar() {
                                     displayType="text"
                                     value={item.totalPrice}
                                   />
-                                  ریال
+                                  <small className="pr-1">{curr}</small>
+                                  {item.discountTypeId > 0 && (
+                                    <span className="text-gray-400 line-through mr-2">
+                                      {item.oldSalePrice}
+                                      <small>{curr}</small>
+                                    </span>
+                                  )}
                                 </p>
                                 {/* <p>
                                 {item.weight ? item.weight : item.count}
@@ -298,7 +308,7 @@ function Navbar() {
                           displayType="text"
                           value={totalPrice}
                         />
-                        ریال
+                        {curr}
                       </p>
                       <div className="flex gap-2">
                         <button
@@ -394,7 +404,7 @@ function Navbar() {
                                     displayType="text"
                                     value={item.totalPrice}
                                   />
-                                  ریال
+                                  {curr}
                                 </p>
                                 {/* <p>
                                 {item.weight ? item.weight : item.count}
@@ -462,7 +472,7 @@ function Navbar() {
                           displayType="text"
                           value={totalPrice}
                         />
-                        ریال
+                        {curr}
                       </p>
                       <div className="flex gap-2">
                         <button

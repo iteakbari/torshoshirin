@@ -30,6 +30,10 @@ const SelectReciveType = ({
   const { mutateAsync: setAddressOrderfunc } = useMutation({
     mutationFn: setAddressOrder,
   });
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
 
   const editAddressHandler = (id) => {
     const editAddress = data?.data.find((address) => address.id === id);
@@ -362,7 +366,7 @@ const SelectReciveType = ({
                   displayType="text"
                   value={item.totalPrice}
                 />
-                <small className="text-xs pr-1">ریال</small>
+                <small className="text-xs pr-1">{curr}</small>
               </span>
             </div>
             <p className="text-sm pt-2">

@@ -31,6 +31,10 @@ const Product = ({ product, refetch, countItem, weight }) => {
   });
 
   const token = Cookies.get("token");
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
 
   const favoriteHandler = async () => {
     if (token != null && token != "null") {
@@ -97,7 +101,7 @@ const Product = ({ product, refetch, countItem, weight }) => {
                 thousandSeparator=","
                 value={discountTilte}
               />
-              <small className="pr-1">ریال</small>
+              <small className="pr-1">{curr}</small>
             </span>
             <span className="text-lg">تخفیف</span>
           </span>
@@ -166,7 +170,7 @@ const Product = ({ product, refetch, countItem, weight }) => {
             value={salePrice}
             thousandSeparator=","
           />
-          <span>ریال</span>
+          <span>{curr}</span>
         </p>
       </div>
       <div className="bg-light-gray p-5 sm:p-2 md:p-5 mt-3 rounded-xl h-36 flex flex-col justify-end">

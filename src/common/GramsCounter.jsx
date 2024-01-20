@@ -9,6 +9,10 @@ import { NumericFormat } from "react-number-format";
 const GramsCounter = ({ product, weight, inBasket }) => {
   const { cartItems, addToCart, reduceFromCart, removeFromCart } =
     useContext(ShopContext);
+  const [curr, setCurr] = useState("");
+  useEffect(() => {
+    setCurr(localStorage.getItem("currency") || "تومان");
+  }, []);
   const {
     productId,
     pathImage,
@@ -361,7 +365,7 @@ const GramsCounter = ({ product, weight, inBasket }) => {
             }
             displayType="text"
           />
-          ریال
+          {curr}
         </div>
       ) : null}
     </>
